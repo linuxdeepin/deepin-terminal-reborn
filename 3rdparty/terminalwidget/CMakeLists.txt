@@ -49,6 +49,8 @@ include(LXQtTranslateTs)
 include(LXQtCompilerSettings NO_POLICY_SCOPE)
 include(LXQtCreatePkgConfigFile)
 
+remove_definitions(-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII)
+
 if(APPLE)
     if(CMAKE_VERSION VERSION_GREATER 3.9)
         cmake_policy(SET CMP0068 NEW)
