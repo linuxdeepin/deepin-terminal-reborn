@@ -653,60 +653,7 @@ void Screen::displayCharacter(uint c)
 
     int w = Character::width(c);
     if (w <= 0)
-    {
         return;
-    }
-    else if (0 == w)
-    {
-        const QChar::Category category = QChar::category(c);
-        if (category != QChar::Mark_NonSpacing && category != QChar::Letter_Other) {
-            return;
-        }
-
-        // Find previous "real character" to try to combine with
-        int charToCombineWithX = qMin(cuX, screenLines[cuY].length());
-        int charToCombineWithY = cuY;
-        do {
-            if (charToCombineWithX > 0) {
-                charToCombineWithX--;
-            }
-            else if (charToCombineWithY > 0) { // Try previous line
-                charToCombineWithY--;
-                charToCombineWithX = screenLines[charToCombineWithY].length() - 1;
-            }
-            else {
-                // Give up
-                return;
-            }
-
-            // Failsafe
-            if (charToCombineWithX < 0) {
-                return;
-            }
-        } while(!screenLines[charToCombineWithY][charToCombineWithX].isRealCharacter);
-
-        Character& currentChar = screenLines[charToCombineWithY][charToCombineWithX];
-        if ((currentChar.rendition & RE_EXTENDED_CHAR) == 0) {
-            const uint chars[2] = { currentChar.character, c };
-            currentChar.rendition |= RE_EXTENDED_CHAR;
-            currentChar.character = ExtendedCharTable::instance.createExtendedChar(chars, 2);
-        }
-        else {
-            ushort extendedCharLength;
-            const uint* oldChars = ExtendedCharTable::instance.lookupExtendedChar(currentChar.character, extendedCharLength);
-            Q_ASSERT(oldChars);
-            if (((oldChars) != nullptr) && extendedCharLength < 3) {
-                Q_ASSERT(extendedCharLength > 1);
-                Q_ASSERT(extendedCharLength < 65535); // redundant due to above check
-                auto chars = new uint[extendedCharLength + 1];
-                memcpy(chars, oldChars, sizeof(uint) * extendedCharLength);
-                chars[extendedCharLength] = c;
-                currentChar.character = ExtendedCharTable::instance.createExtendedChar(chars, extendedCharLength + 1);
-                delete[] chars;
-            }
-        }
-        return;
-    }
 
     if (cuX+w > columns) {
         if (getMode(MODE_Wrap)) {
@@ -724,10 +671,7 @@ void Screen::displayCharacter(uint c)
         screenLines[cuY].resize(cuX+w);
     }
 
-    if (getMode(MODE_Insert))
-    {
-        insertChars(w);
-    }
+    if (getMode(MODE_Insert)) insertChars(w);
 
     lastPos = loc(cuX,cuY);
 
@@ -740,27 +684,23 @@ void Screen::displayCharacter(uint c)
     currentChar.foregroundColor = effectiveForeground;
     currentChar.backgroundColor = effectiveBackground;
     currentChar.rendition = effectiveRendition;
-    currentChar.isRealCharacter = true;
 
     lastDrawnChar = c;
 
     int i = 0;
     int newCursorX = cuX + w--;
-    while(w != 0)
+    while(w)
     {
         i++;
 
         if ( screenLines[cuY].size() < cuX + i + 1 )
-        {
             screenLines[cuY].resize(cuX+i+1);
-        }
 
         Character& ch = screenLines[cuY][cuX + i];
         ch.character = 0;
         ch.foregroundColor = effectiveForeground;
         ch.backgroundColor = effectiveBackground;
         ch.rendition = effectiveRendition;
-        ch.isRealCharacter = false;
 
         w--;
     }

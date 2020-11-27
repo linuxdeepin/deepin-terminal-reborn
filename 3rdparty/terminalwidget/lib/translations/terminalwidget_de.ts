@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>Konsole::TerminalDisplay</name>
     <message>
@@ -42,22 +40,22 @@
     </message>
     <message>
         <location filename="../Filter.cpp" line="538"/>
-        <source>Open Link</source>
+        <source>Open link</source>
         <translation>Link öffnen</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="539"/>
-        <source>Copy Link Address</source>
-        <translation>Linkadresse kopieren</translation>
+        <source>Copy link</source>
+        <translation>Link kopieren </translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="543"/>
-        <source>Send Email To...</source>
-        <translation>E-Mail senden an...</translation>
+        <source>Send email to...</source>
+        <translation>E-Mail senden an ...</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="544"/>
-        <source>Copy Email Address</source>
+        <source>Copy email address</source>
         <translation>E-Mail-Adresse kopieren</translation>
     </message>
 </context>
@@ -99,7 +97,7 @@
     <message>
         <location filename="../SearchBar.ui" line="20"/>
         <source>X</source>
-        <translation></translation>
+        <translation>X</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="32"/>
@@ -109,17 +107,17 @@
     <message>
         <location filename="../SearchBar.ui" line="42"/>
         <source>&lt;</source>
-        <translation></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="54"/>
         <source>&gt;</source>
-        <translation></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="66"/>
         <source>...</source>
-        <translation></translation>
+        <translation>...</translation>
     </message>
 </context>
 </TS>

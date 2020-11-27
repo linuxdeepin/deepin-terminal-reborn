@@ -56,6 +56,9 @@ struct ServerConfig {
 
 // 旧版本groupName的count
 #define OLD_VERTIONCOUNT 3
+// 新版本groupName的count
+#define NEW_VERTIONCOUNT 4
+
 
 class ServerConfigOptDlg;
 class ListView;
@@ -96,14 +99,36 @@ public:
     // 获取指定的远程配置信息
     ServerConfig *getServerConfig(const QString &key);
 
-signals:
+    // 获取密码 => 查找密码
+    // 异步
+    void remoteGetSecreats(const QString &userName, const QString &address, const QString &port, const QString &key);
+    // 存储密码
+    void remoteStoreSecreats(ServerConfig *config);
+    // 删除密码
+    void remoteClearSecreats(const QString &userName, const QString &address, const QString &port);
+
+    // 转换数据
+    void ConvertData();
+
+public slots:
+    // 处理查询密码操作的处理结果
+    void onLookupFinish(const QString &key, const QString &password);
+
+Q_SIGNALS:
+    // 刷新列表
     void refreshList();
+    // 获取查询到的密码
+    void lookupSerceats(const QString &key, const QString &password);
 
 private:
     ServerConfigManager(QObject *parent = nullptr);
 
-private:
     static ServerConfigManager *m_instance;
+
+    // 避免重复数据用的数据结构,兼容旧版本
+    QMap<QString, ServerConfig *> m_remoteConfigs;
+    // 避免名称重复用的数据结构
+    QMap<QString, int> m_remoteName;
     // 配置文件数据
     QMap<QString, QList<ServerConfig *>> m_serverConfigs;
     // 展示的弹窗的键值及弹窗的指针 <服务器名，同类服务器弹窗列表> 弹窗只需存储修改弹窗
@@ -116,6 +141,10 @@ private:
     void fillSearchPanel(ListView *listview, const QString &filter, const QString &group = "");
     // 分组界面
     void fillGroupPanel(ListView *listview, const QString &group);
+    // 查找密码的个数
+    int m_lookupCount = 0;
+    // 是否重写配置文件
+    bool m_rewriteConfig = false;
 };
 
 typedef QMap<QString, QList<ServerConfigOptDlg *>>::Iterator serverConfigDialogMapIterator;

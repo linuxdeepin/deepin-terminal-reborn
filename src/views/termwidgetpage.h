@@ -108,6 +108,9 @@ public:
     // 显示重命名弹窗
     void showRenameTitleDialog(QString oldTitle);
 
+    // 打印查找花费的时间
+    void printSearchCostTime();
+
 protected:
     //将窗口设置为随着窗口变化而变化
     virtual void resizeEvent(QResizeEvent *event) override;

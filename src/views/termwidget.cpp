@@ -79,9 +79,12 @@ TermWidget::TermWidget(TermProperties properties, QWidget *parent) : QTermWidget
     /******** Modify by n014361 wangpeili 2020-01-13:              ****************/
     // theme
     QString theme = "Dark";
-    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
-        theme = "Light";
-    }
+    /************************ Mod by sunchengxi 2020-09-16:Bug#48226#48230#48236#48241 终端默认主题色应改为深色修改引起的系列问题修复 Begin************************/
+    theme=Settings::instance()->colorScheme();
+    //if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
+    //    theme = "Light";
+    //}
+    /************************ Mod by sunchengxi 2020-09-16:Bug#48226#48230#48236#48241 终端默认主题色应改为深色修改引起的系列问题修复 End ************************/
     setColorScheme(theme);
     Settings::instance()->setColorScheme(theme);
 
@@ -137,13 +140,21 @@ TermWidget::TermWidget(TermProperties properties, QWidget *parent) : QTermWidget
     /******** Modify by ut000439 wangpeili 2020-07-27: fix bug 39371: 分屏线可以拉到边****/
     // 以最小mainwindow分4屏为标准的最小大小
     /******** Modify by ut001000 renfeixiang 2020-08-07:修改成根据全局变量m_MinWidth，m_MinHeight计算出term的最小高度和宽度***************/
-    setMinimumSize(MainWindow::m_MinWidth / 2, (MainWindow::m_MinHeight - 50) / 2);
+    setMinimumSize(MainWindow::m_MinWidth / 2, (MainWindow::m_MinHeight - WIN_TITLE_BAR_HEIGHT) / 2);
     /********************* Modify by n014361 wangpeili End ************************/
 
     // 输出滚动，会在每个输出判断是否设置了滚动，即时设置
     connect(this, &QTermWidget::receivedData, this, [this](QString value) {
         Q_UNUSED(value)
-        setTrackOutput(Settings::instance()->OutputtingScroll());
+        // 获取是否允许输出时滚动
+        if (getIsAllowScroll()) {
+            // 允许,则滚动到最新位置
+            setTrackOutput(Settings::instance()->OutputtingScroll());
+        } else {
+            // 不允许,则不滚动
+            // 将标志位置位
+            setIsAllowScroll(true);
+        }
     });
 
     // 接收到输出
@@ -191,15 +202,23 @@ TermWidget::TermWidget(TermProperties properties, QWidget *parent) : QTermWidget
         qDebug() << "themeChanged" << builtInTheme;
         // ThemePanelPlugin *plugin = qobject_cast<ThemePanelPlugin *>(getPluginByName("Theme"));
         QString theme = "Dark";
+        /************************ Mod by sunchengxi 2020-09-16:Bug#48226#48230#48236#48241 终端默认主题色应改为深色修改引起的系列问题修复 Begin************************/
+        //Mod by sunchengxi 2020-09-17:Bug#48349 主题色选择跟随系统异常
         if (builtInTheme == DGuiApplicationHelper::LightType) {
             theme = "Light";
         }
+        /************************ Mod by sunchengxi 2020-09-16:Bug#48226#48230#48236#48241 终端默认主题色应改为深色修改引起的系列问题修复 End ************************/
         setColorScheme(theme);
         Settings::instance()->setColorScheme(theme);
     });
 
+    // 未找到搜索的匹配结果
     connect(this, &QTermWidget::sig_noMatchFound, this, [this]() {
         parentPage()->setMismatchAlert(true);
+    });
+    // 找到搜索匹配的结果 => 记录查找时间 => 打印日志，方便性能测试
+    connect(this, &QTermWidget::sig_matchFound, this, [this](){
+        parentPage()->printSearchCostTime();
     });
     /********************* Modify by n014361 wangpeili End ************************/
 
@@ -968,5 +987,32 @@ void TermWidget::onTouchPadSignal(QString name, QString direction, int fingers)
             }
         }
     }
+}
+
+/*******************************************************************************
+ 1. @函数:    wheelEvent
+ 2. @作者:    ut000610 戴正文
+ 3. @日期:    2020-09-08
+ 4. @说明:    支持Ctrl + 滚轮上下事件
+ Ctrl+滚轮上 放大
+ Ctrl+滚轮下 缩小
+*******************************************************************************/
+void TermWidget::wheelEvent(QWheelEvent *event)
+{
+    // 当前窗口被激活,且有焦点
+    if (isActiveWindow() && hasFocus()) {
+        if (event->modifiers() == Qt::ControlModifier) {
+            int directionY = event->angleDelta().y();
+            if (directionY < 0) {
+                // 向下缩小
+                zoomOut();  // zoom out 缩小
+            } else {
+                // 向上放大
+                zoomIn();   // zoom in 放大
+            }
+            return;
+        }
+    }
+    QTermWidget::wheelEvent(event);
 }
 

@@ -20,7 +20,6 @@
 
 #include "utils.h"
 #include "operationconfirmdlg.h"
-#include "warnningdlg.h"
 #include "termwidget.h"
 
 #include <DLog>
@@ -512,12 +511,7 @@ bool Utils::showShortcutConflictDialog(QString conflictkey)
 *******************************************************************************/
 bool Utils::showShortcutConflictMsgbox(QString txt)
 {
-#ifndef USE_DTK
-    WarnningDlg dlg;
-    dlg.setOperatTypeName(txt);
-    dlg.setTipInfo(QObject::tr("please set another one."));
-    dlg.exec();
-#else
+
     DDialog dlg;
 //    dlg.setTitle(QString(txt ));
 //    dlg.setMessage(QObject::tr(" please set another one."));
@@ -526,7 +520,6 @@ bool Utils::showShortcutConflictMsgbox(QString txt)
     /***mod by ut001121 zhangmeng 20200521 将确认按钮设置为默认按钮 修复BUG26960***/
     dlg.addButton(QString(tr("OK")), true, DDialog::ButtonNormal);
     dlg.exec();
-#endif
     return  true;
 }
 
@@ -670,7 +663,10 @@ void Utils::parseCommandLine(QStringList arguments, TermProperties &Properties, 
     }
 
     if (parser.isSet(optExecute)) {
+        /************************ Add by sunchengxi 2020-09-15:Bug#42864 无法同时打开多个终端 Begin************************/
+        Properties[KeepOpen] = false;
         Properties[Execute] = parseExecutePara(arguments);
+        /************************ Add by sunchengxi 2020-09-15:Bug#42864 无法同时打开多个终端 End ************************/
     }
     if (parser.isSet(optWorkDirectory)) {
         Properties[WorkingDir] = parser.value(optWorkDirectory);

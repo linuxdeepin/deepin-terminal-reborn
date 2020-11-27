@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="el">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="el" version="2.1">
 <context>
     <name>Konsole::TerminalDisplay</name>
     <message>
@@ -42,23 +40,23 @@
     </message>
     <message>
         <location filename="../Filter.cpp" line="538"/>
-        <source>Open Link</source>
-        <translation>Άνοιγμα του δεσμού</translation>
+        <source>Open link</source>
+        <translation>Άνοιγμα συνδέσμου</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="539"/>
-        <source>Copy Link Address</source>
-        <translation>Αντιγραφή διεύθυνσης του δεσμού</translation>
+        <source>Copy link</source>
+        <translation>Αντιγραφή συνδέσμου</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="543"/>
-        <source>Send Email To...</source>
-        <translation>Αποστολή ηλ. αλληλογραφίας προς...</translation>
+        <source>Send email to...</source>
+        <translation>Αποστολή email ...</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="544"/>
-        <source>Copy Email Address</source>
-        <translation>Αντιγραφή της ηλ. διεύθυνσης</translation>
+        <source>Copy email address</source>
+        <translation>Αντιγραφή διεύθυνσης email</translation>
     </message>
 </context>
 <context>

@@ -22,6 +22,7 @@
 #include "dbusmanager.h"
 #include "utils.h"
 #include "service.h"
+#include "define.h"
 
 #include <QDebug>
 
@@ -121,6 +122,9 @@ void WindowsManager::createNormalWindow(TermProperties properties)
     qDebug() << "create NormalWindow, current count =" << m_normalWindowList.count()
              << ", SingleFlag" << newProperties[SingleFlag].toBool();
     newWindow->show();
+    qint64 newMainWindowTime = newWindow->createNewMainWindowTime();
+    QString strNewMainWindowTime = GRAB_POINT + LOGO_TYPE + CREATE_NEW_MAINWINDOE + QString::number(newMainWindowTime);
+    qInfo() << qPrintable(strNewMainWindowTime);
 }
 
 /*******************************************************************************

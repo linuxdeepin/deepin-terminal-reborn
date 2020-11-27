@@ -97,6 +97,10 @@ signals:
     void termIsIdle(int currSessionId, bool bIdle);
     void termTitleChanged(QString titleText);
 
+protected:
+    // 鼠标滚轮事件
+    void wheelEvent(QWheelEvent *event) override;
+
 private slots:
     void customContextMenuCall(const QPoint &pos);
     void handleTermIdle(bool bIdle);

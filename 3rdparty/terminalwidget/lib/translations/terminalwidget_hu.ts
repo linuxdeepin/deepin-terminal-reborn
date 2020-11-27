@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>Konsole::TerminalDisplay</name>
     <message>
@@ -38,27 +36,27 @@
     <message>
         <location filename="../ColorScheme.cpp" line="464"/>
         <source>Accessible Color Scheme</source>
-        <translation>Elérhető színséma</translation>
+        <translation>Elérhető Színséma</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="538"/>
-        <source>Open Link</source>
-        <translation>Link megnyitás</translation>
+        <source>Open link</source>
+        <translation>Hivatkozás megnyitása</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="539"/>
-        <source>Copy Link Address</source>
-        <translation>Link cím másolás</translation>
+        <source>Copy link</source>
+        <translation>Hivatkozás másolása</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="543"/>
-        <source>Send Email To...</source>
-        <translation>Email küldés ...</translation>
+        <source>Send email to...</source>
+        <translation>E-mail küldése ide...</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="544"/>
-        <source>Copy Email Address</source>
-        <translation>Email cím másolás</translation>
+        <source>Copy email address</source>
+        <translation>E-mail cím másolása</translation>
     </message>
 </context>
 <context>
@@ -71,7 +69,7 @@
     <message>
         <location filename="../qtermwidget.cpp" line="452"/>
         <source>Cannot load color scheme: %1</source>
-        <translation>A %1 színséma elérhetetlen</translation>
+        <translation>A %1 színséma betöltése nem lehetséges</translation>
     </message>
 </context>
 <context>
@@ -84,12 +82,12 @@
     <message>
         <location filename="../SearchBar.cpp" line="46"/>
         <source>Regular expression</source>
-        <translation>Szaabályos kifejezés</translation>
+        <translation>Szabályos kifejezés</translation>
     </message>
     <message>
         <location filename="../SearchBar.cpp" line="50"/>
         <source>Highlight all matches</source>
-        <translation>Találatok kiemelése</translation>
+        <translation>Összes találat kiemelése</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="14"/>
@@ -99,27 +97,27 @@
     <message>
         <location filename="../SearchBar.ui" line="20"/>
         <source>X</source>
-        <translation></translation>
+        <translation>X</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="32"/>
         <source>Find:</source>
-        <translation>Keres:</translation>
+        <translation>Találat:</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="42"/>
         <source>&lt;</source>
-        <translation></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="54"/>
         <source>&gt;</source>
-        <translation></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="66"/>
         <source>...</source>
-        <translation></translation>
+        <translation>...</translation>
     </message>
 </context>
 </TS>

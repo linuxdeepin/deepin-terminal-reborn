@@ -105,6 +105,11 @@ const ColorEntry Konsole::base_color_table[TABLE_COLORS] =
 bool TerminalDisplay::_antialiasText = true;
 bool TerminalDisplay::HAVE_TRANSPARENCY = true;
 
+/***add begin by ut001121 zhangmeng 20200912 初始化字号限制 修复42250***/
+int Konsole::__minFontSize = 0;
+int Konsole::__maxFontSize = 0x7fffffff;
+/***add end by ut001121***/
+
 // we use this to force QPainter to display text in LTR mode
 // more information can be found in: http://unicode.org/reports/tr9/
 const QChar LTR_OVERRIDE_CHAR( 0x202D );
@@ -211,6 +216,30 @@ bool TerminalDisplay::isLineCharString(const QString& string) const {
     return canDraw(string.at(0).unicode());
 }
 
+/*******************************************************************************
+ 1. @函数:    setIsAllowScroll
+ 2. @作者:    ut000610 戴正文
+ 3. @日期:    2020-09-16
+ 4. @说明:     设置是否允许滚动到最新的位置
+ 当有输出且并不是在setZoom之后,此标志为true 允许滚动
+ 当有输出且在setZoom之后,比标志位false 不允许滚动
+*******************************************************************************/
+void TerminalDisplay::setIsAllowScroll(bool isAllowScroll)
+{
+    m_isAllowScroll = isAllowScroll;
+}
+
+/*******************************************************************************
+ 1. @函数:    getIsAllowScroll
+ 2. @作者:    ut000610 戴正文
+ 3. @日期:    2020-09-16
+ 4. @说明:    获取是否允许输出时滚动
+*******************************************************************************/
+bool TerminalDisplay::getIsAllowScroll() const
+{
+    return m_isAllowScroll;
+}
+
 
 // assert for i in [0..31] : vt100extended(vt100_graphics[i]) == i.
 
@@ -285,6 +314,18 @@ void TerminalDisplay::calDrawTextAdditionHeight(QPainter& painter)
 
 void TerminalDisplay::setVTFont(const QFont& f)
 {
+    /***add begin by ut001121 zhangmeng 20200908 限制字体大小 修复BUG42250***/
+    /***add begin by ut001121 zhangmeng 20200908 限制字体大小 修复BUG42412***/
+    if(f.pointSize() < __minFontSize || f.pointSize() > __maxFontSize){
+        return;
+    }
+    /***add end by ut001121***/
+
+    // 放大缩小时需要一个标志位
+    // 该标志位负责取消输出时滚动
+    // 发送信号修改标志位 => 调整大小时,不允许接收输出时滚动的设置
+    m_isAllowScroll = false;
+
     QFont newFont(f);
     int strategy = 0;
 
@@ -2590,8 +2631,15 @@ void TerminalDisplay::mouseDoubleClickEvent(QMouseEvent* ev)
 
 void TerminalDisplay::wheelEvent( QWheelEvent* ev )
 {
-  //判断有鼠标滚轮滚动的时候，初始化键盘选择状态
-  initKeyBoardSelection();
+    // 当前窗口被激活,且有焦点,不处理Ctrl+滚轮事件
+    if (isActiveWindow() && hasFocus()) {
+        if (ev->modifiers() == Qt::ControlModifier) {
+            QWidget::wheelEvent(ev);
+            return;
+        }
+    }
+    //判断有鼠标滚轮滚动的时候，初始化键盘选择状态
+    initKeyBoardSelection();
 
   if (ev->orientation() != Qt::Vertical)
     return;
@@ -3044,27 +3092,22 @@ void TerminalDisplay::keyPressEvent( QKeyEvent* event )
         /******** Modify by wangpeili n014361 2020-02-14: 按键滚动功能***********/
         // 按键滚动原为默认。现在修改为可以设置是否滚动
         // 暂时取消了原系统shift/alt/ctrl键的单独跳转功能。
-//        if(event->modifiers().testFlag(Qt::ShiftModifier)
-//             || event->modifiers().testFlag(Qt::ControlModifier)
-//             || event->modifiers().testFlag(Qt::AltModifier))
-//        {
-            switch(mMotionAfterPasting)
-            {
-            case MoveStartScreenWindow:
-                _screenWindow->scrollTo(0);
-                break;
-            case MoveEndScreenWindow:
+        switch (mMotionAfterPasting) {
+        case MoveStartScreenWindow:
+            _screenWindow->scrollTo(0);
+            break;
+        case MoveEndScreenWindow:
+            if (!(event->key() == Qt::Key_Control
+                    || event->key() == Qt::Key_Shift
+                    || event->key() == Qt::Key_Alt)) {
                 scrollToEnd();
-                break;
-            case NoMoveScreenWindow:
-                break;
             }
-//        }
-//        else
-//        {
-//            scrollToEnd();
-//        }
-          /***************** Modify by wangpeili n014361 End *****************/
+            break;
+        case NoMoveScreenWindow:
+            break;
+        }
+
+        /***************** Modify by wangpeili n014361 End *****************/
     }
 
     event->accept();
@@ -3653,12 +3696,14 @@ void TerminalScreen::tapGestureTriggered(QTapGesture* tap)
             qDebug() << "slide start" << timeSpace;
         } else {
             qDebug() << "null start" << timeSpace;
+            /***add by ut001121 zhangmeng 20200917 修复BUG48402***/
             m_gestureAction = GA_null;
         }
         break;
     }
     case Qt::GestureFinished:
     {
+        /***add by ut001121 zhangmeng 20200917 修复BUG48402***/
         m_gestureAction = GA_null;
         break;
     }
@@ -3690,7 +3735,8 @@ void TerminalScreen::tapAndHoldGestureTriggered(QTapAndHoldGesture* tapAndHold)
         Q_ASSERT(false);
         break;
     case Qt::GestureFinished:
-        m_gestureAction = GA_null;
+        /***del by ut001121 zhangmeng 20200915 修复BUG46979
+        m_gestureAction = GA_null;***/
         break;
     default:
         Q_ASSERT(false);
@@ -3716,7 +3762,8 @@ void TerminalScreen::panTriggered(QPanGesture *pan)
     case Qt::GestureCanceled:
         break;
     case Qt::GestureFinished:
-        m_gestureAction = GA_null;
+        /***del by ut001121 zhangmeng 20200915 修复BUG46979
+        m_gestureAction = GA_null;***/
         break;
     default:
         Q_ASSERT(false);
@@ -3736,6 +3783,7 @@ void TerminalScreen::pinchTriggered(QPinchGesture *pinch)
     switch (pinch->state()) {
     case Qt::GestureStarted:
     {
+        qDebug()<<"------"<<"pinchTriggered start";
         m_gestureAction = GA_pinch;
         /**add begin by ut001121 zhangmeng 20200812 捏合手势触发时判断是否重新获取字体大小 修复BUG42424 */
         QFont font = getVTFont();
@@ -3760,9 +3808,11 @@ void TerminalScreen::pinchTriggered(QPinchGesture *pinch)
     }
     case Qt::GestureFinished:
     {
-        m_gestureAction = GA_null;
+        /***del by ut001121 zhangmeng 20200915 修复BUG46979
+        m_gestureAction = GA_null;***/
         m_scaleFactor *= m_currentStepScaleFactor;
         m_currentStepScaleFactor = 1;
+        qDebug()<<"------"<<"pinchTriggered over";
         break;
     }
     default:
@@ -3773,12 +3823,8 @@ void TerminalScreen::pinchTriggered(QPinchGesture *pinch)
     }//switch
 
     QFont font = getVTFont();
-    int size = static_cast<int>(m_scaleFactor*m_currentStepScaleFactor);
-    if(font.pointSize() != size){
-        font.setPointSize(size);
-        setVTFont(font);
-    }
-
+    font.setPointSize(static_cast<int>(m_scaleFactor*m_currentStepScaleFactor));
+    setVTFont(font);
 }
 
 /*******************************************************************************
@@ -3797,10 +3843,12 @@ void TerminalScreen::swipeTriggered(QSwipeGesture* swipe)
     case Qt::GestureUpdated:
         break;
     case Qt::GestureCanceled:
-        m_gestureAction = GA_null;
+        /***del by ut001121 zhangmeng 20200915 修复BUG46979
+        m_gestureAction = GA_null;***/
         break;
     case Qt::GestureFinished:
-        m_gestureAction = GA_null;
+        /***del by ut001121 zhangmeng 20200915 修复BUG46979
+        m_gestureAction = GA_null;***/
         break;
     default:
         Q_ASSERT(false);
@@ -3891,6 +3939,14 @@ bool TerminalScreen::event(QEvent* event)
             return true;
         }
     }
+
+    /***add by ut001121 zhangmeng 20200915 修复BUG46979***/
+    if (event->type() == QEvent::MouseMove
+            && mouseEvent->source() != Qt::MouseEventSynthesizedByQt
+            && m_gestureAction == GA_slide){
+        return true;
+    }
+    /***add end ut001121***/
 
     /** 待删除
     QTouchEvent *touchEvent = static_cast<QTouchEvent *>(event);

@@ -27,6 +27,7 @@
 
 // qt
 #include <QDebug>
+#include <QScroller>
 
 ListView::ListView(ListType type, QWidget *parent)
     : QScrollArea(parent),
@@ -41,6 +42,9 @@ ListView::ListView(ListType type, QWidget *parent)
     /******** Add by ut001000 renfeixiang 2020-08-13:增加 End***************/
     // 初始化界面
     initUI();
+
+    /***add by ut001121 zhangmeng 20200924 修复BUG48618***/
+    QScroller::grabGesture(this, QScroller::TouchGesture);
 }
 
 /*******************************************************************************
@@ -397,8 +401,12 @@ void ListView::onRemoteItemModify(const QString &key, bool isFocusOn)
                 deleteDialog->addButton(QObject::tr("Cancel"), false, DDialog::ButtonNormal);
                 deleteDialog->addButton(QObject::tr("Delete"), true, DDialog::ButtonWarning);
                 deleteDialog->show();
+                // 释放窗口
+                Service::instance()->setIsDialogShow(window(), false);
             } else {
                 // 不删除，修改
+                // 释放窗口
+                Service::instance()->setIsDialogShow(window(), false);
                 // 修改后会有信号刷新列表
                 // 不需要删除，修改了转到这条修改的记录
                 // 设置滚轮
@@ -439,6 +447,8 @@ void ListView::onRemoteItemModify(const QString &key, bool isFocusOn)
         }
         // 不接受，reject 修改弹窗
         else {
+            // 释放窗口
+            Service::instance()->setIsDialogShow(window(), false);
             if (m_focusState) {
                 int index = indexFromString(m_configDialog->getCurServer()->m_serverName);
                 // 回到列表,仅回到大的列表，没有回到具体的哪个点
@@ -449,8 +459,6 @@ void ListView::onRemoteItemModify(const QString &key, bool isFocusOn)
             // 取消后及时将弹窗删除
             ServerConfigManager::instance()->removeDialog(m_configDialog);
         }
-        // 等待处理完成再释放窗口
-        Service::instance()->setIsDialogShow(window(), false);
 
     });
     // 2. 记录弹窗
@@ -918,8 +926,7 @@ int ListView::calculateRange(int height)
 *******************************************************************************/
 void ListView::mousePressEvent(QMouseEvent *event)
 {
-    //获取鼠标按下的点坐标
-    m_tempPoint = event->pos();
+    Q_UNUSED(event)
     //return QScrollArea::mousePressEvent(event);
 }
 
@@ -931,25 +938,8 @@ void ListView::mousePressEvent(QMouseEvent *event)
 *******************************************************************************/
 void ListView::mouseMoveEvent(QMouseEvent *event)
 {
-    //移动位置记录
-    auto pos = event->pos();
-    //纵向滚动条获取
-    auto vbar = this->verticalScrollBar();
-    //移动距离差值计算
-    auto offset = m_tempPoint.y() - pos.y();
-    //当前滚动条位置
-    auto val = vbar->value();
-    //滚动条pagetemp区域高度
-    auto step = vbar->pageStep();
-    //移动位置计算
-    auto move = offset * step / m_mainWidget->height();
-
-    if (move + val < 0 || move + val > m_mainWidget->height()) {
-        return;
-    }
-    //滚轮位置设置
-    vbar->setValue(move + val);
-
+    Q_UNUSED(event)
+    //return QScrollArea::mouseMoveEvent(event);
 }
 
 

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>Konsole::TerminalDisplay</name>
     <message>
@@ -16,7 +14,7 @@
     <message>
         <location filename="../TerminalDisplay.cpp" line="3178"/>
         <source>&lt;qt&gt;Output has been &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;suspended&lt;/a&gt; by pressing Ctrl+S.  Press &lt;b&gt;Ctrl+Q&lt;/b&gt; to resume.&lt;/qt&gt;</source>
-        <translation>&lt;qt&gt;Výstup byl &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;pozastaven&lt;/a&gt; stisknutím Ctrl+S.  Znovu ho spustíte stisknutím &lt;b&gt;Ctrl+Q&lt;/b&gt;.&lt;/qt&gt;</translation>
+        <translation>&lt;qt&gt;Výstup byl &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;pozastaven&lt;/a&gt; stisknutím Ctrl+S.  Pokud chcete pokračovat, stiskněte &lt;b&gt;Ctrl+Q&lt;/b&gt;.&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
@@ -24,7 +22,7 @@
     <message>
         <location filename="../Vt102Emulation.cpp" line="1105"/>
         <source>No keyboard translator available.  The information needed to convert key presses into characters to send to the terminal is missing.</source>
-        <translation>Není k dispozici žádný překladač klávesnice. Chybí informace pro převod kódů stisknutých kláves na znaky posílané na terminál.</translation>
+        <translation>Není k dispozici žádný překlad klávesnice. Informace, potřebné pro převádění stisků kláves na znaky, odesílané do terminálu chybí.</translation>
     </message>
 </context>
 <context>
@@ -33,31 +31,31 @@
         <location filename="../ColorScheme.cpp" line="278"/>
         <location filename="../ColorScheme.cpp" line="293"/>
         <source>Un-named Color Scheme</source>
-        <translation>Nepojmenované barevné schéma</translation>
+        <translation>Nenazvané schéma barev</translation>
     </message>
     <message>
         <location filename="../ColorScheme.cpp" line="464"/>
         <source>Accessible Color Scheme</source>
-        <translation>Barevné schéma pro zrakově hendikepované uživatele</translation>
+        <translation>Schéma barev pro zpřístupnění hendikepovaným</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="538"/>
-        <source>Open Link</source>
+        <source>Open link</source>
         <translation>Otevřít odkaz</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="539"/>
-        <source>Copy Link Address</source>
-        <translation>Zkopírovat adresu odkazu</translation>
+        <source>Copy link</source>
+        <translation>Zkopírovat odkaz</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="543"/>
-        <source>Send Email To...</source>
-        <translation>Poslat e-mail na…</translation>
+        <source>Send email to...</source>
+        <translation>Odeslat e-mail na…</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="544"/>
-        <source>Copy Email Address</source>
+        <source>Copy email address</source>
         <translation>Zkopírovat e-mailovou adresu</translation>
     </message>
 </context>
@@ -66,12 +64,12 @@
     <message>
         <location filename="../qtermwidget.cpp" line="451"/>
         <source>Color Scheme Error</source>
-        <translation>Chyba barevného schématu</translation>
+        <translation>Chyba schématu barev</translation>
     </message>
     <message>
         <location filename="../qtermwidget.cpp" line="452"/>
         <source>Cannot load color scheme: %1</source>
-        <translation>Nedaří se načíst barevné schéma: %1</translation>
+        <translation>Nedaří se načíst schéma barev: %1</translation>
     </message>
 </context>
 <context>
@@ -79,7 +77,7 @@
     <message>
         <location filename="../SearchBar.cpp" line="40"/>
         <source>Match case</source>
-        <translation>Rozlišovat malá/VELKÁ písmena</translation>
+        <translation>Rozlišovat VELKÁ/malá písmena</translation>
     </message>
     <message>
         <location filename="../SearchBar.cpp" line="46"/>
@@ -94,12 +92,12 @@
     <message>
         <location filename="../SearchBar.ui" line="14"/>
         <source>SearchBar</source>
-        <translation>Pruh hledání</translation>
+        <translation>Lišta hledání</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="20"/>
         <source>X</source>
-        <translation></translation>
+        <translation>X</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="32"/>
@@ -109,12 +107,12 @@
     <message>
         <location filename="../SearchBar.ui" line="42"/>
         <source>&lt;</source>
-        <translation></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="54"/>
         <source>&gt;</source>
-        <translation></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="66"/>

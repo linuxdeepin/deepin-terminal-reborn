@@ -77,7 +77,7 @@ NewDspinBox::NewDspinBox(QWidget *parent) : DWidget(parent)
         m_DLineEdit->lineEdit()->setFocus();
 
         int value = m_DLineEdit->lineEdit()->text().toInt();
-        if (value < m_MaxValue)
+        if (value < MAX_FONT_SZIE)
         {
             m_DLineEdit->lineEdit()->setText(QString::number(value + 1));
             emit valueChanged(m_DLineEdit->lineEdit()->text().toInt());
@@ -88,7 +88,7 @@ NewDspinBox::NewDspinBox(QWidget *parent) : DWidget(parent)
         m_DLineEdit->lineEdit()->setFocus();
 
         int value = m_DLineEdit->lineEdit()->text().toInt();
-        if (value > m_MinValue)
+        if (value > MIN_FONT_SZIE)
         {
             m_DLineEdit->lineEdit()->setText(QString::number(value - 1));
             emit valueChanged(m_DLineEdit->lineEdit()->text().toInt());
@@ -101,7 +101,7 @@ NewDspinBox::NewDspinBox(QWidget *parent) : DWidget(parent)
         if (!var) {
             /******** Add by nt001000 renfeixiang 2020-05-25:增加正常数据的过滤不需要处理，textChanged信号已经处理 Begin***************/
             int value = m_DLineEdit->lineEdit()->text().toInt();
-            if (value >= 5)
+            if (value >= MIN_FONT_SZIE)
                 return ;
             /******** Add by nt001000 renfeixiang 2020-05-25:增加正常数据的过滤不需要处理，textChanged信号已经处理 End***************/
             correctValue();
@@ -112,7 +112,7 @@ NewDspinBox::NewDspinBox(QWidget *parent) : DWidget(parent)
     /******** Add by nt001000 renfeixiang 2020-05-25:增加m_DLineEdit的textChanged信号的响应 Begin***************/
     connect(m_DLineEdit, &DLineEdit::textChanged, this, [ = ](const QString & value) {
         //过滤范围之外的数据
-        if (value.toInt() < 5)
+        if (value.toInt() < MIN_FONT_SZIE)
             return ;
         // 对输入的数据做个校正
         //correctValue();
@@ -172,32 +172,6 @@ void NewDspinBox::setValue(int val)
 }
 
 /*******************************************************************************
- 1. @函数:    setMaximum
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面设置最大值
-*******************************************************************************/
-void NewDspinBox::setMaximum(int val)
-{
-    if (val > m_MinValue) {
-        m_MaxValue = val;
-    }
-}
-
-/*******************************************************************************
- 1. @函数:    setMinimum
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面设置最小值
-*******************************************************************************/
-void NewDspinBox::setMinimum(int val)
-{
-    if (val < m_MaxValue) {
-        m_MinValue = val;
-    }
-}
-
-/*******************************************************************************
  1. @函数:    correctValue
  2. @作者:    ut001121 zhangmeng
  3. @日期:    2020-08-11
@@ -206,11 +180,11 @@ void NewDspinBox::setMinimum(int val)
 void NewDspinBox::correctValue()
 {
     int val = m_DLineEdit->text().toInt();
-    if (val > m_MaxValue) {
-        m_DLineEdit->lineEdit()->setText(QString::number(m_MaxValue));
+    if (val > MAX_FONT_SZIE) {
+        m_DLineEdit->lineEdit()->setText(QString::number(MAX_FONT_SZIE));
     }
-    if (val < m_MinValue) {
-        m_DLineEdit->lineEdit()->setText(QString::number(m_MinValue));
+    if (val < MIN_FONT_SZIE) {
+        m_DLineEdit->lineEdit()->setText(QString::number(MIN_FONT_SZIE));
     }
 }
 

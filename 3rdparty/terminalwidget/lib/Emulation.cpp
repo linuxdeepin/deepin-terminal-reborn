@@ -493,7 +493,7 @@ QSize Emulation::imageSize() const
     return {_currentScreen->getColumns(), _currentScreen->getLines()};
 }
 
-uint ExtendedCharTable::extendedCharHash(const uint *unicodePoints, ushort length) const
+uint ExtendedCharTable::extendedCharHash(uint *unicodePoints, ushort length) const
 {
     uint hash = 0;
     for (ushort i = 0 ; i < length ; i++) {
@@ -501,7 +501,7 @@ uint ExtendedCharTable::extendedCharHash(const uint *unicodePoints, ushort lengt
     }
     return hash;
 }
-bool ExtendedCharTable::extendedCharMatch(uint hash, const uint *unicodePoints, ushort length) const
+bool ExtendedCharTable::extendedCharMatch(uint hash, uint *unicodePoints, ushort length) const
 {
     uint *entry = extendedCharTable[hash];
 
@@ -518,8 +518,9 @@ bool ExtendedCharTable::extendedCharMatch(uint hash, const uint *unicodePoints, 
     return true;
 }
 
-uint ExtendedCharTable::createExtendedChar(const uint *unicodePoints, ushort length)
+uint ExtendedCharTable::createExtendedChar(uint *unicodePoints, ushort length)
 {
+
     // look for this sequence of points in the table
     uint hash = extendedCharHash(unicodePoints, length);
     const uint initialHash = hash;

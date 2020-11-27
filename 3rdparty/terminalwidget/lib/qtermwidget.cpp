@@ -253,6 +253,8 @@ void QTermWidget::matchFound(int startColumn, int startLine, int endColumn, int 
     sw->setSelectionEnd(endColumn + matchChinese, endLine - sw->currentLine());
     sw->notifyOutputChanged();
     /***mod end by ut001121***/
+    // 结束查找
+    emit sig_matchFound();
 }
 
 void QTermWidget::clearSelection()
@@ -377,6 +379,30 @@ void QTermWidget::addSnapShotTimer()
 void QTermWidget::interactionHandler()
 {
     m_interactionTimer->start();
+}
+
+/*******************************************************************************
+ 1. @函数:    setisAllowScroll
+ 2. @作者:    ut000610 戴正文
+ 3. @日期:    2020-09-14
+ 4. @说明:    设置是否允许滚动到最新的位置
+ 当有输出且并不是在setZoom之后,此标志为true 允许滚动
+ 当有输出且在setZoom之后,比标志位false 不允许滚动
+*******************************************************************************/
+void QTermWidget::setIsAllowScroll(bool isAllowScroll)
+{
+    m_impl->m_terminalDisplay->setIsAllowScroll(isAllowScroll);
+}
+
+/*******************************************************************************
+ 1. @函数:    getisAllowScroll
+ 2. @作者:    ut000610 戴正文
+ 3. @日期:    2020-09-14
+ 4. @说明:    获取是否允许输出时滚动
+*******************************************************************************/
+bool QTermWidget::getIsAllowScroll() const
+{
+    return m_impl->m_terminalDisplay->getIsAllowScroll();
 }
 
 void QTermWidget::startTerminalTeletype()
@@ -728,8 +754,10 @@ void QTermWidget::pasteSelection()
 
 void QTermWidget::setZoom(int step)
 {
+    // 获取字体
     QFont font = m_impl->m_terminalDisplay->getVTFont();
 
+    // 设置字体
     font.setPointSize(font.pointSize() + step);
     setTerminalFont(font);
 }

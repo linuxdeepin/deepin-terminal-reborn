@@ -24,6 +24,7 @@
 
 #include <DAnchors>
 #include <QPropertyAnimation>
+#include <DTitlebar>
 
 DWIDGET_USE_NAMESPACE
 
@@ -57,18 +58,15 @@ void RightPanel::show()
     QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
     animation->setDuration(250);
     animation->setEasingCurve(QEasingCurve::OutQuad);
-    //animation->setStartValue(QRect(windowRect.width(), rect.y(), rect.width(), windowRect.height() - 50));
-    //animation->setEndValue(QRect(windowRect.width() - rect.width(), rect.y(), rect.width(), windowRect.height() - 50));
-    if (window()->isFullScreen()) {
-        animation->setStartValue(QRect(windowRect.width(), rect.y(), rect.width(), windowRect.height()));
-        animation->setEndValue(QRect(windowRect.width() - rect.width(), rect.y(), rect.width(), windowRect.height()));
-    } else {
-        animation->setStartValue(QRect(windowRect.width(), rect.y(), rect.width(), windowRect.height() - 50));
-        animation->setEndValue(QRect(windowRect.width() - rect.width(), rect.y(), rect.width(), windowRect.height() - 50));
+    /***mod begin by ut001121 zhangmeng 20200918 修复BUG48374 全屏下插件被截断的问题***/
+    int panelHeight = windowRect.height();
+    if(Utils::getMainWindow(this)->titlebar()->isVisible()){
+        panelHeight -= WIN_TITLE_BAR_HEIGHT;
     }
+    animation->setStartValue(QRect(windowRect.width(), rect.y(), rect.width(), panelHeight));
+    animation->setEndValue(QRect(windowRect.width() - rect.width(), rect.y(), rect.width(), panelHeight));
+    /***mod end by ut001121***/
     animation->start(QAbstractAnimation::DeleteWhenStopped);
-
-    //    connect(animation, &QPropertyAnimation::valueChanged, this, [=] { m_themeView->adjustScrollbarMargins(); });
 }
 
 /*******************************************************************************
@@ -83,26 +81,36 @@ void RightPanel::hideAnim()
     if (!isVisible()) {
         return;
     }
+
     QRect rect = geometry();
     QRect windowRect = window()->geometry();
     QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
     animation->setDuration(250);
     animation->setEasingCurve(QEasingCurve::OutQuad);
-    //animation->setStartValue(
-    //    QRect(windowRect.width() - rect.width(), rect.y(), rect.width(), windowRect.height() - 50));
-    //animation->setEndValue(QRect(windowRect.width(), rect.y(), rect.width(), windowRect.height() - 50));
-    if (window()->isFullScreen()) {
-        animation->setStartValue(QRect(windowRect.width() - rect.width(), rect.y(), rect.width(), windowRect.height()));
-        animation->setEndValue(QRect(windowRect.width(), rect.y(), rect.width(), windowRect.height()));
-    } else {
-        animation->setStartValue(QRect(windowRect.width() - rect.width(), rect.y(), rect.width(), windowRect.height() - 50));
-        animation->setEndValue(QRect(windowRect.width(), rect.y(), rect.width(), windowRect.height() - 50));
+    /***mod begin by ut001121 zhangmeng 20200918 修复BUG48374 全屏下插件被截断的问题***/
+    int panelHeight = windowRect.height();
+    if(Utils::getMainWindow(this)->titlebar()->isVisible()){
+        panelHeight -= WIN_TITLE_BAR_HEIGHT;
     }
+    animation->setStartValue(QRect(windowRect.width() - rect.width(), rect.y(), rect.width(), panelHeight));
+    animation->setEndValue(QRect(windowRect.width(), rect.y(), rect.width(), panelHeight));
+    /***mod end by ut001121***/
 
+    /***mod begin by ut001121 zhangmeng 20200924 修复BUG49378***/
+    //结束处理
+    connect(animation, &QPropertyAnimation::finished, this, [=]{
+        //启用面板
+        setEnabled(true);
+        //隐藏面板
+        hide();
+    });
 
+    //禁用面板
+    setEnabled(false);
+
+    //开始动画
     animation->start(QAbstractAnimation::DeleteWhenStopped);
-
-    connect(animation, &QPropertyAnimation::finished, this, &QWidget::hide);
+    /***mod end by ut001121***/
 }
 
 /*******************************************************************************

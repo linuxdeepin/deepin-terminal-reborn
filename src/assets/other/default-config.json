@@ -33,7 +33,7 @@
                         {
                             "key": "theme",
                             "hide": true,
-                            "reset": true,
+                            "reset": false,
                             "default": "Linux"
                         }
                     ]

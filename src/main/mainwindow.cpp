@@ -386,6 +386,7 @@ bool MainWindow::isTabChangeColor(int tabSessionId)
 *******************************************************************************/
 void MainWindow::addTab(TermProperties properties, bool activeTab)
 {
+    qint64 startTime = QDateTime::currentMSecsSinceEpoch();
     /***add by ut001121 zhangmeng 修复BUG#24452 点击“+”按钮新建工作区，自定义命令/编码/远程管理插件未消失***/
     showPlugin(PLUGIN_TYPE_NONE);
 
@@ -445,6 +446,9 @@ void MainWindow::addTab(TermProperties properties, bool activeTab)
     });
 
     connect(termPage->currentTerminal(), &TermWidget::termIsIdle, this, &MainWindow::onTermIsIdle);
+    qint64 endTime = QDateTime::currentMSecsSinceEpoch();
+    QString strNewTabTime = GRAB_POINT + LOGO_TYPE + CREATE_NEW_TAB_TIME + QString::number(endTime - startTime);
+    qInfo() << qPrintable(strNewTabTime);
 }
 
 /*******************************************************************************
@@ -905,35 +909,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
         DMainWindow::closeEvent(event);
         emit mainwindowClosed(this);
     }
-}
-/*******************************************************************************
- 1. @函数:    closeConfirm
- 2. @作者:    n014361 王培利
- 3. @日期:    2020-04-29
- 4. @说明:    mainwindow关闭确认
- 　　　　　　　当前方案为一页一页确认
-*******************************************************************************/
-bool MainWindow::closeConfirm()
-{
-    int runningCount = 0;
-    QList<QString> closeTabIdList;
-    for (int i = 0, count = m_termStackWidget->count(); i < count; i++) {
-        TermWidgetPage *tabPage = qobject_cast<TermWidgetPage *>(m_termStackWidget->widget(i));
-        closeTabIdList.append(tabPage->identifier());
-        runningCount += tabPage->runningTerminalCount();
-    }
-
-    // 如果不能马上关闭，并且还在没有最小化．
-    if (runningCount != 0  && isMinimized()) {
-        qDebug() << "isMinimized........... " << endl;
-        setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
-    }
-    if (runningCount != 0) {
-        // 全部关闭时，仅提示一次．
-        showExitConfirmDialog(Utils::CloseType_Window, runningCount, this);
-        return false;
-    }
-    return true;
 }
 
 /*******************************************************************************
@@ -1524,6 +1499,15 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
                 term->setEnterSzCommand(false);
             }
         }
+        /******** Modify by ut000610 daizhengwen 2020-09-07:焦点在推出全屏上,点击Enter或Space Begin***************/
+        // fix#bug 46680
+        if ((watched->metaObject()->className() == QStringLiteral("Dtk::Widget::DWindowQuitFullButton"))
+                && (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Space)) {
+            // 退出全屏
+            switchFullscreen(false);
+            return true;
+        }
+        /********************* Modify by ut000610 daizhengwen End ************************/
     }
 
     //if (watched == this) {
@@ -1562,6 +1546,8 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
                 // 不干扰终端使用ESC
                 if (QString(qApp->focusWidget()->metaObject()->className()) == TERM_WIDGET_NAME) {
                     filterReason = "focusWidget is terminnal";
+                    /***add by ut001121 zhangmeng 20200922 修复BUG48960***/
+                    showPlugin(PLUGIN_TYPE_NONE);
                     break;
                 }
                 // 如果有菜单出现的时候，ESC无效
@@ -2122,6 +2108,18 @@ void MainWindow::firstTerminalComplete()
 }
 
 /*******************************************************************************
+ 1. @函数:    createNewMainWindowTime
+ 2. @作者:    ut000610 戴正文
+ 3. @日期:    2020-09-21
+ 4. @说明:    创建新窗口需要的时间
+*******************************************************************************/
+qint64 MainWindow::createNewMainWindowTime()
+{
+    // 当前时间减去创建时间
+    return (QDateTime::currentDateTime().toMSecsSinceEpoch() - m_ReferedAppStartTime);
+}
+
+/*******************************************************************************
  1. @函数:    getDesktopIndex
  2. @作者:    ut000439 wangpeili
  3. @日期:    2020-08-11
@@ -2165,7 +2163,7 @@ void NormalWindow::initTitleBar()
     m_titleBar->setTabBar(m_tabbar);
 
     titlebar()->setCustomWidget(m_titleBar);
-    titlebar()->setAutoHideOnFullscreen(true);
+    // titlebar()->setAutoHideOnFullscreen(true);
     titlebar()->setTitle("");
 
     //设置titlebar焦点策略为不抢占焦点策略，防止点击titlebar后终端失去输入焦点
@@ -2579,7 +2577,7 @@ void QuakeWindow::onAppFocusChangeForQuake()
         return;
     }
 
-    hide();
+    hideQuakeWindow();
 }
 
 /*******************************************************************************
@@ -2594,7 +2592,7 @@ void QuakeWindow::setWindowMinHeightForFont()
     int height = 0;
     //根据内部term的最小高度设置雷神终端的最小高度, (m_MinHeight-50)/2是内部term的最小高度，50是雷神窗口的标题栏高度
     //add by ut001000 renfeixiang 2020-08-07
-    height = (m_MinHeight - 50) / 2 + 60;
+    height = (m_MinHeight - WIN_TITLE_BAR_HEIGHT) / 2 + 60;
     setMinimumHeight(height);
 }
 /******** Add by nt001000 renfeixiang 2020-05-20:增加雷神窗口根据字体和字体大小设置最小高度函数 End***************/

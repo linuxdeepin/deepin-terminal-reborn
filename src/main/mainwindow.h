@@ -120,6 +120,9 @@ public:
     // 由mainwindow统一获取当前选择的文本。
     QString selectedText(bool preserveLineBreaks = true);
 
+    // 新建窗口时间(ms)
+    qint64 createNewMainWindowTime();
+
     bool hasRunningProcesses();
     bool isQuakeMode();
 

@@ -99,37 +99,45 @@ bool TerminalApplication::notify(QObject *object, QEvent *event)
 {
     // 针对DTK做的特殊处理,等DTK自己完成后,需要删除
     if (object->metaObject()->className() == QStringLiteral("Dtk::Widget::DKeySequenceEdit")) {
+        // 焦点移除,移除edit
         if (event->type() == QEvent::FocusOut) {
-            // 获取DKeySequenceEdit
             DKeySequenceEdit *edit = static_cast<DKeySequenceEdit *>(object);
-            // 焦点丢失,移除KeySequence
-            m_keySequenceList.removeOne(edit);
+            // 包含edit
+            if (m_keySequenceList.contains(edit)) {
+                m_keySequenceList.removeOne(edit);
+                qDebug() << "remove editing when foucs out";
+            }
         }
-
         if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
+            // 获取DKeySequenceEdit
+            DKeySequenceEdit *edit = static_cast<DKeySequenceEdit *>(object);
             // 在dtk的自定义快捷键输入框上按Enter
             if (keyevent->key() == Qt::Key_Enter
                     || keyevent->key() == Qt::Key_Return
-                    || keyevent->key() == Qt::Key_Space) {
-                // 获取DKeySequenceEdit
-                DKeySequenceEdit *edit = static_cast<DKeySequenceEdit *>(object);
+                    || keyevent->key() == Qt::Key_Space
+               ) {
                 // 当快捷键输入框内容不为空
-                if (!edit->keySequence().isEmpty() && !m_keySequenceList.contains(edit)) {
+                // 设置里的快捷键输入框
+                if (!edit->keySequence().isEmpty()
+                        && (object->objectName() == "OptionShortcutEdit" || (object->objectName() == "CustomShortCutLineEdit" && keyevent->key() == Qt::Key_Space))
+                        && !m_keySequenceList.contains(edit)) {
                     // 找到其中的QLabel
                     QList<Dtk::Widget::DLabel *> childern = edit->findChildren<Dtk::Widget::DLabel *>();
                     // 发送QMouseEvent
                     QMouseEvent mouseEvent(QEvent::MouseButtonPress, QPoint(0, 0), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
                     DApplication::sendEvent(childern[0], &mouseEvent);
                     // 记录当前KeySequence已经进入编辑状态
-                    m_keySequenceList.append(edit);
                     qDebug() << "KeySequence in Editing";
+                    m_keySequenceList.append(edit);
                     return true;
-                } else {
-                    // KeySequence
-                    m_keySequenceList.removeOne(edit);
                 }
-
+            }
+            // 不是Enter和space操作，或者没进入记录流程，就删除
+            if (m_keySequenceList.contains(edit)) {
+                // 其他情况的按键，移除edit
+                m_keySequenceList.removeOne(edit);
+                qDebug() << "remove editing when others";
             }
         }
     }

@@ -197,28 +197,6 @@ QStringList DBusManager::callAppearanceShowFont(QStringList fontList, QString fo
 /******** Add by ut001000 renfeixiang 2020-06-16:增加 调用DBUS的show获取的等宽字体，并转换成QStringList End***************/
 
 /*******************************************************************************
- 1. @函数:    callCreateRequest
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    调用DBUS创建请求
-*******************************************************************************/
-bool DBusManager::callCreateRequest()
-{
-    QDBusMessage msg =
-        QDBusMessage::createMethodCall(TERMINALSERVER, TERMINALINTERFACE, TERMINALSERVER, "createRequest");
-
-    QDBusMessage response = QDBusConnection::sessionBus().call(msg, QDBus::AutoDetect);
-    if (response.type() == QDBusMessage::ReplyMessage) {
-        QList<QVariant> list = response.arguments();
-        qDebug() << "call createRequest Success!" << list.takeFirst().toBool();
-        return list.takeFirst().toBool();
-    } else {
-        qDebug() << "call createRequest!" << response.errorMessage();
-        return false;
-    }
-}
-
-/*******************************************************************************
  1. @函数:    callTerminalEntry
  2. @作者:    ut000610 戴正文
  3. @日期:    2020-05-19
@@ -249,27 +227,6 @@ void DBusManager::entry(QStringList args)
 {
     qDebug() << "recv args" << args;
     emit entryArgs(args);
-}
-
-/*******************************************************************************
- 1. @函数:    createRequest
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-06-11
- 4. @说明:    判断当前是否允许创建窗口
-             true 允许
-             false 不允许
-             返回true需要将他置为false,阻止其他窗口创建
-             用于新建窗口
-*******************************************************************************/
-bool DBusManager::createRequest()
-{
-    bool result = Service::instance()->getEnable(0);
-    if (result) {
-        // 允许当前请求创建，阻止其他窗口创建
-        Service::instance()->setMemoryEnable(false);
-    }
-    qDebug() << "create enable " << result;
-    return result;
 }
 
 /*******************************************************************************

@@ -24,6 +24,7 @@
 #include "utils.h"
 #include "service.h"
 #include "windowsmanager.h"
+#include "define.h"
 
 #include <DLog>
 #include <DDialog>
@@ -337,6 +338,11 @@ void TermWidgetPage::closeOtherTerminal(bool hasConfirmed)
     }
 
     QList<TermWidget *> termList = findChildren<TermWidget *>();
+    // 终端数量小于2,执行关闭其他窗口操作
+    if (termList.count() < 2) {
+        qDebug() << "current window doesn't have other terminal, can't close other terminals.";
+        return;
+    }
 
     int currSessionId = m_currentTerm->getSessionId();
     //exit protection
@@ -348,6 +354,7 @@ void TermWidgetPage::closeOtherTerminal(bool hasConfirmed)
     }
 
     setTerminalOpacity(Settings::instance()->opacity());
+    m_MainWindow->focusCurrentPage();
 }
 
 #if 0
@@ -778,7 +785,7 @@ void TermWidgetPage::showSearchBar(int state)
 {
     /******** Modify by ut001000 renfeixiang 2020-08-28:修改bug 45227,SearchBar没有显示，且不需要显示时，return Begin***************/
     // 沒显示，且不要显示
-    if(!m_findBar->isVisible() && state != SearchBar_Show){
+    if (!m_findBar->isVisible() && state != SearchBar_Show) {
         return;
     }
     /******** Modify by ut001000 renfeixiang 2020-08-28***************/
@@ -806,7 +813,7 @@ void TermWidgetPage::showSearchBar(int state)
         if (Utils::getMainWindow(this)->isFocusOnList()) {
             Utils::getMainWindow(this)->focusCurrentPage();
         }
-         m_findBar->hide();
+        m_findBar->hide();
         /******** Modify by ut001000 renfeixiang 2020-08-28 End***************/
     }
 }
@@ -834,6 +841,21 @@ void TermWidgetPage::showRenameTitleDialog(QString oldTitle)
         m_renameDialog->setIcon(QIcon::fromTheme("deepin-terminal"));
         m_renameDialog->setFocusPolicy(Qt::NoFocus);
         m_renameDialog->showDialog(oldTitle, this);
+    }
+}
+
+/*******************************************************************************
+ 1. @函数:    printSearchCostTime
+ 2. @作者:    ut000610 戴正文
+ 3. @日期:    2020-09-21
+ 4. @说明:    打印查找花费的时间
+*******************************************************************************/
+void TermWidgetPage::printSearchCostTime()
+{
+    qint64 costTime = m_findBar->searchCostTime();
+    if (costTime != -1) {
+        QString strSearchTime = GRAB_POINT + LOGO_TYPE + SEARCH_TIME + QString::number(costTime);
+        qInfo() << qPrintable(strSearchTime);
     }
 }
 

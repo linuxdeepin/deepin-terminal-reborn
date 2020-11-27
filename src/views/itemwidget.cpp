@@ -56,6 +56,12 @@ ItemWidget::ItemWidget(ItemFuncType itemType, QWidget *parent)
     initUI();
     // 信号槽初始化
     initConnections();
+
+    /***add begin by ut001121 zhangmeng 20200924 安装过滤器 修复BUG48618***/
+    m_iconButton->installEventFilter(this);
+    m_funcButton->installEventFilter(this);
+    installEventFilter(this);
+    /***add end by ut001121***/
 }
 
 ItemWidget::~ItemWidget()
@@ -222,6 +228,13 @@ bool operator <(const ItemWidget &item1, const ItemWidget &item2)
 *******************************************************************************/
 void ItemWidget::onFuncButtonClicked()
 {
+    /***add begin by ut001121 zhangmeng 20200924 判断移动事件来源 修复BUG48618***/
+    if(m_moveSource){
+        m_moveSource = nullptr;
+        return ;
+    }
+    /***add end by ut001121***/
+
     // 判断类型执行操作
     switch (m_functType) {
     case ItemFuncType_Group:
@@ -256,6 +269,13 @@ void ItemWidget::onFuncButtonClicked()
 *******************************************************************************/
 void ItemWidget::onIconButtonClicked()
 {
+    /***add begin by ut001121 zhangmeng 20200924 判断移动事件来源 修复BUG48618***/
+    if(m_moveSource){
+        m_moveSource = nullptr;
+        return ;
+    }
+    /***add end by ut001121***/
+
     // 判断类型执行操作
     switch (m_functType) {
     case ItemFuncType_Group:
@@ -466,9 +486,10 @@ void ItemWidget::mousePressEvent(QMouseEvent *event)
 //    onItemClicked();
 //    // 捕获事件
 //    event->accept();
+#if 0
     //记录鼠标点击时的时间戳
     m_tapTimeSpace = event->timestamp();
-
+#endif
     FocusFrame::mousePressEvent(event);
 }
 
@@ -480,6 +501,7 @@ void ItemWidget::mousePressEvent(QMouseEvent *event)
 *******************************************************************************/
 void ItemWidget::mouseReleaseEvent(QMouseEvent *event)
 {
+#if 0
     qDebug() << __FUNCTION__ ;
     //根据鼠标按下弹起的差值判断是否触发点击事件
     if (event->timestamp() - m_tapTimeSpace > TAP_TIME_SPACE_T
@@ -487,13 +509,49 @@ void ItemWidget::mouseReleaseEvent(QMouseEvent *event)
         event->accept();
         return;
     }
-
+#endif
     // 判断类型执行操作
     onItemClicked();
     // 捕获事件
     event->accept();
 
     FocusFrame::mouseReleaseEvent(event);
+}
+
+/*******************************************************************************
+ 1. @函数:    eventFilter
+ 2. @作者:    ut001121 张猛
+ 3. @日期:    2020-09-24
+ 4. @说明:    事件过滤
+*******************************************************************************/
+bool ItemWidget::eventFilter(QObject *watched, QEvent *event)
+{
+    /***add begin by ut001121 zhangmeng 20200924 过滤并处理鼠标事件 修复BUG48618***/
+    QMouseEvent* mouse = static_cast<QMouseEvent*>(event);
+    if(event->type() == QEvent::MouseButtonPress
+            && mouse->source() == Qt::MouseEventSynthesizedByQt){
+        //记录移动事件来源
+        m_moveSource = watched;
+        //记录移动事件起点
+        m_touchPressPosY = mouse->globalPos().y();
+        //重置滑动最大距离
+        m_touchSlideMaxY = 0;
+    }
+    if(event->type() == QEvent::MouseButtonRelease
+            && mouse->source() == Qt::MouseEventSynthesizedByQt){
+        //判断最大移动距离
+        if (m_touchSlideMaxY<=COORDINATE_ERROR_Y) {
+            //移动事件源为空,表示未曾移动过
+            m_moveSource = nullptr;
+        }
+    }
+    if(event->type() == QEvent::MouseMove /*&& m_moveSource == watched*/
+            && mouse->source() == Qt::MouseEventSynthesizedByQt){
+        //记录滑动最大距离
+        m_touchSlideMaxY = qMax(m_touchSlideMaxY, qAbs(m_touchPressPosY - mouse->globalPos().y()));
+    }
+    /***add end by ut001121***/
+    return FocusFrame::eventFilter(watched, event);
 }
 
 /*******************************************************************************
@@ -672,6 +730,13 @@ void ItemWidget::rightKeyPress()
 *******************************************************************************/
 void ItemWidget::onItemClicked()
 {
+    /***add begin by ut001121 zhangmeng 20200924 判断移动事件来源 修复BUG48618***/
+    if(m_moveSource){
+        m_moveSource = nullptr;
+        return ;
+    }
+    /***add end by ut001121***/
+
     switch (m_functType) {
     case ItemFuncType_Group:
         // 显示分组

@@ -93,8 +93,6 @@ public:
     /******** Add by ut001000 renfeixiang 2020-06-16:增加 调用DBUS的show获取的等宽字体，并转换成QStringList End***************/
 
     // deepin terminal
-    // 获取能否创建窗口的状态值
-    static bool callCreateRequest();
     // 创建窗口
     static void callTerminalEntry(QStringList args);
 
@@ -109,8 +107,6 @@ public:
 
 public slots:
     void entry(QStringList args);
-    // 获取状态值
-    bool createRequest();
 
 signals:
     // To Service entry function

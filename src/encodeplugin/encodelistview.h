@@ -57,7 +57,6 @@ protected:
     void mouseReleaseEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *) override;
 
-    void resizeContents(int width, int height);
     QSize contentsSize() const;
 
 signals:
@@ -67,7 +66,7 @@ public slots:
     void onListViewClicked(const QModelIndex &index);
     void checkEncode(QString encode);
     /** add by ut001121 zhangmeng 20200718 for sp3 keyboard interaction*/
-    inline Qt::FocusReason getFocusReason(){return m_foucusReason;}
+    inline Qt::FocusReason getFocusReason() {return m_foucusReason;}
 
 private:
     void initEncodeItems();
@@ -103,7 +102,7 @@ class EncodeDelegate : public DStyledItemDelegate
 {
 public:
     explicit EncodeDelegate(QAbstractItemView *parent = nullptr)
-        : DStyledItemDelegate(parent), m_parentView(parent){}
+        : DStyledItemDelegate(parent), m_parentView(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const Q_DECL_OVERRIDE;

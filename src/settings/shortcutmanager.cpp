@@ -23,6 +23,7 @@
 #include "mainwindow.h"
 #include "settings.h"
 #include "listview.h"
+#include "settingio.h"
 
 #include <QStandardPaths>
 #include <QTextCodec>
@@ -149,7 +150,10 @@ void ShortcutManager::createCustomCommandsFromConfig()
         return ;
     }
 
-    QSettings commandsSettings(customCommandConfigFilePath, QSettings::IniFormat);
+    //QSettings commandsSettings(customCommandConfigFilePath, QSettings::IniFormat);
+    QSettings::Format fmt = QSettings::registerFormat("conf", SettingIO::readIniFunc, SettingIO::writeIniFunc);
+    QSettings commandsSettings(customCommandConfigFilePath, QSettings::CustomFormat1);
+
     commandsSettings.setIniCodec(INI_FILE_CODEC);
     QStringList commandGroups = commandsSettings.childGroups();
     for (const QString &commandName : commandGroups) {
@@ -171,6 +175,18 @@ void ShortcutManager::createCustomCommandsFromConfig()
         }
         commandsSettings.endGroup();
         m_customCommandActionList.append(action);
+    }
+
+    if (SettingIO::rewrite) {
+        //删除自定义命令文件
+        QFile fileTemp(customCommandConfigFilePath);
+        fileTemp.remove();
+        qDebug() << "remove file:" << customCommandConfigFilePath;
+
+        //将内存数据写入配置文件
+        for (QAction *action : m_customCommandActionList) {
+            saveCustomCommandToConfig(action, -1);
+        }
     }
 }
 
@@ -446,7 +462,8 @@ void ShortcutManager::saveCustomCommandToConfig(QAction *action, int saveIndex)
     }
 
     QString customCommandConfigFilePath(customCommandBasePath.filePath("command-config.conf"));
-    QSettings commandsSettings(customCommandConfigFilePath, QSettings::IniFormat);
+    //QSettings commandsSettings(customCommandConfigFilePath, QSettings::IniFormat);
+    QSettings commandsSettings(customCommandConfigFilePath, QSettings::CustomFormat1);
     commandsSettings.setIniCodec(INI_FILE_CODEC);
     commandsSettings.beginGroup(action->text());
     commandsSettings.setValue("Command", action->data());
@@ -480,7 +497,8 @@ int ShortcutManager::delCustomCommandToConfig(CustomCommandData itemData)
     }
 
     QString customCommandConfigFilePath(customCommandBasePath.filePath("command-config.conf"));
-    QSettings commandsSettings(customCommandConfigFilePath, QSettings::IniFormat);
+    //QSettings commandsSettings(customCommandConfigFilePath, QSettings::IniFormat);
+    QSettings commandsSettings(customCommandConfigFilePath, QSettings::CustomFormat1);
     commandsSettings.setIniCodec(INI_FILE_CODEC);
     commandsSettings.remove(itemData.m_cmdName);
 

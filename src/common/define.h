@@ -29,8 +29,24 @@
 
 #define SEARCHBAR_RIGHT_MARGIN 382
 
-
+// qterminal
 const QString TERM_WIDGET_NAME = "Konsole::TerminalScreen";
+
+// log
+// 性能测试相关日志
+const QString GRAB_POINT = "[GRABPOINT] ";
+// 日志类型
+const QString LOGO_TYPE = "APPTESTPINT-";
+// 打开应用程序时间(ms)
+const QString INIT_APP_TIME = "0001 ";
+// 新建窗口时间(ms)
+const QString CREATE_NEW_MAINWINDOE = "0004 ";
+// 新建工作区时间(ms)
+const QString CREATE_NEW_TAB_TIME = "0005 ";
+// 查找时间(ms)
+const QString SEARCH_TIME = "0006 ";
+// 显示设置时间(ms)
+const QString SHOW_SETTINGS_TIME = "0007 ";
 
 // 搜索框焦点状态
 enum SearchBar_State {

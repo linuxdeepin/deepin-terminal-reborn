@@ -137,8 +137,6 @@ private:
     QVBoxLayout *m_mainLayout = nullptr;
     // 列表项数据
     QList<ItemWidget *> m_itemList;
-    // 临时鼠标点坐标
-    QPoint m_tempPoint;
 
     // 初始化界面
     void initUI();

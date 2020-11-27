@@ -177,6 +177,24 @@ void PageSearchBar::recoveryHoldContent()
 }
 
 /*******************************************************************************
+ 1. @函数:    searchCostTime
+ 2. @作者:    ut000610 戴正文
+ 3. @日期:    2020-09-21
+ 4. @说明:    获取查找消耗的时间 => 用于性能测试
+*******************************************************************************/
+qint64 PageSearchBar::searchCostTime()
+{
+    if (m_searchStartTime == 0)
+    {
+        qDebug() << __FUNCTION__ << "search time error!";
+        return -1;
+    }
+    qint64 costTime = QDateTime::currentMSecsSinceEpoch() - m_searchStartTime;
+    m_searchStartTime = 0;
+    return costTime;
+}
+
+/*******************************************************************************
  1. @函数:    findCancel
  2. @作者:    ut000439 wangpeili
  3. @日期:    2020-08-11
@@ -236,6 +254,7 @@ void PageSearchBar::initFindPrevButton()
 
     connect(m_findPrevButton, &DIconButton::clicked, this, [this]() {
         if (!m_searchEdit->lineEdit()->text().isEmpty()) {
+            m_searchStartTime = QDateTime::currentMSecsSinceEpoch();
             emit findPrev();
         }
     });
@@ -256,6 +275,7 @@ void PageSearchBar::initFindNextButton()
 
     connect(m_findNextButton, &DIconButton::clicked, this, [this]() {
         if (!m_searchEdit->lineEdit()->text().isEmpty()) {
+            m_searchStartTime = QDateTime::currentMSecsSinceEpoch();
             emit findNext();
         }
     });

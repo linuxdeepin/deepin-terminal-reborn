@@ -177,17 +177,6 @@ void OperationConfirmDlg::initContentLayout()
 }
 
 /*******************************************************************************
- 1. @函数:    setDialogFrameSize
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    设置对话框框架大小
-*******************************************************************************/
-void OperationConfirmDlg::setDialogFrameSize(int width, int height)
-{
-    setFixedSize(width, height);
-}
-
-/*******************************************************************************
  1. @函数:    initConnections
  2. @作者:    ut000610 daizhengwen
  3. @日期:    2020-08-11

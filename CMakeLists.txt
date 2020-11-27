@@ -36,6 +36,10 @@ else()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2 -Wl,-O1 -Wl,--gc-sections")
 endif()
 
+#Use deepin-turbo for Performance optimization
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Wl,--as-need -fPIE")
+set(CMAKE_EXE_LINKER_FLAGS "-pie")
+
 configure_file(src/environments.h.in environments.h @ONLY)
 
 # Find the QtWidgets library
@@ -59,6 +63,8 @@ pkg_search_module(DtkCore REQUIRED dtkcore)
 pkg_search_module(GOBJECT REQUIRED gobject-2.0)
 pkg_check_modules(ATSPI2 REQUIRED atspi-2)
 pkg_check_modules(DFrameworkDBus REQUIRED dframeworkdbus)
+pkg_check_modules(LIBSECRET REQUIRED libsecret-1)
+
 
 # Compile definitions for TerminalWidget
 # So we can use QT_VERSION_CHECK
@@ -76,7 +82,6 @@ include_directories("src/common")
 include_directories("src/customcommand")
 include_directories("src/encodeplugin")
 include_directories("src/main")
-include_directories("src/quaketerminal")
 include_directories("src/remotemanage")
 include_directories("src/settings")
 include_directories("src/theme")
@@ -96,12 +101,14 @@ set(LINK_LIBS
     ${DFrameworkDBus_LIBRARIES}
     ${ATSPI2_LIBRARIES}
     ${GOBJECT_LIBRARIES}
+    ${LIBSECRET_LIBRARIES}
 )
 
 # Populate a CMake variable with the sources
 # TODO: portable headers?
 set (DTNG_CPP_FILES
     src/common/utils.cpp
+    src/common/settingio.cpp
     src/customcommand/customcommandoptdlg.cpp
     src/customcommand/customcommandpanel.cpp
     src/customcommand/customcommandplugin.cpp
@@ -119,9 +126,6 @@ set (DTNG_CPP_FILES
     src/main/termproperties.cpp    
     src/main/dbusmanager.cpp
     src/main/atspidesktop.cpp
-    src/quaketerminal/quaketerminaladapter.cpp
-    src/quaketerminal/quaketerminalproxy.cpp
-    src/quaketerminal/termargumentparser.cpp
     src/remotemanage/remotemanagementpanel.cpp
     src/remotemanage/remotemanagementplugn.cpp
     src/remotemanage/remotemanagementsearchpanel.cpp
@@ -140,7 +144,6 @@ set (DTNG_CPP_FILES
     src/theme/themepanelplugin.cpp
     src/views/commonpanel.cpp
     src/views/myiconbutton.cpp
-    src/views/warnningdlg.cpp
     src/views/operationconfirmdlg.cpp
     src/views/pagesearchbar.cpp
     src/views/rightpanel.cpp
@@ -160,6 +163,7 @@ set (DTNG_CPP_FILES
 set (DTNG_HEADER_FILES
     src/common/define.h
     src/common/utils.h
+    src/common/settingio.h
     src/customcommand/customcommandoptdlg.h
     src/customcommand/customcommandpanel.h
     src/customcommand/customcommandplugin.h
@@ -177,9 +181,6 @@ set (DTNG_HEADER_FILES
     src/main/termproperties.h
     src/main/dbusmanager.h
     src/main/atspidesktop.h
-    src/quaketerminal/quaketerminaladapter.h
-    src/quaketerminal/quaketerminalproxy.h
-    src/quaketerminal/termargumentparser.h
     src/remotemanage/remotemanagementpanel.h
     src/remotemanage/remotemanagementplugn.h
     src/remotemanage/remotemanagementsearchpanel.h
@@ -198,7 +199,6 @@ set (DTNG_HEADER_FILES
     src/views/commonpanel.h
     src/views/myiconbutton.h
     src/views/operationconfirmdlg.h
-    src/views/warnningdlg.h
     src/views/pagesearchbar.h
     src/views/rightpanel.h
     src/views/tabbar.h
@@ -247,7 +247,8 @@ target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
                                               ${DtkGUI_INCLUDE_DIRS}
                                               ${DFrameworkDBus_INCLUDE_DIRS}
                                               ${ATSPI2_INCLUDE_DIRS}
-                                              ${GOBJECT_INCLUDE_DIRS})
+                                              ${GOBJECT_INCLUDE_DIRS}
+                                              ${LIBSECRET_INCLUDE_DIRS})
 
 target_link_libraries (deepin-terminal ${LINK_LIBS} terminalwidget5)
 
@@ -266,10 +267,6 @@ install(FILES src/deepin-terminal.desktop
 
 install(FILES src/assets/logo/deepin-terminal.svg
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/)
-
-# add this empty file for first install/reinstall judge
-install(FILES src/assets/other/install_flag
-        DESTINATION $ENV{HOME}/.config/deepin/deepin-terminal/)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/deepin-terminal
         DESTINATION ${CMAKE_INSTALL_PREFIX}/bin

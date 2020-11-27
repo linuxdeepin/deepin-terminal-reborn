@@ -42,7 +42,7 @@ TitleBar::TitleBar(QWidget *parent, bool isQuakeWindowStyle) : QWidget(parent), 
     this->setBackgroundRole(DPalette::Base);
     this->setAutoFillBackground(true);
     // daizhengwen fix bug#22927 动画出的矩形框会 -50 设置标题栏为50
-    this->setFixedHeight(50);
+    this->setFixedHeight(WIN_TITLE_BAR_HEIGHT);
     /********************* Modify by m000714 daizhengwen End ************************/
     m_layout->setContentsMargins(0, 0, 0, 0);
 

@@ -113,17 +113,6 @@ public:
     /** The color used to draw this character's background. */
     CharacterColor  backgroundColor;
 
-    /** Indicate whether this character really exists, or exists simply as place holder.
-     *
-     *  TODO: this boolean filed can be further improved to become a enum filed, which
-     *  indicates different roles:
-     *
-     *    RealCharacter: a character which really exists
-     *    PlaceHolderCharacter: a character which exists as place holder
-     *    TabStopCharacter: a special place holder for HT("\t")
-     */
-    bool isRealCharacter;
-
     /**
     * Returns true if this character has a transparent background when
     * it is drawn with the specified @p palette.
@@ -257,7 +246,7 @@ public:
      * @param unicodePoints An array of unicode character points
      * @param length Length of @p unicodePoints
      */
-    uint createExtendedChar(const uint* unicodePoints, ushort length);
+    uint createExtendedChar(uint* unicodePoints , ushort length);
     /**
      * Looks up and returns a pointer to a sequence of unicode characters
      * which was added to the table using createExtendedChar().
@@ -268,16 +257,16 @@ public:
      *
      * @return A unicode character sequence of size @p length.
      */
-    uint* lookupExtendedChar(uint hash, ushort& length) const;
+    uint* lookupExtendedChar(uint hash , ushort& length) const;
 
     /** The global ExtendedCharTable instance. */
     static ExtendedCharTable instance;
 private:
     // calculates the hash key of a sequence of unicode points of size 'length'
-    uint extendedCharHash(const uint* unicodePoints, ushort length) const;
+    uint extendedCharHash(uint* unicodePoints , ushort length) const;
     // tests whether the entry in the table specified by 'hash' matches the
     // character sequence 'unicodePoints' of size 'length'
-    bool extendedCharMatch(uint hash, const uint* unicodePoints, ushort length) const;
+    bool extendedCharMatch(uint hash , uint* unicodePoints , ushort length) const;
     // internal, maps hash keys to character sequence buffers.  The first ushort
     // in each value is the length of the buffer, followed by the ushorts in the buffer
     // themselves.

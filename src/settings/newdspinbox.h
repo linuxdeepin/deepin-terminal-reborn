@@ -44,8 +44,6 @@ class NewDspinBox : public DWidget
 public:
     explicit NewDspinBox(QWidget *parent = nullptr);
     void setValue(int val);
-    void setMaximum(int val);
-    void setMinimum(int val);
 
 signals:
     void valueChanged(int value);
@@ -63,10 +61,6 @@ private:
     DIconButton *m_DIconBtnSubtract = nullptr;
 
     QIntValidator *m_QIntValidator = nullptr;
-    /******** Modify by nt001000 renfeixiang 2020-05-25:从100修改50，设置最大只能输入50 Begin***************/
-    int m_MaxValue = 50;
-    /******** Modify by nt001000 renfeixiang 2020-05-25:从100修改50，设置最大只能输入50 End***************/
-    int m_MinValue = 0;
 };
 
 

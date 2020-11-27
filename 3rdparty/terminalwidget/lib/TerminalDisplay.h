@@ -75,6 +75,10 @@ namespace Konsole
         MoveEndScreenWindow = 2
     };
 
+/***add begin by ut001121 zhangmeng 20200912 声明字号限制 修复42250***/
+extern __attribute__((visibility("default"))) int __minFontSize;
+extern __attribute__((visibility("default"))) int __maxFontSize;
+/***add end by ut001121***/
 
 extern unsigned short vt100_graphics[32];
 
@@ -436,6 +440,11 @@ public:
     void setHideCursor(bool hideCursor);
 
     void setSessionId(int sessionId);
+
+    // 获取是否允许输出时滚动
+    bool getIsAllowScroll() const;
+    // 设置是否允许输出时滚动
+    void setIsAllowScroll(bool isAllowScroll);
 
 public slots:
 
@@ -889,6 +898,9 @@ private:
     int _lastEndColumn = 0;
 
     bool _selBegin = false;
+
+    // 当前窗口是否允许输出时回滚的标志位
+    bool m_isAllowScroll = true;
 
 public:
     static void setTransparencyEnabled(bool enable)

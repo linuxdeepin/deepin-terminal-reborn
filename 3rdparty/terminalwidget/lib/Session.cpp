@@ -625,6 +625,16 @@ void Session::done(int exitStatus)
         emit finished();
         return;
     }
+
+    /************************ Add by sunchengxi 2020-09-15:Bug#42864 无法同时打开多个终端 Begin************************/
+    if (false == _autoClose && false == _wantedClose && _shellProcess->exitStatus() == QProcess::NormalExit) {
+        qDebug() << "autoClose is false.";
+        emit titleChanged();
+        emit finished();
+        return;
+    }
+    /************************ Add by sunchengxi 2020-09-15:Bug#42864 无法同时打开多个终端 End ************************/
+
     if(exitStatus != 0)
     {
         QString message;

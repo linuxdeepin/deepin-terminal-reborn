@@ -116,7 +116,7 @@ void EncodeListView::focusInEvent(QFocusEvent *event)
 
     // 判断焦点
     if (m_foucusReason == Qt::TabFocusReason || m_foucusReason == Qt::BacktabFocusReason) {
-        qDebug()<< __FUNCTION__ << m_foucusReason << "Current Encode:" << m_modelIndexChecked.data().toString();
+        qDebug() << __FUNCTION__ << m_foucusReason << "Current Encode:" << m_modelIndexChecked.data().toString();
         setCurrentIndex(m_modelIndexChecked);
     }
     /** add end by ut001121 zhangmeng 20200718 */
@@ -246,18 +246,6 @@ void EncodeListView::mouseMoveEvent(QMouseEvent *event)
 }
 
 /*******************************************************************************
- 1. @函数:    resizeContents
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    空函数
-*******************************************************************************/
-void EncodeListView::resizeContents(int width, int height)
-{
-    Q_UNUSED(width)
-    Q_UNUSED(height)
-}
-
-/*******************************************************************************
  1. @函数:    contentsSize
  2. @作者:    ut001121 zhangmeng
  3. @日期:    2020-08-11
@@ -277,11 +265,11 @@ QSize EncodeListView::contentsSize() const
 void EncodeListView::onListViewClicked(const QModelIndex &index)
 {
     if (!index.isValid()) {
-        qDebug()<< __FUNCTION__ << "Error:" << index;
+        qDebug() << __FUNCTION__ << "Error:" << index;
         return;
     }
 
-    qDebug()<< __FUNCTION__ << "Old:" << m_modelIndexChecked.data().toString() << "New:" << index.data().toString();
+    qDebug() << __FUNCTION__ << "Old:" << m_modelIndexChecked.data().toString() << "New:" << index.data().toString();
 
     //当前Checked子项改为Unchecked状态
     QStandardItemModel *model = qobject_cast<QStandardItemModel *>(this->model());

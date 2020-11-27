@@ -31,11 +31,11 @@ file delete $argv0
 # Setup variables
 # Set timeout -1 to avoid remote server dis-connect.
 set timeout -1
-set user {<<USER>>}
-set server {<<SERVER>>}
-set password "<<PASSWORD>>"
-set private_key {<<PRIVATE_KEY>>}
-set port {<<PORT>>}
+set user [lindex $argv 0]
+set server [lindex $argv 1]
+set port [lindex $argv 2]
+set private_key [lindex $argv 3]
+set password [lindex $argv 4]
 set authentication {<<AUTHENTICATION>>}
 set ssh_cmd {zssh -X -o ServerAliveInterval=60}
 set ssh_opt {$user@$server -p $port -o PubkeyAuthentication=$authentication}
@@ -47,11 +47,16 @@ trap {
 } WINCH
 
 # Spawn and expect
-eval spawn $ssh_cmd $ssh_opt $private_key -t $remote_command exec \\\$SHELL -l
+if { $authentication == "no" } {
+eval spawn $ssh_cmd $ssh_opt -t $remote_command exec \\\$SHELL -l
+} else {
+eval spawn $ssh_cmd $ssh_opt -i $private_key -t $remote_command exec \\\$SHELL -l
+}
+
 if {[string length $password]} {
     expect {
         timeout {send_user "ssh connection time out, please operate manually\n"}
-        -nocase "(yes/no)\\?" {send "yes\r"; exp_continue}
+        -nocase "yes/no" {send "yes\r"; exp_continue}
         -nocase -re "password:|enter passphrase for key" {
             send "$password\r"
 		}

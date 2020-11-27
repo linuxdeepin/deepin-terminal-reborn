@@ -71,12 +71,13 @@ QList<int> PlainTextDecoder::linePositions() const
 {
     return _linePositions;
 }
-
-void PlainTextDecoder::decodeLine(const Character* const characters, int count, LineProperty /*properties*/)
+void PlainTextDecoder::decodeLine(const Character* const characters, int count, LineProperty /*properties*/
+                             )
 {
-    Q_ASSERT(_output);
+    Q_ASSERT( _output );
 
-    if (_recordLinePositions && (_output->string() != nullptr)) {
+    if (_recordLinePositions && _output->string())
+    {
         int pos = _output->string()->count();
         _linePositions << pos;
     }
@@ -86,70 +87,30 @@ void PlainTextDecoder::decodeLine(const Character* const characters, int count, 
     //note:  we build up a QString and send it to the text stream rather writing into the text
     //stream a character at a time because it is more efficient.
     //(since QTextStream always deals with QStrings internally anyway)
-    QString plainText;
+    std::wstring plainText;
     plainText.reserve(count);
 
-    // If we should remove leading whitespace find the first non-space character
-    int start = 0;
-
-    int outputCount = count - start;
-
-    if (outputCount <= 0) {
-        return;
-    }
+    int outputCount = count;
 
     // if inclusion of trailing whitespace is disabled then find the end of the
     // line
-    if (!_includeTrailingWhitespace) {
-        for (int i = count - 1 ; i >= start ; i--) {
-            if (!characters[i].isSpace()) {
+    if ( !_includeTrailingWhitespace )
+    {
+        for (int i = count-1 ; i >= 0 ; i--)
+        {
+            if ( characters[i].character != L' '  )
                 break;
-            } else {
+            else
                 outputCount--;
-            }
         }
     }
 
-    // find out the last technically real character in the line
-    int realCharacterGuard = -1;
-    for (int i = count - 1 ; i >= start ; i--) {
-        // FIXME: the special case of '\n' here is really ugly
-        // Maybe the '\n' should be added after calling this method in
-        // Screen::copyLineToStream()
-        if (characters[i].isRealCharacter && characters[i].character != '\n') {
-            realCharacterGuard = i;
-            break;
-        }
+    for (int i=0;i<outputCount;)
+    {
+        plainText.push_back( characters[i].character );
+        i += qMax(1,Character::width(characters[i].character));
     }
-
-    for (int i = start; i < outputCount;) {
-        if ((characters[i].rendition & RE_EXTENDED_CHAR) != 0) {
-            ushort extendedCharLength = 0;
-            const uint* chars = ExtendedCharTable::instance.lookupExtendedChar(characters[i].character, extendedCharLength);
-            if (chars != nullptr) {
-                const QString s = QString::fromUcs4(chars, extendedCharLength);
-                plainText.append(s);
-                i += qMax(1, Character::stringWidth(s));
-            } else {
-                ++i;
-            }
-        } else {
-            // All characters which appear before the last real character are
-            // seen as real characters, even when they are technically marked as
-            // non-real.
-            //
-            // This feels tricky, but otherwise leading "whitespaces" may be
-            // lost in some situation. One typical example is copying the result
-            // of `dialog --infobox "qwe" 10 10` .
-            if (characters[i].isRealCharacter || i <= realCharacterGuard) {
-                plainText.append(QString::fromUcs4(&characters[i].character, 1));
-                i += qMax(1, characters[i].width());
-            } else {
-                ++i;  // should we 'break' directly here?
-            }
-        }
-    }
-    *_output << plainText;
+    *_output << QString::fromStdWString(plainText);
 }
 
 HTMLDecoder::HTMLDecoder() :
@@ -188,7 +149,8 @@ void HTMLDecoder::end()
 }
 
 //TODO: Support for LineProperty (mainly double width , double height)
-void HTMLDecoder::decodeLine(const Character* const characters, int count, LineProperty /*properties*/)
+void HTMLDecoder::decodeLine(const Character* const characters, int count, LineProperty /*properties*/
+                            )
 {
     Q_ASSERT( _output );
 

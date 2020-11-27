@@ -64,7 +64,6 @@ signals:
 public slots:
     void showCurSearchResult();
     void showAddServerConfigDlg();
-    void listItemClicked(ServerConfig *curItemServer);
     void refreshSearchState();
     // 处理连接远程操作
     void onItemClicked(const QString &key);

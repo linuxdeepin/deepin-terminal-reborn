@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>Konsole::TerminalDisplay</name>
     <message>
@@ -16,7 +14,7 @@
     <message>
         <location filename="../TerminalDisplay.cpp" line="3178"/>
         <source>&lt;qt&gt;Output has been &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;suspended&lt;/a&gt; by pressing Ctrl+S.  Press &lt;b&gt;Ctrl+Q&lt;/b&gt; to resume.&lt;/qt&gt;</source>
-        <translation>&lt;qt&gt;La salida ha sido &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;suspendida&lt;/a&gt; al pulsar Ctrl+S.  Pulse &lt;b&gt;Ctrl+Q&lt;/b&gt; para reanudarla.&lt;/qt&gt;</translation>
+        <translation>&lt;qt&gt;La salida se ha &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;suspendido&lt;/a&gt; por presionar Ctrl+S.  Presione &lt;b&gt;Ctrl+Q&lt;/b&gt; para reanudar.&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
@@ -24,7 +22,7 @@
     <message>
         <location filename="../Vt102Emulation.cpp" line="1105"/>
         <source>No keyboard translator available.  The information needed to convert key presses into characters to send to the terminal is missing.</source>
-        <translation>No hay traductor de teclado disponible. La información necesaria para convertir pulsaciones de tecla en caracteres para enviarlos a la terminal está ausente.</translation>
+        <translation>El traductor de teclado no está disponible. Falta la información necesaria para convertir las pulsaciones de las teclas en caracteres para introducirlos en la terminal.</translation>
     </message>
 </context>
 <context>
@@ -42,23 +40,23 @@
     </message>
     <message>
         <location filename="../Filter.cpp" line="538"/>
-        <source>Open Link</source>
-        <translation>Abrir el enlace</translation>
+        <source>Open link</source>
+        <translation>Abrir enlace</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="539"/>
-        <source>Copy Link Address</source>
-        <translation>Copiar la dirección del enlace</translation>
+        <source>Copy link</source>
+        <translation>Copiar enlace</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="543"/>
-        <source>Send Email To...</source>
+        <source>Send email to...</source>
         <translation>Enviar correo a...</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="544"/>
-        <source>Copy Email Address</source>
-        <translation>Copiar la dirección de correo</translation>
+        <source>Copy email address</source>
+        <translation>Copiar dirección de correo</translation>
     </message>
 </context>
 <context>
@@ -66,7 +64,7 @@
     <message>
         <location filename="../qtermwidget.cpp" line="451"/>
         <source>Color Scheme Error</source>
-        <translation>Error del esquema de color</translation>
+        <translation>Error de esquema de color</translation>
     </message>
     <message>
         <location filename="../qtermwidget.cpp" line="452"/>
@@ -79,7 +77,7 @@
     <message>
         <location filename="../SearchBar.cpp" line="40"/>
         <source>Match case</source>
-        <translation>Distinguir mayúsculas de minúsculas</translation>
+        <translation>Coincidir mayúsculas</translation>
     </message>
     <message>
         <location filename="../SearchBar.cpp" line="46"/>

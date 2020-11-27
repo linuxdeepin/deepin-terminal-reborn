@@ -51,8 +51,7 @@
 #include <QKeyEvent>
 
 DWIDGET_USE_NAMESPACE
-
-#define TAP_TIME_SPACE_T 200
+#define COORDINATE_ERROR_Y  5
 
 // 功能键类型
 enum ItemFuncType {
@@ -130,6 +129,8 @@ protected:
     // 鼠标点击事件
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    // 事件过滤
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
     // 键盘事件
     void keyPressEvent(QKeyEvent *event) override;
@@ -162,9 +163,15 @@ private:
     int m_functType;
     // 焦点是否在窗口上 用于编辑按钮是否显示
     bool m_isFocus = false;
-
-    //时间戳
-    ulong m_tapTimeSpace = 0;
+  
+    /***add begin by ut001121 zhangmeng 20200924 修复BUG48618***/
+    //记录触摸屏下点击时Y轴坐标
+    int m_touchPressPosY = 0;
+    //记录触摸屏下滑动时Y轴移动最大距离
+    int m_touchSlideMaxY = 0;
+    // 移动事件来源
+    QObject* m_moveSource = nullptr;
+    /***add end by ut001121***/
 
     // 设置文字大小和颜色
     void setFont(DLabel *label, DFontSizeManager::SizeType fontSize, ItemTextColor colorType);

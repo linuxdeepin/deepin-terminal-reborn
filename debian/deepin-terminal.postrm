@@ -2,4 +2,20 @@
 userName=$(who)
 if [ $1 = "purge" ]; then 
 	rm -rf /home/${userName%% *}/.config/deepin/deepin-terminal/*
+
+	#解决安装终端后/nonexistent目录下会残留install_flag配置文件的问题
+	if [ -f /nonexistent/.config/deepin/deepin-terminal/install_flag ]
+	then
+		rm -f /nonexistent/.config/deepin/deepin-terminal/install_flag
+	fi
+
+	#如果/nonexistent目录下不存在任何文件(也可能包含空目录)，则删除/nonexistent整个文件夹
+	if [ -d /nonexistent ]
+	then
+		existFileCount=`find /nonexistent -type f | wc -l`
+		if [ $existFileCount -eq 0 ]
+		then
+			rm -rf /nonexistent
+		fi
+	fi
 fi

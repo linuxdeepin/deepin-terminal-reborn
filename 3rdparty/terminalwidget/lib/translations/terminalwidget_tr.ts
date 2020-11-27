@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>Konsole::TerminalDisplay</name>
     <message>
@@ -16,7 +14,7 @@
     <message>
         <location filename="../TerminalDisplay.cpp" line="3178"/>
         <source>&lt;qt&gt;Output has been &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;suspended&lt;/a&gt; by pressing Ctrl+S.  Press &lt;b&gt;Ctrl+Q&lt;/b&gt; to resume.&lt;/qt&gt;</source>
-        <translation>&lt;qt&gt;Çıktı &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;suspended&lt;/a&gt; Ctrl+S basınız. &lt;b&gt;Ctrl+Q&lt;/b&gt; bas devam etmek için.&lt;/qt&gt;</translation>
+        <translation>&lt;qt&gt;Çıktı &lt;a href=&quot;http://en.wikipedia.org/wiki/Flow_control&quot;&gt;askıya alındı&lt;/a&gt; Ctrl+S tuşlarına basarak.  Bas &lt;b&gt;Ctrl+Q&lt;/b&gt; devam et.&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
@@ -24,7 +22,7 @@
     <message>
         <location filename="../Vt102Emulation.cpp" line="1105"/>
         <source>No keyboard translator available.  The information needed to convert key presses into characters to send to the terminal is missing.</source>
-        <translation>Hiçbir klavye çevirici yok. Tuş vuruşlarını karaktere dönüştürüp terminale göndermek için gereken bilgi eksik.</translation>
+        <translation>Klavye tercümanı yok.  Tuşa basmaları uçbirime göndermek ve karakterlere dönüştürmek için gereken bilgiler eksik.</translation>
     </message>
 </context>
 <context>
@@ -33,32 +31,32 @@
         <location filename="../ColorScheme.cpp" line="278"/>
         <location filename="../ColorScheme.cpp" line="293"/>
         <source>Un-named Color Scheme</source>
-        <translation>İsimsiz Renk Şeması</translation>
+        <translation>İsimsiz Renk Düzeni</translation>
     </message>
     <message>
         <location filename="../ColorScheme.cpp" line="464"/>
         <source>Accessible Color Scheme</source>
-        <translation>Erişilebilir Renk Şeması</translation>
+        <translation>Erişilebilir Renk Düzeni</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="538"/>
-        <source>Open Link</source>
-        <translation>Bağlantıyı Aç</translation>
+        <source>Open link</source>
+        <translation>Bağlantıyı aç</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="539"/>
-        <source>Copy Link Address</source>
-        <translation>Bağlantı Adresini Kopyala</translation>
+        <source>Copy link</source>
+        <translation>Bağlantıyı kopyala</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="543"/>
-        <source>Send Email To...</source>
+        <source>Send email to...</source>
         <translation>E-posta gönder...</translation>
     </message>
     <message>
         <location filename="../Filter.cpp" line="544"/>
-        <source>Copy Email Address</source>
-        <translation>E-posta Adresini Kopyala</translation>
+        <source>Copy email address</source>
+        <translation>E-posta adresini kopyala</translation>
     </message>
 </context>
 <context>
@@ -66,12 +64,12 @@
     <message>
         <location filename="../qtermwidget.cpp" line="451"/>
         <source>Color Scheme Error</source>
-        <translation>Renk Şema Hatası</translation>
+        <translation>Renk Düzeni Hatası</translation>
     </message>
     <message>
         <location filename="../qtermwidget.cpp" line="452"/>
         <source>Cannot load color scheme: %1</source>
-        <translation>Renk şeması yüklenemedi: %1</translation>
+        <translation>Renk şeması yüklenemiyor: %1</translation>
     </message>
 </context>
 <context>
@@ -79,7 +77,7 @@
     <message>
         <location filename="../SearchBar.cpp" line="40"/>
         <source>Match case</source>
-        <translation>Tam eşleştir</translation>
+        <translation>Durum eşleşmesi</translation>
     </message>
     <message>
         <location filename="../SearchBar.cpp" line="46"/>
@@ -89,12 +87,12 @@
     <message>
         <location filename="../SearchBar.cpp" line="50"/>
         <source>Highlight all matches</source>
-        <translation>Tüm eşleşenleri vurgula</translation>
+        <translation>Tüm eşleşmeleri vurgula</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="14"/>
         <source>SearchBar</source>
-        <translation>Arama Çubuğu</translation>
+        <translation>AramaÇubuğu</translation>
     </message>
     <message>
         <location filename="../SearchBar.ui" line="20"/>

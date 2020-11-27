@@ -37,7 +37,6 @@
 #include <QStandardPaths>
 #include <QFontDatabase>
 
-
 DWIDGET_USE_NAMESPACE
 #define PRIVATE_PROPERTY_translateContext "_d_DSettingsWidgetFactory_translateContext"
 Settings *Settings::m_settings_instance = new Settings();
@@ -86,6 +85,17 @@ void Settings::init()
     // 加载自定义配置
     settings->setBackend(m_backend);
 
+    /************************ Add by sunchengxi 2020-09-15:Bug#47880 终端默认主题色应改为深色,当配置文件不存在或者配置项不是Light Begin************************/
+    QFile file(m_configPath);
+    if (!file.exists() || "Light" != m_backend->getOption("basic.interface.theme").toString()) {
+        /************************ Mod by sunchengxi 2020-09-17:Bug#48349 主题色选择跟随系统异常 Begin************************/
+        //DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::DarkType);
+        DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::DarkType);
+        setColorScheme("Dark");
+        /************************ Mod by sunchengxi 2020-09-17:Bug#48349 主题色选择跟随系统异常 End ************************/
+    }
+    /************************ Add by sunchengxi 2020-09-15:Bug#47880 终端默认主题色应改为深色,当配置文件不存在或者配置项不是Light End ************************/
+
     /******** Modify by n014361 wangpeili 2020-01-10:   增加窗口状态选项  ************/
     auto windowState = settings->option("advanced.window.use_on_starting");
     QMap<QString, QVariant> windowStateMap;
@@ -118,6 +128,17 @@ void Settings::init()
         m_Watcher->addPath(m_configPath);
     });
 #endif
+
+    /***add begin by ut001121 zhangmeng 20200912 设置字号限制 修复42250***/
+    auto option = settings->option("basic.interface.font_size");
+    Konsole::__minFontSize = option->data("min").isValid()? option->data("min").toInt() : DEFAULT_MIN_FONT_SZIE;
+    Konsole::__maxFontSize = option->data("max").isValid()? option->data("max").toInt() : DEFAULT_MAX_FONT_SZIE;
+
+    // 校验正确
+    if(Konsole::__minFontSize > Konsole::__maxFontSize){
+        qSwap(Konsole::__minFontSize, Konsole::__maxFontSize);
+    }
+    /***add end by ut001121***/
 }
 
 /*******************************************************************************
@@ -134,13 +155,13 @@ void Settings::loadDefaultsWhenReinstall()
         installFlagPath.mkpath(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
     }
 
-    QString installFlagFilePath(installFlagPath.filePath("install_flag"));
-    QFile installFlagFile(installFlagFilePath);
-    if (installFlagFile.exists()) {
-        //fix bug: 17676 终端窗口透明度较低，能够看到桌面上文案
-        this->settings->setOption("basic.interface.opacity", 100);
-        installFlagFile.remove();
-    }
+//    QString installFlagFilePath(installFlagPath.filePath("install_flag"));
+//    QFile installFlagFile(installFlagFilePath);
+//    if (installFlagFile.exists()) {
+//        //fix bug: 17676 终端窗口透明度较低，能够看到桌面上文案
+//        this->settings->setOption("basic.interface.opacity", 100);
+//        installFlagFile.remove();
+//    }
 }
 
 /*******************************************************************************
@@ -553,13 +574,6 @@ QPair<QWidget *, QWidget *> Settings::createSpinButtonHandle(QObject *obj)
     auto rightWidget = new NewDspinBox();
 
     rightWidget->setValue(option->value().toInt());
-
-    if (option->data("max").isValid()) {
-        rightWidget->setMaximum(option->data("max").toInt());
-    }
-    if (option->data("min").isValid()) {
-        rightWidget->setMinimum(option->data("min").toInt());
-    }
 
     QPair<QWidget *, QWidget *> optionWidget =
         DSettingsWidgetFactory::createStandardItem(QByteArray(), option, rightWidget);

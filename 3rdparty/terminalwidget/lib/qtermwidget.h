@@ -269,6 +269,13 @@ public:
     void setDrawLineChars(bool drawLineChars);
 
     void setBoldIntense(bool boldIntense);
+
+    // 获取是否允许输出时滚动
+    bool getIsAllowScroll() const;
+
+    // 设置是否允许输出时滚动
+    void setIsAllowScroll(bool isAllowScroll);
+
 signals:
     void finished();
     void copyAvailable(bool);
@@ -316,6 +323,8 @@ signals:
     void isTermIdle(bool bIdle);
     // 将库里返回信号透传出来。原来的noMatchFound方法改名为clearSelection
     void sig_noMatchFound();
+    // 找到的信号
+    void sig_matchFound();
 
 public slots:
     // Copy selection to clipboard

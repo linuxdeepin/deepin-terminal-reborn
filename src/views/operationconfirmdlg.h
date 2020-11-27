@@ -57,8 +57,6 @@ public:
     void setOKCancelBtnText(const QString &strConfirm, const QString &strCancel);
     QDialog::DialogCode getConfirmResult();
 
-    void setDialogFrameSize(int width, int height);
-
 protected:
     QLayout *getContentLayout();
     void closeEvent(QCloseEvent *event) override;

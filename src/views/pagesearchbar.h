@@ -59,6 +59,9 @@ public:
     void clearHoldContent();
     void recoveryHoldContent();
 
+    // 获取查找的时间
+    qint64 searchCostTime();
+
 signals:
     void findNext();
     void findPrev();
@@ -91,6 +94,10 @@ private:
 
     const qreal opacity = 0.9;
     QString m_originalPlaceHolder; //原文字
+
+
+    // 方便性能测试，记住查找开始时间
+    qint64 m_searchStartTime = 0;
 };
 
 #endif
