@@ -612,6 +612,20 @@ void TermWidgetPage::pasteClipboard()
 }
 
 /*******************************************************************************
+ 1. @函数: void TermWidgetPage::pasteSelection()
+ 2. @作者:     chenzhiwei
+ 3. @日期:     2020-12-20
+ 4. @说明: 使用 Shift+Insert 粘贴时粘贴选中的文本内容
+*******************************************************************************/
+void TermWidgetPage::pasteSelection()
+{
+    TermWidget *term = currentTerminal();
+    if (term) {
+        term->pasteSelection();
+    }
+}
+
+/*******************************************************************************
  1. @函数:    toggleShowSearchBar
  2. @作者:    ut000439 wangpeili
  3. @日期:    2020-08-12

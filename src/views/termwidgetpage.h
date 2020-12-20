@@ -79,6 +79,7 @@ public:
 
     void copyClipboard();
     void pasteClipboard();
+    void pasteSelection();
     void toggleShowSearchBar();
 
     void zoomInCurrentTierminal();
