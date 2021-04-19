@@ -33,7 +33,7 @@ BuildRequires: pkgconfig(Qt5Core)
 BuildRequires: pkgconfig(Qt5Gui)
 BuildRequires: pkgconfig(Qt5DBus)
 BuildRequires: pkgconfig(Qt5Network)
-BuildRequires: lxqt-build-tools(>= 0.6.0~)
+BuildRequires: lxqt-build-tools (>= 0.6.0~)
 BuildRequires: utf8proc-devel
 BuildRequires: gtest-devel
 BuildRequires: gmock-devel
