@@ -81,12 +81,6 @@ CustomCommandOptDlg::~CustomCommandOptDlg()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    initUI
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    初始化自定义命令操作窗口界面布局
-*******************************************************************************/
 void CustomCommandOptDlg::initUI()
 {
     QWidget *contentFrame = new QWidget;
@@ -272,12 +266,6 @@ inline void CustomCommandOptDlg::slotShortCutLineEditingFinished(const QKeySeque
 #endif
 }
 
-/*******************************************************************************
- 1. @函数:    initUITitle
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    初始化操作界面的标题布局
-*******************************************************************************/
 void CustomCommandOptDlg::initUITitle()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout();
@@ -343,12 +331,6 @@ void CustomCommandOptDlg::initUITitle()
     m_mainLayout = mainLayout;
 }
 
-/*******************************************************************************
- 1. @函数:    initTitleConnections
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    字体颜色跟随主题变化响应槽初始化
-*******************************************************************************/
 void CustomCommandOptDlg::initTitleConnections()
 {
     connect(m_closeButton, &DWindowCloseButton::clicked, this, &CustomCommandOptDlg::slotCloseButtonClicked);
@@ -374,12 +356,6 @@ inline void CustomCommandOptDlg::slotThemeTypeChanged(DGuiApplicationHelper::Col
     m_titleText->setPalette(palette);
 }
 
-/*******************************************************************************
- 1. @函数:    initCommandFromClipBoardText
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    终端中选中内容，创建自定义命令，选中内容没有自动粘贴到命令输入框
-*******************************************************************************/
 void CustomCommandOptDlg::initCommandFromClipBoardText()
 {
     if (m_commandLineEdit) {
@@ -391,34 +367,16 @@ void CustomCommandOptDlg::initCommandFromClipBoardText()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    getCurCustomCmd
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    获取当前快捷键
-*******************************************************************************/
 QAction *CustomCommandOptDlg::getCurCustomCmd()
 {
     return m_newAction;
 }
 
-/*******************************************************************************
- 1. @函数:    isDelCurCommand
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    判断是否是删除操作
-*******************************************************************************/
 bool CustomCommandOptDlg::isDelCurCommand()
 {
     return m_bDelOpt;
 }
 
-/*******************************************************************************
- 1. @函数:    slotAddSaveButtonClicked
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    自定义命令操作确认按钮响应槽
-*******************************************************************************/
 void CustomCommandOptDlg::slotAddSaveButtonClicked()
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -503,12 +461,6 @@ void CustomCommandOptDlg::slotAddSaveButtonClicked()
     /************************ Mod by m000743 sunchengxi 2020-04-21:自定义命令修改的异常问题 End  ************************/
 }
 
-/*******************************************************************************
- 1. @函数:    checkSequence
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    快捷键冲突判断
-*******************************************************************************/
 bool CustomCommandOptDlg::checkSequence(const QKeySequence &sequence)
 {
     QString checkName = m_nameLineEdit->text();
@@ -536,35 +488,17 @@ bool CustomCommandOptDlg::checkSequence(const QKeySequence &sequence)
     return true;
 }
 
-/*******************************************************************************
- 1. @函数:    setModelIndex
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    设置模型索引
-*******************************************************************************/
 void CustomCommandOptDlg::setModelIndex(QModelIndex mi)
 {
     modelIndex = mi;
 }
 
-/*******************************************************************************
- 1. @函数:    slotDelCurCustomCommand
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    删除按钮触发响应槽
-*******************************************************************************/
 void CustomCommandOptDlg::slotDelCurCustomCommand()
 {
     m_bDelOpt = true;
     reject();
 }
 
-/*******************************************************************************
- 1. @函数:    addCancelConfirmButtons
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    操作界面增加取消和确认按钮布局
-*******************************************************************************/
 void CustomCommandOptDlg::addCancelConfirmButtons()
 {
     QHBoxLayout *buttonsLayout = new QHBoxLayout();
@@ -642,23 +576,11 @@ inline void CustomCommandOptDlg::slotShortCutLineEditFinished()
     /******** Add by nt001000 renfeixiang 2020-05-14:修改快捷框输入后，添加（m_confirmBtn）按钮高亮问题,将光标从添加按钮取消，设置到快捷框上 End***************/
 }
 
-/*******************************************************************************
- 1. @函数:    getMainLayout
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    获取主布局
-*******************************************************************************/
 QVBoxLayout *CustomCommandOptDlg::getMainLayout()
 {
     return m_mainLayout;
 }
 
-/*******************************************************************************
- 1. @函数:    getConfirmResult
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    获取返回结果
-*******************************************************************************/
 QDialog::DialogCode CustomCommandOptDlg::getConfirmResult()
 {
     return m_confirmResultCode;
@@ -677,12 +599,6 @@ QDialog::DialogCode CustomCommandOptDlg::getConfirmResult()
 //    }
 //}
 
-/*******************************************************************************
- 1. @函数:    setTitle
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    设置自定义命令操作窗口的标题
-*******************************************************************************/
 void CustomCommandOptDlg::setTitle(const QString &title)
 {
     if (nullptr != m_titleText) {
@@ -690,47 +606,23 @@ void CustomCommandOptDlg::setTitle(const QString &title)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    getContentLayout
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    获取自定义命令操作窗口的内容布局
-*******************************************************************************/
 QLayout *CustomCommandOptDlg::getContentLayout()
 {
     return m_contentLayout;
 }
 
-/*******************************************************************************
- 1. @函数:    setCancelBtnText
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    设置取消按钮的内容文本
-*******************************************************************************/
 void CustomCommandOptDlg::setCancelBtnText(const QString &strCancel)
 {
     m_cancelBtn->setText(strCancel);
     Utils::setSpaceInWord(m_cancelBtn);
 }
 
-/*******************************************************************************
- 1. @函数:    setConfirmBtnText
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    设置确认按钮的内容文本
-*******************************************************************************/
 void CustomCommandOptDlg::setConfirmBtnText(const QString &strConfirm)
 {
     m_confirmBtn->setText(strConfirm);
     Utils::setSpaceInWord(m_confirmBtn);
 }
 
-/*******************************************************************************
- 1. @函数:    showShortcutConflictMsgbox
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-05-21
- 4. @说明:    显示快捷键冲突弹窗
-*******************************************************************************/
 void CustomCommandOptDlg::showShortcutConflictMsgbox(QString txt)
 {
     /******** Modify by ut000610 daizhengwen 2020-05-27: 出现提示和快捷键显示不一致的问题 bug#28507****************/
@@ -770,12 +662,6 @@ inline void CustomCommandOptDlg::slotSetShortCutLineEditFocus()
     m_shortCutLineEdit->setFocus();
 }
 
-/*******************************************************************************
- 1. @函数:    addContent
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    增加内容布局
-*******************************************************************************/
 void CustomCommandOptDlg::addContent(QWidget *content)
 {
     Q_ASSERT(nullptr != getContentLayout());
@@ -783,12 +669,6 @@ void CustomCommandOptDlg::addContent(QWidget *content)
     getContentLayout()->addWidget(content);
 }
 
-/*******************************************************************************
- 1. @函数:    setIconPixmap
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    设置标题图标
-*******************************************************************************/
 void CustomCommandOptDlg::setIconPixmap(const QPixmap &iconPixmap)
 {
     if (nullptr != m_logoIcon) {
@@ -797,12 +677,6 @@ void CustomCommandOptDlg::setIconPixmap(const QPixmap &iconPixmap)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    closeEvent
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    自定义命令操作关闭事件
-*******************************************************************************/
 void CustomCommandOptDlg::closeEvent(QCloseEvent *event)
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -813,12 +687,6 @@ void CustomCommandOptDlg::closeEvent(QCloseEvent *event)
     Q_EMIT closed();
 }
 
-/*******************************************************************************
- 1. @函数:    slotRefreshData
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    刷新数据槽
-*******************************************************************************/
 void CustomCommandOptDlg::slotRefreshData(QString oldCmdName, QString newCmdName)
 {
     if (CCT_ADD == m_type) {
@@ -866,12 +734,6 @@ void CustomCommandOptDlg::slotRefreshData(QString oldCmdName, QString newCmdName
 
 }
 
-/*******************************************************************************
- 1. @函数:    closeRefreshDataConnection
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    关闭信号槽关联
-*******************************************************************************/
 void CustomCommandOptDlg::closeRefreshDataConnection()
 {
     disconnect(Service::instance(), &Service::refreshCommandPanel, this, &CustomCommandOptDlg::slotRefreshData);

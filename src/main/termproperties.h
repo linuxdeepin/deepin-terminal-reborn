@@ -53,12 +53,40 @@ public:
     explicit TermProperties(QString workingDir, QString colorScheme);
     explicit TermProperties(QMap<TermProperty, QVariant> list);
 
+    /**
+     * @brief 判断终端属性中是否包含参数属性
+     * @author ut000439 wangpeili
+     * @param propertyType 参数属性
+     * @return
+     */
     bool contains(TermProperty propertyType) const;
 
+    /**
+     * @brief 设置终端属性图
+     * @author ut000439 wangpeili
+     * @param list
+     */
     void setTermPropertyMap(QMap<TermProperty, QVariant> list);
+    /**
+     * @brief 设置工作目录
+     * @author ut000439 wangpeili
+     * @param workingDir 工作目录
+     */
     void setWorkingDir(QString workingDir);
 
+    /**
+     * @brief 重载[]操作符
+     * @author ut000439 wangpeili
+     * @param key
+     * @return
+     */
     QVariant &operator[](const TermProperty &key);
+    /**
+     * @brief 重载[]操作符
+     * @author ut000439 wangpeili
+     * @param key
+     * @return
+     */
     const QVariant operator[](const TermProperty &key) const;
 
 private:

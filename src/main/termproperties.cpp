@@ -35,56 +35,26 @@ TermProperties::TermProperties(QMap<TermProperty, QVariant> list) : m_properties
 {
 }
 
-/*******************************************************************************
- 1. @函数:    setWorkingDir
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    设置工作目录
-*******************************************************************************/
 void TermProperties::setWorkingDir(QString workingDir)
 {
     m_properties.insert(WorkingDir, workingDir);
 }
 
-/*******************************************************************************
- 1. @函数:    setTermPropertyMap
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    设置终端属性图
-*******************************************************************************/
 void TermProperties::setTermPropertyMap(QMap<TermProperty, QVariant> list)
 {
     m_properties = list;
 }
 
-/*******************************************************************************
- 1. @函数:    contains
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    判断终端属性中是否包含参数属性
-*******************************************************************************/
 bool TermProperties::contains(TermProperty propertyType) const
 {
     return m_properties.contains(propertyType);
 }
 
-/*******************************************************************************
- 1. @函数:    operator[]
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    重载[]操作符
-*******************************************************************************/
 QVariant &TermProperties::operator[](const TermProperty &key)
 {
     return m_properties[key];
 }
 
-/*******************************************************************************
- 1. @函数:    operator[]
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    重载[]操作符
-*******************************************************************************/
 const QVariant TermProperties::operator[](const TermProperty &key) const
 {
     return m_properties[key];

@@ -42,11 +42,21 @@ class ServerConfigGroupPanel : public CommonPanel
     Q_OBJECT
 public:
     explicit ServerConfigGroupPanel(QWidget *parent = nullptr);
+    /**
+     * @brief 服务器配置组面板刷新数据
+     * @author ut000610 daizhengwen
+     * @param groupName 分组名
+     */
     void refreshData(const QString &groupName);
-    // 设置焦点
-    // 从搜索框返回
+    /**
+     * @brief 设置焦点返回的位置：position -1 搜索框；其他列表位置；返回键按键不是这边设置
+     * @author ut000610 戴正文
+     */
     void setFocusBack();
-    // 清除所有焦点
+    /**
+     * @brief 清除所有焦点
+     * @author ut000610 戴正文
+     */
     void clearAllFocus();
 
 signals:
@@ -57,15 +67,31 @@ signals:
     void rebackPrevPanel();
 
 public slots:
+    /**
+     * @brief 服务器配置组面板处理显示搜索到的结果
+     * @author ut000610 daizhengwen
+     */
     void handleShowSearchResult();
+    /**
+     * @brief 服务器配置组面板刷新搜索状态
+     * @author ut000610 daizhengwen
+     */
     void refreshSearchState();
-    // 列表项被点击
+    /**
+     * @brief 列表项被点击， 连接远程
+     * @author ut000610 戴正文
+     * @param key 列表项
+     */
     void onItemClicked(const QString &key);
 
     void onRefreshList();
     void onListViewFocusOut(Qt::FocusReason type);
 
 private:
+    /**
+     * @brief 服务器配置组面板初始化UI界面
+     * @author ut000610 daizhengwen
+     */
     void initUI();
 
 private:

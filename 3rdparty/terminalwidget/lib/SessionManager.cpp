@@ -148,13 +148,3 @@ bool SessionManager::isTerminalResizing(int sessionId)
 {
     return _terminalResizeStateMap.value(sessionId);
 }
-
-void SessionManager::setTerminalPathDepth(int sessionId, int pathDepth)
-{
-    _terminalPathDepthMap.insert(sessionId, pathDepth);
-}
-
-int SessionManager::getTerminalPathDepth(int sessionId)
-{
-    return _terminalPathDepthMap.value(sessionId);
-}

@@ -38,12 +38,6 @@ EncodePanelPlugin::EncodePanelPlugin(QObject *parent) : MainWindowPluginInterfac
     m_pluginName = "Encoding";
 }
 
-/*******************************************************************************
- 1. @函数:    initPlugin
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    初始化编码插件
-*******************************************************************************/
 void EncodePanelPlugin::initPlugin(MainWindow *mainWindow)
 {
     m_mainWindow = mainWindow;
@@ -89,12 +83,6 @@ inline void EncodePanelPlugin::slotQuakeHidePlugin()
     getEncodePanel()->hide();
 }
 
-/*******************************************************************************
- 1. @函数:    titlebarMenu
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    标题菜单
-*******************************************************************************/
 QAction *EncodePanelPlugin::titlebarMenu(MainWindow *mainWindow)
 {
     QAction *switchThemeAction(new QAction("Switch Encoding", mainWindow));
@@ -106,12 +94,6 @@ QAction *EncodePanelPlugin::titlebarMenu(MainWindow *mainWindow)
     return switchThemeAction;
 }
 
-/*******************************************************************************
- 1. @函数:    getEncodePanel
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    获取编码面板
-*******************************************************************************/
 EncodePanel *EncodePanelPlugin::getEncodePanel()
 {
     if (m_encodePanel == nullptr) {
@@ -121,12 +103,6 @@ EncodePanel *EncodePanelPlugin::getEncodePanel()
     return m_encodePanel;
 }
 
-/*******************************************************************************
- 1. @函数:    initEncodePanel
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    初始化编码面板
-*******************************************************************************/
 void EncodePanelPlugin::initEncodePanel()
 {
     qDebug() << __FUNCTION__;
@@ -142,12 +118,6 @@ void EncodePanelPlugin::initEncodePanel()
     });
 }
 
-/*******************************************************************************
- 1. @函数:    setCurrentTermEncode
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置当前终端的编码
-*******************************************************************************/
 void EncodePanelPlugin::setCurrentTermEncode(TermWidget *term)
 {
     QString encode;

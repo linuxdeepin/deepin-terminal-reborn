@@ -43,15 +43,40 @@ class CustomCommandPlugin : public MainWindowPluginInterface
 public:
     explicit CustomCommandPlugin(QObject *parent = nullptr);
 
+    /**
+     * @brief 初始化自定义命令插件
+     * @author sunchengxi
+     * @param mainWindow 主窗口
+     */
     void initPlugin(MainWindow *mainWindow) override;
+    /**
+     * @brief 初始化窗口菜单栏里的自定义命令快捷键
+     * @author sunchengxi
+     * @param mainWindow 主窗口
+     * @return
+     */
     QAction *titlebarMenu(MainWindow *mainWindow) override;
 
+    /**
+     * @brief 获取当前插件的自定义命令面板指针
+     * @author sunchengxi
+     * @return
+     */
     CustomCommandTopPanel *getCustomCommandTopPanel();
+    /**
+     * @brief 初始化自定义命令面板
+     * @author sunchengxi
+     */
     void initCustomCommandTopPanel();
 signals:
     void doHide();
 
 public slots:
+    /**
+     * @brief 执行自定义命令，并隐藏右侧插件面板
+     * @author sunchengxi
+     * @param strTxt 自定义命令
+     */
     void doCustomCommand(const QString &strTxt);
 
 private:

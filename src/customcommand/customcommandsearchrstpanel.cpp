@@ -43,12 +43,6 @@ CustomCommandSearchRstPanel::CustomCommandSearchRstPanel(QWidget *parent)
     initUI();
 }
 
-/*******************************************************************************
- 1. @函数:    initUI
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    初始化自定义搜索面板界面
-*******************************************************************************/
 void CustomCommandSearchRstPanel::initUI()
 {
     setBackgroundRole(QPalette::Base);
@@ -145,12 +139,6 @@ inline void CustomCommandSearchRstPanel::handleListViewFocusOut(Qt::FocusReason 
     }
 }
 
-/*******************************************************************************
- 1. @函数:    setSearchFilter
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    设置搜索过滤条件及显示文本
-*******************************************************************************/
 void CustomCommandSearchRstPanel::setSearchFilter(const QString &filter)
 {
     m_strFilter = filter;
@@ -158,24 +146,12 @@ void CustomCommandSearchRstPanel::setSearchFilter(const QString &filter)
     m_label->setText(QString("%1：%2").arg(tr("Search"), showText));
 }
 
-/*******************************************************************************
- 1. @函数:    refreshData
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    根据 m_strFilter 刷新搜索面板自定义列表
-*******************************************************************************/
 void CustomCommandSearchRstPanel::refreshData()
 {
     qDebug() <<  __FUNCTION__ ;
     ShortcutManager::instance()->fillCommandListData(m_cmdListWidget, m_strFilter);
 }
 
-/*******************************************************************************
- 1. @函数:    refreshData
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    根据 strFilter 刷新搜索面板自定义列表
-*******************************************************************************/
 void CustomCommandSearchRstPanel::refreshData(const QString &strFilter)
 {
     qDebug() <<  __FUNCTION__ << " filter=" << strFilter;
@@ -183,12 +159,6 @@ void CustomCommandSearchRstPanel::refreshData(const QString &strFilter)
     ShortcutManager::instance()->fillCommandListData(m_cmdListWidget, strFilter);
 }
 
-/*******************************************************************************
- 1. @函数:    doCustomCommand
- 2. @作者:    sunchengxi
- 3. @日期:    2020-07-31
- 4. @说明:    执行当前搜索面板自定义命令列表中itemData 中的自定义命令
-*******************************************************************************/
 void CustomCommandSearchRstPanel::doCustomCommand(const QString &strKey)
 {
     qDebug() << "doCustomCommand,key=" << strKey;

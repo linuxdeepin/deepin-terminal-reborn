@@ -45,12 +45,7 @@ ServerConfigManager::ServerConfigManager(QObject *parent) : QObject(parent)
     // 查找结果,写入map
     connect(this, &ServerConfigManager::lookupSerceats, this, &ServerConfigManager::onLookupFinish);
 }
-/*******************************************************************************
- 1. @函数:    settServerConfig
- 2. @作者:    m000714 戴正文
- 3. @日期:    2020-04-17
- 4. @说明:    写服务器配置文件
-*******************************************************************************/
+
 void ServerConfigManager::settServerConfig(USettings &commandsSettings, const QString &strGroupName, ServerConfig *config)
 {
     commandsSettings.beginGroup(strGroupName);
@@ -67,12 +62,6 @@ void ServerConfigManager::settServerConfig(USettings &commandsSettings, const QS
     commandsSettings.endGroup();
 }
 
-/*******************************************************************************
- 1. @函数:    initMainPanel
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-20
- 4. @说明:    初始化主界面，将数据填充进去
-*******************************************************************************/
 void ServerConfigManager::fillManagePanel(ListView *listview)
 {
     qDebug() << "ServerConfigManager fill data to manage panel.";
@@ -93,15 +82,6 @@ void ServerConfigManager::fillManagePanel(ListView *listview)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    fillSearchPanel
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-22
- 4. @说明:    填充搜索界面
- 1）参数1 需要填充的列表
- 2）参数2 需要过滤的条件
- 3) 参数3 需要过滤的组，有组 组内搜索 没组 全局搜索
-*******************************************************************************/
 void ServerConfigManager::fillSearchPanel(ListView *listview, const QString &filter, const QString &group)
 {
     qDebug() << "ServerConfigManager fill data to search panel.";
@@ -147,12 +127,6 @@ void ServerConfigManager::fillSearchPanel(ListView *listview, const QString &fil
 
 }
 
-/*******************************************************************************
- 1. @函数:    fillGroupPanel
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-22
- 4. @说明:    根据分组填充列表
-*******************************************************************************/
 void ServerConfigManager::fillGroupPanel(ListView *listview, const QString &group)
 {
     qDebug() << __FUNCTION__;
@@ -179,12 +153,6 @@ ServerConfigManager *ServerConfigManager::instance()
     return m_instance;
 }
 
-/*******************************************************************************
- 1. @函数:    initServerConfig
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    初始化服务器配置
-*******************************************************************************/
 void ServerConfigManager::initServerConfig()
 {
     bool isConvertData =  false;
@@ -293,12 +261,6 @@ void ServerConfigManager::initServerConfig()
     return;
 }
 
-/*******************************************************************************
- 1. @函数:    saveServerConfig
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    保存服务器配置
-*******************************************************************************/
 void ServerConfigManager::saveServerConfig(ServerConfig *config)
 {
     QDir customCommandBasePath(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
@@ -327,12 +289,6 @@ void ServerConfigManager::saveServerConfig(ServerConfig *config)
 
 }
 
-/*******************************************************************************
- 1. @函数:    delServerConfig
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    删除服务器配置
-*******************************************************************************/
 void ServerConfigManager::delServerConfig(ServerConfig *config)
 {
     // 防止重复删除
@@ -375,12 +331,6 @@ void ServerConfigManager::delServerConfig(ServerConfig *config)
     delete config;
 }
 
-/*******************************************************************************
- 1. @函数:    modifyServerConfig
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    修改服务器配置
-*******************************************************************************/
 void ServerConfigManager::modifyServerConfig(ServerConfig *newConfig, ServerConfig *oldConfig)
 {
     SyncData(oldConfig->m_serverName, newConfig);
@@ -389,26 +339,11 @@ void ServerConfigManager::modifyServerConfig(ServerConfig *newConfig, ServerConf
     saveServerConfig(newConfig);
 }
 
-/*******************************************************************************
- 1. @函数:    getServerConfigs
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    获取服务器配置
-*******************************************************************************/
 QMap<QString, QList<ServerConfig *>> &ServerConfigManager::getServerConfigs()
 {
     return m_serverConfigs;
 }
 
-/*******************************************************************************
- 1. @函数:    refreshServerList
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-20
- 4. @说明:    根据类型填充面板
- 1) 参数1  初始界面 PanelType_Manage 分组界面    PanelType_Group 搜索界 PanelType_Search
- 2）参数2  所需填充的列表
- 3) 参数3  分组界面的组名 搜索界面的搜索条件
-*******************************************************************************/
 void ServerConfigManager::refreshServerList(PanelType type, ListView *listview, const QString &filter, const QString &group)
 {
     switch (type) {
@@ -424,24 +359,13 @@ void ServerConfigManager::refreshServerList(PanelType type, ListView *listview, 
     }
 }
 
-/*******************************************************************************
- 1. @函数:    setModifyDialog
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器设置修改对话框
-*******************************************************************************/
 void ServerConfigManager::setModifyDialog(QString key, ServerConfigOptDlg *dlg)
 {
     // 添加编辑弹窗
     m_serverConfigDialogMap[key].append(dlg);
     qDebug() << "show edit dialog" << key << m_serverConfigDialogMap[key].count() << dlg;
 }
-/*******************************************************************************
- 1. @函数:    removeDialog
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-05-23
- 4. @说明:    从m_serverConfigDialogMap中将dlg数据删除
-*******************************************************************************/
+
 void ServerConfigManager::removeDialog(ServerConfigOptDlg *dlg)
 {
     QString key;
@@ -475,12 +399,6 @@ void ServerConfigManager::removeDialog(ServerConfigOptDlg *dlg)
     removeOne = nullptr;
 }
 
-/*******************************************************************************
- 1. @函数:    SyncData
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    同步弹窗数据
-*******************************************************************************/
 void ServerConfigManager::SyncData(QString key, ServerConfig *newConfig)
 {
     qDebug() << key << newConfig->m_serverName;
@@ -502,12 +420,6 @@ void ServerConfigManager::SyncData(QString key, ServerConfig *newConfig)
 
 }
 
-/*******************************************************************************
- 1. @函数:    closeAllDialog
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    删除数据，关闭所有同类弹窗
-*******************************************************************************/
 void ServerConfigManager::closeAllDialog(QString key)
 {
     qDebug() << __FUNCTION__ << "remote name : " <<  key << m_serverConfigDialogMap.count();
@@ -527,12 +439,6 @@ void ServerConfigManager::closeAllDialog(QString key)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    getServerCount
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-21
- 4. @说明:    根据组名获得组内服务器个数
-*******************************************************************************/
 int ServerConfigManager::getServerCount(const QString &strGroupName)
 {
     if (strGroupName.isEmpty() || strGroupName.isNull()) {
@@ -547,12 +453,6 @@ int ServerConfigManager::getServerCount(const QString &strGroupName)
     return 0;
 }
 
-/*******************************************************************************
- 1. @函数:    getServerConfig
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-21
- 4. @说明:    根据关键值获取远程配置信息
-*******************************************************************************/
 ServerConfig *ServerConfigManager::getServerConfig(const QString &key)
 {
     // 遍历查找
@@ -611,12 +511,6 @@ static void on_password_lookup(GObject *source, GAsyncResult *result, gpointer u
     delete reback;
 }
 
-/*******************************************************************************
- 1. @函数:    remoteGetSecreats
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-27
- 4. @说明:    远程管理获得密码(异步方法)
-*******************************************************************************/
 void ServerConfigManager::remoteGetSecreats(const QString &userName, const QString &address, const QString &port, const QString &key)
 {
     qDebug() << __FUNCTION__;
@@ -658,12 +552,6 @@ static void on_password_stored(GObject *source, GAsyncResult *result, gpointer u
     }
 }
 
-/*******************************************************************************
- 1. @函数:    remoteStoreSecreats
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-09-01
- 4. @说明:    保存密码
-*******************************************************************************/
 void ServerConfigManager::remoteStoreSecreats(ServerConfig *config)
 {
     qDebug() << __FUNCTION__;
@@ -705,12 +593,6 @@ static void on_password_cleared(GObject *source, GAsyncResult *result, gpointer 
     }
 }
 
-/*******************************************************************************
- 1. @函数:    remoteClearSecreats
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-09-01
- 4. @说明:    清除密码
-*******************************************************************************/
 void ServerConfigManager::remoteClearSecreats(const QString &userName, const QString &address, const QString &port)
 {
     qDebug() << __FUNCTION__;
@@ -722,12 +604,6 @@ void ServerConfigManager::remoteClearSecreats(const QString &userName, const QSt
 //    secret_password_clear_sync(&scheme, nullptr, nullptr, "number", 8, "string", "eight", "even", true, nullptr);
 }
 
-/*******************************************************************************
- 1. @函数:    ConvertData
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-31
- 4. @说明:    转换数据
-*******************************************************************************/
 void ServerConfigManager::ConvertData()
 {
     qDebug() << __FUNCTION__;
@@ -761,12 +637,6 @@ void ServerConfigManager::ConvertData()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    onLookupFinish
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-09-01
- 4. @说明:    查找密码结果写入map
-*******************************************************************************/
 void ServerConfigManager::onLookupFinish(const QString &key, const QString &password)
 {
     // qDebug() << __FUNCTION__;
@@ -792,29 +662,29 @@ void ServerConfigManager::onLookupFinish(const QString &key, const QString &pass
 
 ServerConfigManager::~ServerConfigManager()
 {
-/*
-    if (m_remoteConfigs.size() > 0) {
-        QList<QString> keys = m_remoteConfigs.keys();
+    /*
+        if (m_remoteConfigs.size() > 0) {
+            QList<QString> keys = m_remoteConfigs.keys();
 
-        for(int i=0; i<keys.length(); i++) {
-            ServerConfig *config = m_remoteConfigs.value(keys[i]);
-            if (config) {
-                delete config;
-                config = nullptr;
+            for(int i=0; i<keys.length(); i++) {
+                ServerConfig *config = m_remoteConfigs.value(keys[i]);
+                if (config) {
+                    delete config;
+                    config = nullptr;
+                }
             }
+            m_remoteConfigs.clear();
         }
-        m_remoteConfigs.clear();
-    }
 
-    if (m_serverConfigs.size() > 0) {
-        QList<QString> keys = m_serverConfigs.keys();
+        if (m_serverConfigs.size() > 0) {
+            QList<QString> keys = m_serverConfigs.keys();
 
-        for(int i=0; i<keys.length(); i++) {
-            QList<ServerConfig *> configList = m_serverConfigs.value(keys[i]);
-            qDeleteAll(configList);
-            configList.clear();
+            for(int i=0; i<keys.length(); i++) {
+                QList<ServerConfig *> configList = m_serverConfigs.value(keys[i]);
+                qDeleteAll(configList);
+                configList.clear();
+            }
+            m_serverConfigs.clear();
         }
-        m_serverConfigs.clear();
-    }
-*/
+    */
 }

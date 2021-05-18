@@ -49,24 +49,70 @@ public:
     explicit EncodeListView(QWidget *parent = nullptr);
 
 protected:
+    /**
+     * @brief 处理焦点事件
+     * @author ut001121 张猛
+     * @param event 焦点事件
+     */
     void focusInEvent(QFocusEvent *event) override;
+    /**
+     * @brief 处理焦点离开事件
+     * @author ut001121 zhangmeng
+     * @param event 焦点离开事件
+     */
     void focusOutEvent(QFocusEvent *event) override;
+    /**
+     * @brief 处理尺寸变化事件
+     * @author ut001121 张猛
+     * @param event 尺寸变化事件
+     */
     void resizeEvent(QResizeEvent *event) override;
+    /**
+      * @brief 处理键盘事件
+      * @author ut001121 张猛
+      * @param 键盘事件
+      */
     void keyPressEvent(QKeyEvent *event) override;
+    /**
+     * @brief 处理鼠标按下事件
+     * @author ut001121 张猛
+     */
     void mousePressEvent(QMouseEvent *) override;
+    /**
+     * @brief 处理鼠标抬起事件
+     * @author ut001121 张猛
+     */
     void mouseReleaseEvent(QMouseEvent *) override;
+    /**
+     * @brief 处理鼠标移动事件
+     * @author ut001121 张猛
+     */
     void mouseMoveEvent(QMouseEvent *) override;
 
 signals:
     void focusOut();
 
 public slots:
+    /**
+     * @brief 列表视图上单击响应函数
+     * @author ut001121 zhangmeng
+     * @param index
+     */
     void onListViewClicked(const QModelIndex &index);
+    /**
+     * @brief 查询编码
+     * @author ut001121 zhangmeng
+     * @param encode 编码
+     */
     void checkEncode(QString encode);
     /** add by ut001121 zhangmeng 20200718 for sp3 keyboard interaction*/
     inline Qt::FocusReason getFocusReason() {return m_foucusReason;}
 
 private:
+    /**
+     * @brief 初始化编码项
+     * @author ut001121 zhangmeng
+     */
     void initEncodeItems();
 
     MainWindow *m_Mainwindow  = nullptr;
@@ -102,9 +148,23 @@ public:
     explicit EncodeDelegate(QAbstractItemView *parent = nullptr)
         : DStyledItemDelegate(parent), m_parentView(parent) {}
 
+    /**
+     * @brief 自绘事件
+     * @author ut001121 张猛
+     * @param painter
+     * @param option
+     * @param index
+     */
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const Q_DECL_OVERRIDE;
 
+    /**
+     * @brief 尺寸提示
+     * @author ut001121 zhangmeng
+     * @param option
+     * @param index
+     * @return
+     */
     QSize sizeHint(const QStyleOptionViewItem &option,
                    const QModelIndex &index) const Q_DECL_OVERRIDE;
 

@@ -80,80 +80,247 @@ class TermWidget : public QTermWidget
 {
     Q_OBJECT
 public:
-    TermWidget(TermProperties properties, QWidget *parent = nullptr);
+    TermWidget(const TermProperties &properties, QWidget *parent = nullptr);
     ~TermWidget();
+    /**
+     * @brief 获取父页面
+     * @author ut000610 daizhengwen
+     * @return
+     */
     TermWidgetPage *parentPage();
+    /**
+     * @brief 是否在远程服务器中
+     * @author ut000610 daizhengwen
+     * @return
+     */
     bool isInRemoteServer();
 public:
-    // 跳转到下一个命令
+    /**
+     * @brief 跳转到下一个命令（这个功能没找到库的接口，现在是暂时是以虚拟键形式实现）
+     * @author n014361 王培利
+     */
     void skipToNextCommand();
-    // 跳转到前一个命令
+    /**
+     * @brief 跳转到前一个命令（这个功能没找到库的接口，现在是暂时是以虚拟键形式实现）
+     * @author n014361 王培利
+     */
     void skipToPreCommand();
+    /**
+     * @brief 设置不透明度
+     * @author ut000610 daizhengwen
+     * @param opacity 不透明度
+     */
     void setTermOpacity(qreal opacity);
-    // 修改字体
+    /**
+     * @brief 设置字体
+     * @author n014361 王培利
+     * @param fontName 字体名称
+     */
     void setTermFont(const QString &fontName);
-    // 修改字体大小
+    /**
+     * @brief 设置字体大小
+     * @author n014361 王培利
+     * @param fontSize 字体大小
+     */
     void setTermFontSize(const int fontSize);
-    // 修改光标形状
+    /**
+     * @brief 设置光标形状
+     * @author n014361 王培利
+     * @param shape 光标形状
+     */
     void setCursorShape(int shape);
+    /**
+     * @brief 设置按键时是否滚动
+     * @author ut001121 zhangmeng
+     * @param enable 是否滚动
+     */
     void setPressingScroll(bool enable);
-    // 设置编码
+    /**
+     * @brief 选择编码
+     * @author ut000610 daizhengwen
+     * @param encode 编码
+     */
     void selectEncode(QString encode);
 
+    /**
+     * @brief 是否进行下载
+     * @author ut000610 daizhengwen
+     * @return
+     */
     bool enterSzCommand() const;
+    /**
+     * @brief 设置进行下载
+     * @author ut000610 daizhengwen
+     * @param enterSzCommand
+     */
     void setEnterSzCommand(bool enterSzCommand);
 
+    /**
+     * @brief 是否连接远程管理
+     * @author ut000610 daizhengwen
+     * @return
+     */
     bool isConnectRemote() const;
+    /**
+     * @brief 设置连接远程管理
+     * @author ut000610 daizhengwen
+     * @param isConnectRemote 是否连接远程管理
+     */
     void setIsConnectRemote(bool isConnectRemote);
-    // 连接远程后修改标签标题
+    /**
+     * @brief 连接远程后修改当前标签标题
+     * @author ut000610 戴正文
+     * @param remoteConfig 远程配置
+     */
     void modifyRemoteTabTitle(ServerConfig remoteConfig);
 
+    /**
+     * @brief 获取编码
+     * @author ut000610 daizhengwen
+     * @return
+     */
     QString encode() const;
+    /**
+     * @brief 设置编码
+     * @author ut000610 daizhengwen
+     * @param encode 编码
+     */
     void setEncode(const QString &encode);
 
+    /**
+     * @brief 获取远程管理的编码
+     * @author ut000610 daizhengwen
+     * @return
+     */
     QString RemoteEncode() const;
+    /**
+     * @brief 设置远程管理的编码
+     * @author ut000610 daizhengwen
+     * @param RemoteEncode
+     */
     void setRemoteEncode(const QString &RemoteEncode);
 
-    // 设置退格键模式（用户选择接口）
+    /**
+     * @brief 根据设置的模式改变退格模式（用户选择接口）
+     * @author ut000610 戴正文
+     * @param backspaceMode
+     */
     void setBackspaceMode(const EraseMode &backspaceMode);
 
-    // 设置删除键模式（用户选择接口）
+    /**
+     * @brief 根据设置的模式改变删除模式（用户选择接口）
+     * @author ut000610 戴正文
+     * @param deleteMode
+     */
     void setDeleteMode(const EraseMode &deleteMode);
 
-    // 获取该终端距离page的层次
+    /**
+     * @brief 获取当前terminal距离page的层次．用于限定分屏
+     * @author ut000439 王培利
+     * @return
+     */
     int getTermLayer();
 
-    // 修改当前标签格式
+    /**
+     * @brief 设置标签标题格式（全局设置）
+     * @author ut000610 戴正文
+     * @param tabFormat
+     */
     void setTabFormat(const QString &tabFormat);
-    // 修改远程标签格式
+    /**
+     * @brief 设置远程标签标题格式(全局设置)
+     * @author ut000610 戴正文
+     * @param remoteTabFormat
+     */
     void setRemoteTabFormat(const QString &remoteTabFormat);
     // 修改所有的标签标题格式
+    /**
+     * @brief 重命名标签标题/远程标签标题格式
+     * @author ut000610 戴正文
+     * @param tabFormat 标签标题
+     * @param remoteTabFormat 远程标签标题格式
+     */
     void renameTabFormat(const QString &tabFormat, const QString &remoteTabFormat);
-    // 获取标签标题对应的标签标题
+    /**
+     * @brief 获取标签对应的标签标题
+     * @author ut000610 戴正文
+     * @return
+     */
     QString getTabTitle();
-    // 初始化终端标签
+    /**
+     * @brief 初始化终端标签
+     * @author ut000610 戴正文
+     */
     void initTabTitle();
-    // 初始化标签标题参数列表
+    /**
+     * @brief 初始化标签标题参数列表
+     * @author ut000610 戴正文
+     */
     void initTabTitleArgs();
-    // 获取标签标题格式
+    /**
+     * @brief 获取标签标题格式
+     * @author ut000610 戴正文
+     * @return
+     */
     QString getTabTitleFormat();
-    // 获取远程标签标题格式
+    /**
+     * @brief 获取远程标签标题格式
+     * @author ut000610 戴正文
+     * @return
+     */
     QString getRemoteTabTitleFormat();
-    // 获取当前标签标题格式
+    /**
+     * @brief 获取当前term显示的标签标题
+     * @author ut000610 戴正文
+     * @return
+     */
     QString getCurrentTabTitleFormat();
-    // Ctrl+Q/Ctrl+S的悬浮提示框
+    /**
+     * @brief Ctrl+Q/Ctrl+S的悬浮提示框
+     * @author 朱科伟
+     * @param show 文案提示
+     */
     void showFlowMessage(bool show);
-    // shell启动失败悬浮框
+    /**
+     * @brief shell启动失败时的悬浮提示框
+     * @author ut000610 戴正文
+     * @param strWarnings 提示
+     */
     void showShellMessage(QString strWarnings);
-    //弹窗安装事件过滤器
+    /**
+     * @brief 弹窗安装事件过滤器，更新DFloatingMessage的text
+     * @author ut003135 changze
+     * @param widget
+     * @param text
+     */
     void installEventMessageText(DFloatingMessage *widget, const QString &text);
 public slots:
+    /**
+     * @brief Terminal的各项设置生效
+     * @author n014361 王培利
+     * @param keyName 设置项名称
+     */
     void onSettingValueChanged(const QString &keyName);
-    // 处理拖拽进来的文件名Urls
+    /**
+     * @brief 处理拖拽进来的文件名，1) 正常模式下: 目前只显示,暂不处理
+     * @author ut000610 戴正文
+     * @param urls 拖拽进来的文件名
+     */
     void onDropInUrls(const char *urls);
-    // 处理触控板事件
+    /**
+     * @brief 处理触控板事件
+     * @author ut000610 戴正文
+     * @param name 触控板事件类型(手势或者触摸类型) pinch 捏 tap 敲 swipe 右键单击 单键
+     * @param direction 手势方向 触控板上 up 触控板下 down 左 left 右 right 无 none 向内 in 向外 out 触控屏上 top 触摸屏下 bot
+     * @param fingers 手指数量 (1,2,3,4,5)
+     */
     void onTouchPadSignal(QString name, QString direction, int fingers);
-    // 处理shell消息提示
+    /**
+     * @brief 处理shell消息提示
+     * @author ut000610 戴正文
+     * @param currentShell 当前使用的shell
+     * @param isSuccess 启用shell是否成功 true 替换了shell false 替换shell但启动失败
+     */
     void onShellMessage(QString currentShell, bool isSuccess);
 
 signals:
@@ -162,16 +329,39 @@ signals:
     void termTitleChanged(QString titleText);
 
 protected:
-    // 鼠标滚轮事件
+    /**
+     * @brief 鼠标滚轮事件 支持Ctrl + 滚轮上下事件:Ctrl+滚轮上 放大;Ctrl+滚轮下 缩小
+     * @author ut000610 戴正文
+     * @param event 滚轮事件
+     */
     void wheelEvent(QWheelEvent *event) override;
-    //监控事件过滤
+    /**
+     * @brief 监控事件过滤，终端宽度缩小时，相关弹窗也同步变化
+     * @author  ut003135 changze
+     * @param o
+     * @param e
+     * @return
+     */
     bool eventFilter(QObject *o, QEvent *e) override;
 
 private slots:
+    /**
+     * @brief 自定义上下文菜单调用
+     * @author ut000125 sunchengxi
+     * @param pos
+     */
     void customContextMenuCall(const QPoint &pos);
-    // 处理标签标题参数变化
+    /**
+     * @brief 标签标题参数变化
+     * @author ut000610 戴正文
+     * @param key
+     * @param value
+     */
     void onTitleArgsChange(QString key, QString value);
-    // hostname名称变化
+    /**
+     * @brief 主机名变化
+     * @author ut000610 戴正文
+     */
     void onHostnameChanged();
 
     void onQTermWidgetReceivedData(QString value);
@@ -189,6 +379,10 @@ private slots:
 
     void onCopy();
     void onPaste();
+    /**
+     * @brief 根据文件路径打开文件
+     * @author ut000438 王亮
+     */
     void onOpenFile();
     void onOpenFileInFileManager();
     void onUploadFile();
@@ -211,18 +405,46 @@ private slots:
     void openGithub();
     void openStackOverflow();
 private:
-    // 初始化信号槽连接
+    /**
+     * @brief 初始化信号槽连接
+     * @author ut000438 王亮
+     */
     void initConnections();
     /*** 修复 bug 28162 鼠标左右键一起按终端会退出 ***/
+    /**
+     * @brief 添加菜单操作
+     * @author ut000610 daizhengwen
+     * @param pos
+     */
     void addMenuActions(const QPoint &pos);
-    // 根据标签格式获取标签标题
+    /**
+     * @brief 根据标签格式获取标签标题
+     * @author ut000610 戴正文
+     * @param format 格式
+     * @param TabFormat 标签格式
+     * @return
+     */
     QString getTabTitle(QMap<QString, QString> format, QString TabFormat);
-    //分屏时切换到当前选中主题方案
+    /**
+     * @brief 分屏时切换到当前选中主题方案
+     * @author ut000125 sunchengxi
+     */
     void switchThemeOnSplitScreen();
     void openUrl(QString strUrl);
-    //根据选择的文件名字符串得到合法的文件名，去除文件名开头/结尾的''或""
+
+    /**
+     * @brief 根据选择的文件名字符串得到合法的文件名，去除文件名开头/结尾的''或""
+     * @author ut000438 王亮
+     * @param selectedText 选择的文件名字符串
+     * @return
+     */
     QString getFormatFileName(QString selectedText);
-    //根据文件名拼接得到文件路径
+    /**
+     * @brief 根据文件名拼接得到文件路径
+     * @author ut000438 王亮
+     * @param fileName 文件名
+     * @return
+     */
     QString getFilePath(QString fileName);
 
     TermWidgetPage *m_page = nullptr;

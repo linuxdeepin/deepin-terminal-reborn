@@ -46,7 +46,7 @@ Transparency=false
 
 [Color3Intense]
 Bold=true
-Color=255,255,84
+Color=233,233,79
 Transparency=false
 
 [Color4]
@@ -76,7 +76,7 @@ Transparency=false
 
 [Color6Intense]
 Bold=true
-Color=253,246,227
+Color=24,178,178
 Transparency=false
 
 [Color7]
@@ -86,7 +86,7 @@ Transparency=false
 
 [Color7Intense]
 Bold=true
-Color=255,255,255
+Color=238,232,213
 Transparency=false
 
 [Foreground]

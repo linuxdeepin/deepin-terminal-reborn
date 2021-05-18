@@ -78,12 +78,6 @@ EncodeListView::EncodeListView(QWidget *parent) : DListView(parent), m_encodeMod
     QScroller::grabGesture(this, QScroller::TouchGesture);
 }
 
-/*******************************************************************************
- 1. @函数:    initEncodeItems
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    初始化编码项
-*******************************************************************************/
 void EncodeListView::initEncodeItems()
 {
     QList<QByteArray> encodeDataList = m_encodeModel->listData();
@@ -103,12 +97,6 @@ void EncodeListView::initEncodeItems()
     m_modelIndexChecked = m_standardModel->index(0, 0);
 }
 
-/*******************************************************************************
- 1. @函数:    focusInEvent
- 2. @作者:    ut001121 张猛
- 3. @日期:    2020-07-17
- 4. @说明:    处理焦点事件
-*******************************************************************************/
 void EncodeListView::focusInEvent(QFocusEvent *event)
 {
     /** add begin by ut001121 zhangmeng 20200718 for sp3 keyboard interaction*/
@@ -124,12 +112,6 @@ void EncodeListView::focusInEvent(QFocusEvent *event)
     DListView::focusInEvent(event);
 }
 
-/*******************************************************************************
- 1. @函数:    focusOutEvent
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    处理焦点离开事件
-*******************************************************************************/
 void EncodeListView::focusOutEvent(QFocusEvent *event)
 {
     /** add by ut001121 zhangmeng 20200718 for sp3 keyboard interaction*/
@@ -139,12 +121,6 @@ void EncodeListView::focusOutEvent(QFocusEvent *event)
     DListView::focusOutEvent(event);
 }
 
-/*******************************************************************************
- 1. @函数:    resizeEvent
- 2. @作者:    ut001121 张猛
- 3. @日期:    2020-07-01
- 4. @说明:    处理尺寸变化事件
-*******************************************************************************/
 void EncodeListView::resizeEvent(QResizeEvent *event)
 {
     /***add by ut001121 zhangmeng 20200701 修改滚动条高度,解决滚动条被窗口特效圆角切割的问题***/
@@ -153,12 +129,6 @@ void EncodeListView::resizeEvent(QResizeEvent *event)
     return DListView::resizeEvent(event);
 }
 
-/*******************************************************************************
- 1. @函数:    keyPressEvent
- 2. @作者:    ut001121 张猛
- 3. @日期:    2020-07-17
- 4. @说明:    处理键盘事件
-*******************************************************************************/
 void EncodeListView::keyPressEvent(QKeyEvent *event)
 {
     /** add begin ut001121 zhangmeng 20200718 for sp3 keyboard interaction */
@@ -190,12 +160,6 @@ void EncodeListView::keyPressEvent(QKeyEvent *event)
     return DListView::keyPressEvent(event);
 }
 
-/*******************************************************************************
- 1. @函数:    keyPressEvent
- 2. @作者:    ut001121 张猛
- 3. @日期:    2020-08-11
- 4. @说明:    处理鼠标按下事件
-*******************************************************************************/
 void EncodeListView::mousePressEvent(QMouseEvent *event)
 {
     /** add by ut001121 zhangmeng 20200811 for sp3 Touch screen interaction */
@@ -208,12 +172,6 @@ void EncodeListView::mousePressEvent(QMouseEvent *event)
     return DListView::mousePressEvent(event);
 }
 
-/*******************************************************************************
- 1. @函数:    keyPressEvent
- 2. @作者:    ut001121 张猛
- 3. @日期:    2020-08-11
- 4. @说明:    处理鼠标抬起事件
-*******************************************************************************/
 void EncodeListView::mouseReleaseEvent(QMouseEvent *event)
 {
     /** add begin by ut001121 zhangmeng 20200811 for sp3 Touch screen interaction */
@@ -229,12 +187,6 @@ void EncodeListView::mouseReleaseEvent(QMouseEvent *event)
     return DListView::mouseReleaseEvent(event);
 }
 
-/*******************************************************************************
- 1. @函数:    mouseMoveEvent
- 2. @作者:    ut001121 张猛
- 3. @日期:    2020-08-13
- 4. @说明:    处理鼠标移动事件
-*******************************************************************************/
 void EncodeListView::mouseMoveEvent(QMouseEvent *event)
 {
     /***add begin by ut001121 zhangmeng 20200813 记录触摸屏下移动最大距离 修复BUG42261***/
@@ -246,12 +198,6 @@ void EncodeListView::mouseMoveEvent(QMouseEvent *event)
     return DListView::mouseMoveEvent(event);
 }
 
-/*******************************************************************************
- 1. @函数:    onListViewClicked
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    列表视图上单击响应函数
-*******************************************************************************/
 void EncodeListView::onListViewClicked(const QModelIndex &index)
 {
     if (!index.isValid()) {
@@ -275,12 +221,6 @@ void EncodeListView::onListViewClicked(const QModelIndex &index)
     m_Mainwindow->currentPage()->currentTerminal()->selectEncode(index.data().toString());
 }
 
-/*******************************************************************************
- 1. @函数:    checkEncode
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    查询编码
-*******************************************************************************/
 void EncodeListView::checkEncode(QString encode)
 {
     // 判断是否是当前窗口
@@ -307,12 +247,6 @@ void EncodeListView::checkEncode(QString encode)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    paint
- 2. @作者:    ut001121 张猛
- 3. @日期:    2020-07-16
- 4. @说明:    自绘事件
-*******************************************************************************/
 void EncodeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                            const QModelIndex &index) const
 {
@@ -427,12 +361,6 @@ void EncodeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
     }
 }
 
-/*******************************************************************************
- 1. @函数:    sizeHint
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    尺寸提示
-*******************************************************************************/
 QSize EncodeDelegate::sizeHint(const QStyleOptionViewItem &option,
                                const QModelIndex &index) const
 {

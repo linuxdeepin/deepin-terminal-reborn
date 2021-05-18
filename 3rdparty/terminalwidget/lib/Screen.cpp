@@ -358,13 +358,15 @@ void Screen::resizeImage(int new_lines, int new_columns)
         if (_currentTerminalDisplay) {
             // The 'zsh' works different from other shells when writting the command line.
             // It needs to identify the 'zsh' and calculate the new command line.
-//            auto currentSession = _currentTerminalDisplay->getCurrentSession();
-//            auto terminal = currentSession->foregroundProcessName();
-//            if (terminal == QLatin1String("zsh") && cursorLine > 0 && (lineProperties[cursorLine - 1] & LINE_WRAPPED) != 0) {
-//                while (cursorLine + cursorLineCorrection > 0 && (lineProperties[cursorLine + cursorLineCorrection - 1] & LINE_WRAPPED) != 0) {
-//                    cursorLineCorrection--;
-//                }
-//            }
+            auto currSession = SessionManager::instance()->idToSession(_sessionId);
+            if (currSession
+                    && (QLatin1String("zsh") == currSession->foregroundProcessName())
+                    && (cursorLine > 0)
+                    && ((lineProperties[cursorLine - 1] & LINE_WRAPPED) != 0)) {
+                while (cursorLine + cursorLineCorrection > 0 && (lineProperties[cursorLine + cursorLineCorrection - 1] & LINE_WRAPPED) != 0) {
+                    cursorLineCorrection--;
+                }
+            }
         }
 
         // Analize the lines and move the data to lines below.

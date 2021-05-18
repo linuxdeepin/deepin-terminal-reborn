@@ -36,12 +36,6 @@ NewDspinBox::NewDspinBox(QWidget *parent) : DSpinBox(parent)
     /******** Add by nt001000 renfeixiang 2020-05-26:增加正则表达式限制00000现象 End***************/
 }
 
-/*******************************************************************************
- 1. @函数:    wheelEvent
- 2. @作者:    ut001000 任飞翔
- 3. @日期:    2020-11-06
- 4. @说明:    重写wheelEvent函数，只有有焦点的情况，才进行字体大小变化
-*******************************************************************************/
 void NewDspinBox::wheelEvent(QWheelEvent *event)
 {
     if (lineEdit()->hasFocus()) {

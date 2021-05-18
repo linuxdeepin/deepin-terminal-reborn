@@ -75,37 +75,98 @@ class DBusManager : public QObject
 public:
     DBusManager();
     ~DBusManager();
-    // 初始化terminal相关dbus
+    /**
+     * @brief 初始化terminal相关dbus
+     * @author ut000610 戴正文
+     * @return
+     */
     bool initDBus();
 
     // kwin dbus
+    /**
+     * @brief 获取当前桌面index
+     * @author ut000610 戴正文
+     * @return
+     */
     static int callKDECurrentDesktop();
+    /**
+     * @brief 将桌面跳转到index所指桌面
+     * @author ut000610 戴正文
+     * @param index
+     */
     static void callKDESetCurrentDesktop(int index);
 
     // Appearance
+    /**
+     * @brief 获取字体列表，输入参数后获取得到的参数列表
+     * @author ut000610 戴正文
+     * @param fontType 字体类型
+     * @return
+     */
     static QStringList callAppearanceFont(QString fontType);
 
     /******** Add by ut001000 renfeixiang 2020-06-16:增加 调用DBUS的show获取的等宽字体，并转换成QStringList Begin***************/
     //将QJsonArray文件转换成QStringList
+    /**
+     * @brief 将QJsonArray文件转换成QStringList
+     * @author ut001000 任飞翔
+     * @param type
+     * @param array
+     * @return
+     */\
     static QStringList converToList(const QString &type, const QJsonArray &array);
     //调用DBUS的SHow方法
+    /**
+     * @brief 调用DBUS的SHow方法
+     * @author ut001000 任飞翔
+     * @param fontList 字体列表
+     * @param fontType 字体类型
+     * @return
+     */
     static QStringList callAppearanceShowFont(QStringList fontList, QString fontType);
     /******** Add by ut001000 renfeixiang 2020-06-16:增加 调用DBUS的show获取的等宽字体，并转换成QStringList End***************/
 
     // deepin terminal
     // 创建窗口
+    /**
+     * @brief 调用主进程的创建或显示窗口入口
+     * @author ut000610 戴正文
+     * @param args
+     */
     static void callTerminalEntry(QStringList args);
 
 
     /** add by ut001121 zhangmeng 20200720 用于 sp3 键盘交互功能*/
+    /**
+     * @brief 调用系统音效
+     * @author ut001121 张猛
+     * @param sound 音效名称
+                    错误提示:dialog-error
+                    通   知:message
+                    唤   醒:suspend-resume
+                    音量调节:audio-volume-change
+                    设备接入:device-added
+                    设备拔出:device-removed
+     */
     static void callSystemSound(const QString &sound = "dialog-error");
 
-    // 监听触控板事件
+    /**
+     * @brief 监听触控板事件
+     * @author ut000610 戴正文
+     */
     void listenTouchPadSignal();
-    // 监听桌面(工作区切换)
+    /**
+     * @brief 监听桌面(工作区切换)
+     * @author ut000610 戴正文
+     */
     void listenDesktopSwitched();
 
 public slots:
+    /**
+     * @brief dbus上开放的槽函数，用于调用service的Entry接口
+     * @author ut000610 戴正文
+     * @param args
+     */
     void entry(QStringList args);
 
 signals:

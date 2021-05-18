@@ -45,14 +45,39 @@ public:
     TerminalApplication(int &argc, char *argv[]);
     ~TerminalApplication();
     // 为了更精确的测算时间，单独设置
+    /**
+     * @brief 把main初始的时间，设置为应用启动时间
+     * @author ut000439 王培利
+     * @param time 时间
+     */
     void setStartTime(qint64 time);
+    /**
+     * @brief 只有主进程在创建mainwindow的时候会用到。
+     * @author ut000439 王培利
+     * @return
+     */
     qint64 getStartTime();
 protected:
     // 重写了app.quit为当前窗口close.
+    /**
+     * @brief  重写了app.quit为当前窗口close.
+     * @author ut000439 wangpeili
+     */
     void handleQuitAction() override;
+    /**
+     * @brief 该部分代码，大都 用于调试，待整理
+     * @author ut000439 wangpeili
+     * @param object
+     * @param event
+     * @return
+     */
     bool notify(QObject *object, QEvent *event);
 private:
-    // 模拟键盘space键按压
+    /**
+     * @brief 模拟键盘space按压效果
+     * @author ut000610 戴正文
+     * @param pushButton
+     */
     void pressSpace(DPushButton *pushButton);
 
     // APP启动时间

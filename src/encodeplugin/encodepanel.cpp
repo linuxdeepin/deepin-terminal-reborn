@@ -56,12 +56,6 @@ EncodePanel::EncodePanel(QWidget *parent)
     connect(m_encodeView, &EncodeListView::focusOut, this, &RightPanel::hideAnim);
 }
 
-/*******************************************************************************
- 1. @函数:    show
- 2. @作者:    nt001000 renfeixiang
- 3. @日期:    2020-05-16
- 4. @说明:    处理显示(设置m_encodeView的大小)
-*******************************************************************************/
 void EncodePanel::show()
 {
     this->showAnim();
@@ -72,12 +66,6 @@ void EncodePanel::show()
     //解决Alt+F2显示Encode时，高度变长的问题 End
 }
 
-/*******************************************************************************
- 1. @函数:    updateEncode
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    更新编码
-*******************************************************************************/
 void EncodePanel::updateEncode(QString encode)
 {
     m_encodeView->checkEncode(encode);

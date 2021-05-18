@@ -44,12 +44,6 @@ DBusManager::~DBusManager()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    initDBus
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-05-19
- 4. @说明:    deepin-terminal DBUS注册的统一接口
-*******************************************************************************/
 bool DBusManager::initDBus()
 {
     //用于雷神窗口通信的DBus
@@ -68,12 +62,6 @@ bool DBusManager::initDBus()
     return true;
 }
 
-/*******************************************************************************
- 1. @函数:    callKDECurrentDesktop
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-05-15
- 4. @说明:    获取当前桌面index
-*******************************************************************************/
 int DBusManager::callKDECurrentDesktop()
 {
     QDBusMessage msg =
@@ -90,12 +78,6 @@ int DBusManager::callKDECurrentDesktop()
     return -1;
 }
 
-/*******************************************************************************
- 1. @函数:    callKDESetCurrentDesktop
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-05-15
- 4. @说明:    将桌面跳转到index所指桌面
-*******************************************************************************/
 void DBusManager::callKDESetCurrentDesktop(int index)
 {
     QDBusMessage msg =
@@ -111,14 +93,6 @@ void DBusManager::callKDESetCurrentDesktop(int index)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    callAppearanceFont
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-06-09
- 4. @说明:    获取字体列表，输入参数后获取得到的参数列表
-             参数 ：
-             fontType : standardfont 标准字体 monospacefont 等宽字体
-*******************************************************************************/
 QStringList DBusManager::callAppearanceFont(QString fontType)
 {
     QStringList fontList;
@@ -149,12 +123,6 @@ QStringList DBusManager::callAppearanceFont(QString fontType)
 }
 
 /******** Add by ut001000 renfeixiang 2020-06-16:增加 调用DBUS的show获取的等宽字体，并转换成QStringList Begin***************/
-/*******************************************************************************
- 1. @函数:    converToList
- 2. @作者:    ut001000 任飞翔
- 3. @日期:    2020-08-11
- 4. @说明:    将QJsonArray文件转换成QStringList
-*******************************************************************************/
 QStringList DBusManager::converToList(const QString &type, const QJsonArray &array)
 {
     QStringList list;
@@ -166,12 +134,6 @@ QStringList DBusManager::converToList(const QString &type, const QJsonArray &arr
     return list;
 }
 
-/*******************************************************************************
- 1. @函数:    callAppearanceShowFont
- 2. @作者:    ut001000 任飞翔
- 3. @日期:    2020-08-11
- 4. @说明:    调用DBUS的SHow方法
-*******************************************************************************/
 QStringList DBusManager::callAppearanceShowFont(QStringList fontList, QString fontType)
 {
     QStringList List;
@@ -194,13 +156,6 @@ QStringList DBusManager::callAppearanceShowFont(QStringList fontList, QString fo
     return List;
 }
 /******** Add by ut001000 renfeixiang 2020-06-16:增加 调用DBUS的show获取的等宽字体，并转换成QStringList End***************/
-
-/*******************************************************************************
- 1. @函数:    callTerminalEntry
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-05-19
- 4. @说明:    调用主进程的创建或显示窗口入口
-*******************************************************************************/
 void DBusManager::callTerminalEntry(QStringList args)
 {
     QDBusMessage msg =
@@ -216,31 +171,12 @@ void DBusManager::callTerminalEntry(QStringList args)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    entry
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-05-19
- 4. @说明:    dbus上开放的槽函数，用于调用service的Entry接口
-*******************************************************************************/
 void DBusManager::entry(QStringList args)
 {
     qDebug() << "recv args" << args;
     emit entryArgs(args);
 }
 
-/*******************************************************************************
- 1. @函数:    callSystemSound
- 2. @作者:    ut001121 张猛
- 3. @日期:    2020-07-20
- 4. @说明:    调用系统音效
- 5. @参数:    音效名称
-             错误提示:dialog-error
-             通   知:message
-             唤   醒:suspend-resume
-             音量调节:audio-volume-change
-             设备接入:device-added
-             设备拔出:device-removed
-*******************************************************************************/
 void DBusManager::callSystemSound(const QString &sound)
 {
     QDBusMessage response = dbusPlaySound(sound);
@@ -251,12 +187,6 @@ void DBusManager::callSystemSound(const QString &sound)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    listenTouchPadSignal
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-19
- 4. @说明:    监听触控板事件
-*******************************************************************************/
 void DBusManager::listenTouchPadSignal()
 {
     qDebug() << __FUNCTION__;
@@ -269,12 +199,6 @@ void DBusManager::listenTouchPadSignal()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    listenDesktopSwitched
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-24
- 4. @说明:    监听桌面切换事件
-*******************************************************************************/
 void DBusManager::listenDesktopSwitched()
 {
     qDebug() << __FUNCTION__;

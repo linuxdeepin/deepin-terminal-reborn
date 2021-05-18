@@ -53,6 +53,7 @@ ServerConfigOptDlg::ServerConfigOptDlg(ServerConfigOptType type, ServerConfig *c
       m_serverName(new DLineEdit),
       m_address(new DLineEdit),
       m_port(new DSpinBox),
+      m_port_tip(new DAlertControl(m_port)),
       m_userName(new DLineEdit),
       m_password(new DPasswordEdit),
       m_privateKey(new DLineEdit),
@@ -94,12 +95,6 @@ ServerConfigOptDlg::ServerConfigOptDlg(ServerConfigOptType type, ServerConfig *c
     initData();
 }
 
-/*******************************************************************************
- 1. @函数:    initUI
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项初始化UI界面
-*******************************************************************************/
 void ServerConfigOptDlg::initUI()
 {
     //all layout
@@ -355,12 +350,6 @@ inline void ServerConfigOptDlg::handleThemeTypeChanged(DGuiApplicationHelper::Co
     m_delServer->setPalette(palette);
 }
 
-/*******************************************************************************
- 1. @函数:    initData
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项初始化数据
-*******************************************************************************/
 void ServerConfigOptDlg::initData()
 {
     QList<QString> textCodeList = getTextCodec();
@@ -395,12 +384,6 @@ void ServerConfigOptDlg::initData()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    getTextCodec
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项获取文本的编码
-*******************************************************************************/
 QList<QString> ServerConfigOptDlg::getTextCodec()
 {
     /******** Modify by ut000610 daizhengwen 2020-05-28: 编码列表和编码插件一致****************/
@@ -417,12 +400,6 @@ QList<QString> ServerConfigOptDlg::getTextCodec()
     return textCodecList;
 }
 
-/*******************************************************************************
- 1. @函数:    getBackSpaceKey
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项获取退格键
-*******************************************************************************/
 QList<QString> ServerConfigOptDlg::getBackSpaceKey()
 {
     QList<QString> eraseKeyList;
@@ -434,12 +411,6 @@ QList<QString> ServerConfigOptDlg::getBackSpaceKey()
     return eraseKeyList;
 }
 
-/*******************************************************************************
- 1. @函数:    getDeleteKey
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项获取删除键
-*******************************************************************************/
 QList<QString> ServerConfigOptDlg::getDeleteKey()
 {
     QList<QString> eraseKeyList;
@@ -451,12 +422,6 @@ QList<QString> ServerConfigOptDlg::getDeleteKey()
     return eraseKeyList;
 }
 
-/*******************************************************************************
- 1. @函数:    setLabelStyle
- 2. @作者:    m000714 戴正文
- 3. @日期:    2020-04-16
- 4. @说明:    设置label格式
-*******************************************************************************/
 void ServerConfigOptDlg::setLabelStyle(DLabel *label)
 {
     label->setAlignment(Qt::AlignLeft);
@@ -471,12 +436,6 @@ ServerConfigOptDlg::~ServerConfigOptDlg()
 {
 }
 
-/*******************************************************************************
- 1. @函数:    updataData
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项更新数据
-*******************************************************************************/
 void ServerConfigOptDlg::updataData(ServerConfig *curServer)
 {
     qDebug() << "ServerConfigOptDlg server configuration options updata data.";
@@ -513,12 +472,6 @@ void ServerConfigOptDlg::updataData(ServerConfig *curServer)
     m_currentServerName = m_serverName->text();
 }
 
-/*******************************************************************************
- 1. @函数:    getData
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项获取数据
-*******************************************************************************/
 ServerConfig ServerConfigOptDlg::getData()
 {
     ServerConfig config;
@@ -537,23 +490,11 @@ ServerConfig ServerConfigOptDlg::getData()
     return config;
 }
 
-/*******************************************************************************
- 1. @函数:    resetCurServer
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项重置当前服务器
-*******************************************************************************/
 void ServerConfigOptDlg::resetCurServer(ServerConfig config)
 {
     m_curServer = &config;
 }
 
-/*******************************************************************************
- 1. @函数:    slotAddSaveButtonClicked
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置选项增加和保存按钮点击响应函数
-*******************************************************************************/
 void ServerConfigOptDlg::slotAddSaveButtonClicked()
 {
     qDebug() << "ServerConfigOptDlg add and save button clicled slot function.";
@@ -577,7 +518,7 @@ void ServerConfigOptDlg::slotAddSaveButtonClicked()
     }
     // 端口为空
     if (m_port->text().trimmed().isEmpty()) {
-        m_address->showAlertMessage(tr("Please enter a port"), m_port);
+        m_port_tip->showAlertMessage(tr("Please enter a port"));
         return;
     }
 
@@ -629,12 +570,7 @@ void ServerConfigOptDlg::slotAddSaveButtonClicked()
     accept();
     qDebug() << __FUNCTION__ << "add or save remote config finish";
 }
-/*******************************************************************************
- 1. @函数:    slotFileChooseDialog
- 2. @作者:    m000714 戴正文
- 3. @日期:    2020-04-20
- 4. @说明:    获取FileName
-*******************************************************************************/
+
 void ServerConfigOptDlg::slotFileChooseDialog()
 {
     DFileDialog dialog(this, QObject::tr("Select the private key file"));

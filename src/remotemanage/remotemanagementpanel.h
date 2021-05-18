@@ -43,14 +43,32 @@ class RemoteManagementPanel : public CommonPanel
     Q_OBJECT
 public:
     explicit RemoteManagementPanel(QWidget *parent = nullptr);
+    /**
+     * @brief 刷新远程管理面板
+     * @author ut000610 daizhengwen
+     */
     void refreshPanel();
-    // 设置焦点进入控件
+    /**
+     * @brief 将焦点设置进入panel，有搜索框焦点进搜索框，没搜索框，焦点进入列表，没列表，焦点进添加按钮
+     * @author ut000610 戴正文
+     */
     void setFocusInPanel();
-    // 设置焦点从分组界面返回时的位置
+    /**
+     * @brief 设置焦点从分组界面返回时的位置
+     * @author ut000610 戴正文
+     * @param strGroup 组名
+     */
     void setFocusBack(const QString &strGroup);
-    // 清除
+    /**
+     * @brief 清空列表的选中状态
+     * @author ut000610 戴正文
+     */
     void clearListFocus();
-    // 获取列表中当前焦点的位置
+    /**
+     * @brief 获取列表中当前焦点的位置
+     * @author ut000610 戴正文
+     * @return
+     */
     int getListIndex();
 
 signals:
@@ -62,13 +80,33 @@ signals:
     void doConnectServer(ServerConfig *curItemServer);
 
 public slots:
+    /**
+     * @brief 显示远程管理当前搜索结果
+     * @author ut000610 daizhengwen
+     */
     void showCurSearchResult();
+    /**
+     * @brief 显示远程管理添加服务器配置界面
+     * @author ut000610 daizhengwen
+     */
     void showAddServerConfigDlg();
+    /**
+     * @brief 刷新远程管理搜索状态
+     * @author ut000610 daizhengwen
+     */
     void refreshSearchState();
-    // 处理连接远程操作
+    /**
+     * @brief 远程项被点击，连接远程管理
+     * @author ut000610 戴正文
+     * @param key 远程项
+     */
     void onItemClicked(const QString &key);
 
 private:
+    /**
+     * @brief 初始化远程管理UI界面
+     * @author ut000610 daizhengwen
+     */
     void initUI();
 
 private:

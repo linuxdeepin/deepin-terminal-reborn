@@ -51,12 +51,6 @@ ShortcutManager *ShortcutManager::instance()
     return m_instance;
 }
 
-/*******************************************************************************
- 1. @函数:    initShortcuts
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    初始化快捷键
-*******************************************************************************/
 void ShortcutManager::initShortcuts()
 {
     m_builtinShortcuts << "F1";
@@ -93,12 +87,7 @@ ShortcutManager::~ShortcutManager()
     m_customCommandActionList.clear();
 }
 
-/*******************************************************************************
- 1. @函数:    initConnect
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    快捷键初始化链接
-*******************************************************************************/
+
 void ShortcutManager::initConnect(MainWindow *mainWindow)
 {
     for (auto &commandAction : m_customCommandActionList) {
@@ -107,12 +96,6 @@ void ShortcutManager::initConnect(MainWindow *mainWindow)
     mainWindow->addActions(m_customCommandActionList);
 }
 
-/*******************************************************************************
- 1. @函数:    createCustomCommandsFromConfig
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    从配置创建自定义命令
-*******************************************************************************/
 void ShortcutManager::createCustomCommandsFromConfig()
 {
     QDir customCommandBasePath(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
@@ -170,36 +153,18 @@ void ShortcutManager::createCustomCommandsFromConfig()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    createBuiltinShortcutsFromConfig
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    从配置创建内置快捷方式
-*******************************************************************************/
 QList<QAction *> ShortcutManager::createBuiltinShortcutsFromConfig()
 {
     QList<QAction *> actionList;
     return actionList;
 }
 
-/*******************************************************************************
- 1. @函数:    getCustomCommandActionList
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    获取自定义命令操作列表
-*******************************************************************************/
 QList<QAction *> &ShortcutManager::getCustomCommandActionList()
 {
     qDebug() << __FUNCTION__ << m_customCommandActionList;
     return m_customCommandActionList;
 }
 
-/*******************************************************************************
- 1. @函数:    addCustomCommand
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    增加自定义命令
-*******************************************************************************/
 QAction *ShortcutManager::addCustomCommand(QAction &action)
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -213,12 +178,6 @@ QAction *ShortcutManager::addCustomCommand(QAction &action)
     return addAction;
 }
 
-/*******************************************************************************
- 1. @函数:    checkActionIsExist
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    检查操作是否存在
-*******************************************************************************/
 QAction *ShortcutManager::checkActionIsExist(QAction &action)
 {
     QString strNewActionName = action.text();
@@ -231,12 +190,6 @@ QAction *ShortcutManager::checkActionIsExist(QAction &action)
     return nullptr;
 }
 /************************ Mod by m000743 sunchengxi 2020-04-21:自定义命令修改的异常问题 Begin************************/
-/*******************************************************************************
- 1. @函数:    checkActionIsExistForModify
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-08-11
- 4. @说明:    检查是否存在修改操作
-*******************************************************************************/
 QAction *ShortcutManager::checkActionIsExistForModify(QAction &action)
 {
     QString strNewActionName = action.text();
@@ -249,12 +202,6 @@ QAction *ShortcutManager::checkActionIsExistForModify(QAction &action)
     return nullptr;
 }
 
-/*******************************************************************************
- 1. @函数:    findActionByKey
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-03
- 4. @说明:    通过key值找到快捷键
-*******************************************************************************/
 QAction *ShortcutManager::findActionByKey(const QString &strKey)
 {
     for (QAction *action : m_customCommandActionList) {
@@ -268,12 +215,6 @@ QAction *ShortcutManager::findActionByKey(const QString &strKey)
     return nullptr;
 }
 
-/*******************************************************************************
- 1. @函数:    fillCommandListData
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-03
- 4. @说明:    填充列表
-*******************************************************************************/
 void ShortcutManager::fillCommandListData(ListView *listview, const QString &strFilter)
 {
     listview->clearData();
@@ -308,13 +249,8 @@ void ShortcutManager::fillCommandListData(ListView *listview, const QString &str
     }
     qDebug() << "fill list data";
 }
+
 /************************ Mod by m000743 sunchengxi 2020-04-21:自定义命令修改的异常问题 End  ************************/
-/*******************************************************************************
- 1. @函数:    isShortcutConflictInCustom
- 2. @作者:    n014361 王培利
- 3. @日期:    2020-04-09
- 4. @说明:    快捷键是否已被自定义设置
-*******************************************************************************/
 bool ShortcutManager::isShortcutConflictInCustom(const QString &Name, const QString &Key)
 {
     for (auto &currAction : m_customCommandActionList) {
@@ -327,12 +263,7 @@ bool ShortcutManager::isShortcutConflictInCustom(const QString &Name, const QStr
     }
     return false;
 }
-/*******************************************************************************
- 1. @函数:    isValidShortcut
- 2. @作者:    n014361 王培利
- 3. @日期:    2020-03-31
- 4. @说明:    判断快捷键是否合法可用，并进行界面处理
-*******************************************************************************/
+
 bool ShortcutManager::isValidShortcut(const QString &Name, const QString &Key)
 {
     QString reason;
@@ -344,14 +275,7 @@ bool ShortcutManager::isValidShortcut(const QString &Name, const QString &Key)
     }
     return true;
 }
-/*******************************************************************************
- 1. @函数:    checkShortcutValid
- 2. @作者:    n014361 王培利
- 3. @日期:    2020-04-09
- 4. @说明:    判断快捷键是否合法可用
-             目前单键除了F1-F12, 其它单键均不可以设置
-             内置，自定义，设置分别检测冲突
-*******************************************************************************/
+
 bool ShortcutManager::checkShortcutValid(const QString &Name, const QString &Key, QString &Reason)
 {
     /******** Modify by ut000610 daizhengwen 2020-07-10:给'<'做兼容 html中'<'的转译为 &lt; Begin***************/
@@ -406,12 +330,6 @@ bool ShortcutManager::checkShortcutValid(const QString &Name, const QString &Key
     return true;
 }
 
-/*******************************************************************************
- 1. @函数:    delCustomCommand
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-08-11
- 4. @说明:    删除自定义命令
-*******************************************************************************/
 void ShortcutManager::delCustomCommand(CustomCommandData itemData)
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -432,12 +350,6 @@ void ShortcutManager::delCustomCommand(CustomCommandData itemData)
 
 }
 
-/*******************************************************************************
- 1. @函数:    saveCustomCommandToConfig
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-08-11
- 4. @说明:    保存自定义命令到配置
-*******************************************************************************/
 void ShortcutManager::saveCustomCommandToConfig(QAction *action, int saveIndex)
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -472,12 +384,6 @@ void ShortcutManager::saveCustomCommandToConfig(QAction *action, int saveIndex)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    delCustomCommandToConfig
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-08-11
- 4. @说明:    从配置中删除自定义命令
-*******************************************************************************/
 int ShortcutManager::delCustomCommandToConfig(CustomCommandData itemData)
 {
     qDebug() <<  __FUNCTION__ << __LINE__;

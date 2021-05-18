@@ -46,44 +46,136 @@ class Settings : public QObject
 public:
     static Settings *instance();
     ~Settings();
+    /**
+     * @brief 设置界面初始化
+     * @author ut001121 zhangmeng
+     */
     void init();
 
+    /**
+     * @brief 设置界面初始化连接
+     * @author ut001121 zhangmeng
+     */
     void initConnection();
 
+    /**
+     * @brief 设置界面获取透明度的值
+     * @author ut001121 zhangmeng
+     * @return
+     */
     qreal opacity() const;
+    /**
+     * @brief 设置界面获取光标形状
+     * @author ut001121 zhangmeng
+     * @return
+     */
     int cursorShape() const;
+    /**
+     * @brief 设置界面获取光标闪烁属性
+     * @author ut001121 zhangmeng
+     * @return
+     */
     bool cursorBlink() const;
+    /**
+     * @brief 设置界面获取背景模糊属性
+     * @author ut001121 zhangmeng
+     * @return
+     */
     bool backgroundBlur() const;
+    /**
+     * @brief 设置界面获取主题颜色
+     * @author ut001121 zhangmeng
+     * @return
+     */
     QString colorScheme() const;
+    /**
+     * @brief 设置界面获取编码
+     * @author ut001121 zhangmeng
+     * @return
+     */
     QString encoding() const;
+    /**
+     * @brief 设置界面获取字体名称
+     * @author ut001121 zhangmeng
+     * @return
+     */
     QString fontName();
+    /**
+     * @brief 设置界面获取字体大小
+     * @author ut001121 zhangmeng
+     * @return
+     */
     int fontSize();
+    /**
+     * @brief 设置界面获取按键时是否是滚动
+     * @author ut001121 zhangmeng
+     * @return
+     */
     bool PressingScroll();
+    /**
+     * @brief 设置界面获取输出时是否是滚动
+     * @author ut001121 zhangmeng
+     * @return
+     */
     bool OutputtingScroll();
 //    void reload();
-    // 标签标题
+    /**
+     * @brief 标签标题
+     * @author ut000610 戴正文
+     * @return
+     */
     QString tabTitleFormat() const;
-    // 远程标签标题
+    /**
+     * @brief 远程标签标题
+     * @author ut000610 戴正文
+     * @return
+     */
     QString remoteTabTitleFormat() const;
-    // 当前选中的shell路径
+    /**
+     * @brief 获取当前设置选中的shell路径
+     * @author ut000610 戴正文
+     * @return
+     */
     QString shellPath() const;
-    // 重新加载shell配置
+    /**
+     * @brief 重新加载shell配置，并设置当前项
+     * @author ut000610 戴正文
+     */
     void reloadShellOptions();
-    // 为默认shell添加选项
+    /**
+     * @brief 添加默认shell的配置项
+     * @author ut000610 戴正文
+     */
     static void addShellOption();
 
-    // 设置主题
+    /**
+     * @brief 设置界面设置主题颜色
+     * @author ut001121 zhangmeng
+     * @param name
+     */
     void setColorScheme(const QString &name);
     // 设置编码格式, 这个现在限定当前mainwindow生效，不再使用这个全局接口了
 //    void setEncoding(const QString &name);
     // 通用设置
 //    void setKeyValue(const QString &name, const QString &value);
 
-    //获取内置主题
+    /**
+     * @brief 获取内置主题
+     * @author ut000125 sunchengxi
+     * @return
+     */
     QString extendColorScheme() const;
-    //设置内置主题
+    /**
+     * @brief 设置内置主题
+     * @author ut000125 sunchengxi
+     * @param name
+     */
     void setExtendColorScheme(const QString &name);
-    //颜色转字符串
+    /**
+     * @brief 颜色转字符串
+     * @author ut000125 sunchengxi
+     * @return
+     */
     QStringList color2str(QColor);
 
     DSettings *settings;
@@ -93,12 +185,31 @@ public:
     // shell配置下拉列表
     static DComboBox *g_shellConfigCombox;
 
+    /**
+     * @brief 获取当前配置粘贴是否为选择内容
+     * @author n014361 王培利
+     * @return
+     */
     bool IsPasteSelection();
 
-    // 与设置里的快捷键冲突检测
+    /**
+     * @brief 与设置里的快捷键冲突检测
+     * @author n014361 王培利
+     * @param Name 快捷键名称
+     * @param Key 快捷键键值
+     * @return
+     */
     bool isShortcutConflict(const QString &Name, const QString &Key);
+    /**
+     * @brief 每次显示设置界面时，更新设置的等宽字体
+     * @author ut001000 任飞翔
+     */
     void HandleWidthFont();
-    //是否启动Ctrl+S/Ctrl+Q流控制
+    /**
+     * @brief 是否禁用Ctrl+S和Ctrl+Q流控制
+     * @author 朱科伟
+     * @return
+     */
     bool enableControlFlow(void);
 
     //是否选择了主题
@@ -118,20 +229,55 @@ public:
 
 public:
 //    QString getKeyshortcutFromKeymap(const QString &keyCategory, const QString &keyName);
-
+    /**
+     * @brief 创建Combox控件
+     * @author ut000439 wangpeili
+     * @param obj 对象
+     * @return
+     */
     static QPair<QWidget *, QWidget *> createFontComBoBoxHandle(QObject *obj);
-    // 新增自定义slider控件
+    /**
+     * @brief 自定义slider控件样式
+     * @author n014361 王培利
+     * @param obj 对象
+     * @return
+     */
     static QPair<QWidget *, QWidget *> createCustomSliderHandle(QObject *obj);
-    // 新增自定义spinbutton控件
+    /**
+     * @brief 自定义SpinButton控件样式
+     * @author ut000439 wangpeili
+     * @param obj 对象
+     * @return
+     */
     static QPair<QWidget *, QWidget *> createSpinButtonHandle(QObject *obj);
-    // 新增自定义ShortcutEdit控件处理
+    /**
+     * @brief 自定义ShortcutEdit控件样式
+     * @author ut000439 wangpeili
+     * @param opt
+     * @return
+     */
     static QPair<QWidget *, QWidget *> createShortcutEditOptionHandle(QObject *opt);
-    // 新增自定义修改标签格式的控件
+    /**
+     * @brief 新增自定义修改标签格式的控件
+     * @author ut000610 戴正文
+     * @param opt
+     * @return
+     */
     static QPair<QWidget *, QWidget *> createTabTitleFormatOptionHandle(QObject *opt);
-    // 新增自定义修改远程标签格式的控件
+    /**
+     * @brief 新增自定义修改远程标签格式的控件
+     * @author ut000610 戴正文
+     * @param opt
+     * @return
+     */
     static QPair<QWidget *, QWidget *> createRemoteTabTitleFormatOptionHandle(QObject *opt);
-    // 新增自定义shell配置下拉列表控件
-    static QPair<QWidget *, QWidget *> createShellConfigComboxOptionHandle(QObject *opt);
+    /**
+     * @brief 新增自定义shell配置下拉列表控件
+     * @author ut000610 戴正文
+     * @param opt
+     * @return
+     */
+    static QPair<QWidget *, QWidget *> createShellConfigComboxOptionHandle(QObject *obj);
 
 signals:
     void windowSettingChanged(const QString &key);
@@ -155,8 +301,18 @@ signals:
 
 private:
     Settings();
+    /**
+     * @brief 重新安装终端后在这里重置状态
+     * @author ut001121 zhangmeng
+     */
     void loadDefaultsWhenReinstall();
-    // 创建标题格式输入控件
+    /**
+     * @brief 创建标签标题修改界面
+     * @author ut000610 戴正文
+     * @param opt
+     * @param isRemote 是否是远程标签标题
+     * @return
+     */
     static QPair<QWidget *, QWidget *>  createTabTitleFormatWidget(QObject *opt, bool isRemote);
 
     static Settings *m_settings_instance;

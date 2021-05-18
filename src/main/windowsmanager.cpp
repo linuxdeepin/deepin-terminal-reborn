@@ -32,12 +32,6 @@ WindowsManager *WindowsManager::instance()
     return  pManager;
 }
 
-/*******************************************************************************
- 1. @函数:    runQuakeWindow
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    运行雷神窗口
-*******************************************************************************/
 void WindowsManager::runQuakeWindow(TermProperties properties)
 {
     if (nullptr == m_quakeWindow) {
@@ -57,72 +51,49 @@ void WindowsManager::runQuakeWindow(TermProperties properties)
     quakeWindowShowOrHide();
 }
 
-/*******************************************************************************
- 1. @函数:    quakeWindowShowOrHide
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    雷神窗口显示或者隐藏
-*******************************************************************************/
 void WindowsManager::quakeWindowShowOrHide()
 {
-    //MainWindow *mainWindow = getMainWindow();
-    qDebug() << "ShowOrHide" << m_quakeWindow->winId();
-
-    // 没有显示，就显示．
+    //隐藏 则 显示终端
     if (!m_quakeWindow->isVisible()) {
-        qDebug() << "!mainWindow  isVisible now show !" << m_quakeWindow->winId();
-        // 判断终端在原来窗口是否隐藏.原来窗口隐藏的情况下,显示
-        if (!m_quakeWindow->isShowOnCurrentDesktop()) {
-            //Add by ut001000 renfeixiang 2020-11-16  设置开始雷神动画效果标志
-            m_quakeWindow->setAnimationFlag(false);
-            m_quakeWindow->show();
-            //Add by ut001000 renfeixiang 2020-11-16  开始从上到下的动画
-            m_quakeWindow->topToBottomAnimation();
-            m_quakeWindow->activateWindow();
-        }
+        m_quakeWindow->setAnimationFlag(false);
+        m_quakeWindow->show();
+        m_quakeWindow->topToBottomAnimation();
+        m_quakeWindow->activateWindow();
+        return;
     }
 
-    // 没有激活就激活
-    if (!m_quakeWindow->isActiveWindow()) {
-        qDebug() << "QuakeWindow is activate, now activateWindow" << m_quakeWindow->winId();
-        int index = DBusManager::callKDECurrentDesktop();
-        if ((index != -1) && (m_quakeWindow->getDesktopIndex() != index)) {
-            // 不在同一个桌面
-            DBusManager::callKDESetCurrentDesktop(m_quakeWindow->getDesktopIndex());
-            // 选择拉伸方式，因为此时不知道鼠标位置
-            m_quakeWindow->switchEnableResize();
-            qDebug() << "isActiveWindow 拉伸函数" << m_quakeWindow->minimumHeight();
-        }
+    //不在当前桌面显示时，切换到终端所在桌面
+    int curDesktopIndex = DBusManager::callKDECurrentDesktop();
+    if(curDesktopIndex != -1 && curDesktopIndex != m_quakeWindow->getDesktopIndex()) {
+        //切换 桌面
+        DBusManager::callKDESetCurrentDesktop(m_quakeWindow->getDesktopIndex());
+        //选择拉伸方式，因为此时不知道鼠标位置
+        m_quakeWindow->switchEnableResize();
         m_quakeWindow->activateWindow();
-        // fix#42497 防止隐藏显示后"+"号高亮
         m_quakeWindow->focusCurrentPage();
         return;
     }
-
-    // 如果已经激活，那么就隐藏
-    qDebug() << "isWinVisible mainWindow->isActiveWindow() : start hide" << m_quakeWindow->winId();
-    // 雷神的普通对话框,不处理
+    // 终端的普通对话框,不处理
     if (Service::instance()->getIsDialogShow()) {
         return;
     }
-    // 雷神设置框显示,不处理
-    if (Service::instance()->isSettingDialogVisible() && (Service::instance()->getSettingOwner() == m_quakeWindow)) {
-        if (m_quakeWindow->isActiveWindow()) {
-            Service::instance()->showSettingDialog(m_quakeWindow);
-        }
+
+    //若终端和设置界面同时存在，则隐藏终端和设置界面
+    if (Service::instance()->isSettingDialogVisible() && Service::instance()->getSettingOwner() == m_quakeWindow) {
+        Service::instance()->hideSettingDialog();
+        m_quakeWindow->hideQuakeWindow();
         return;
     }
-    // 隐藏雷神
+    //终端未激活则激活
+    if(!m_quakeWindow->isActiveWindow()) {
+        m_quakeWindow->activateWindow();
+        m_quakeWindow->focusCurrentPage();
+        return;
+    }
+    //隐藏终端
     m_quakeWindow->hideQuakeWindow();
-
 }
 
-/*******************************************************************************
- 1. @函数:    createNormalWindow
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    创建普通窗口
-*******************************************************************************/
 void WindowsManager::createNormalWindow(TermProperties properties)
 {
     TermProperties newProperties = properties;
@@ -139,12 +110,6 @@ void WindowsManager::createNormalWindow(TermProperties properties)
     qDebug() << qPrintable(strNewMainWindowTime);
 }
 
-/*******************************************************************************
- 1. @函数:    onMainwindowClosed
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    主窗口关闭响应函数
-*******************************************************************************/
 void WindowsManager::onMainwindowClosed(MainWindow *window)
 {
     /***add begin by ut001121 zhangmeng 20200527 关闭终端窗口时重置设置框所有者 修复BUG28636***/
@@ -174,23 +139,11 @@ void WindowsManager::onMainwindowClosed(MainWindow *window)
     /***mod end by ut001121***/
 }
 
-/*******************************************************************************
- 1. @函数:    WindowsManager
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    窗口管理，空函数
-*******************************************************************************/
 WindowsManager::WindowsManager(QObject *parent) : QObject(parent)
 {
     Utils::set_Object_Name(this);
 }
 
-/*******************************************************************************
- 1. @函数:    widgetCount
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    终端界面计数
-*******************************************************************************/
 int WindowsManager::widgetCount() const
 {
     if (nullptr == WindowsManager::instance()->getQuakeWindow()) {
@@ -202,12 +155,6 @@ int WindowsManager::widgetCount() const
 
 }
 
-/*******************************************************************************
- 1. @函数:    terminalCountIncrease
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    终端界面计数增加
-*******************************************************************************/
 void WindowsManager::terminalCountIncrease()
 {
     ++m_widgetCount;
@@ -216,12 +163,6 @@ void WindowsManager::terminalCountIncrease()
     qDebug() << "++ Terminals Count : " << m_widgetCount;
 }
 
-/*******************************************************************************
- 1. @函数:    terminalCountReduce
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    终端界面计数减少
-*******************************************************************************/
 void WindowsManager::terminalCountReduce()
 {
     --m_widgetCount;

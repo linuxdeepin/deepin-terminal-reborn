@@ -226,12 +226,6 @@ void TabBar::setTabItemMaxWidth(int tabItemMaxWidth)
     m_tabItemMaxWidth = tabItemMaxWidth;
 }
 
-/*******************************************************************************
- 1. @函数:    identifier
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    获取识别码
-*******************************************************************************/
 const QString TabBar::identifier(int index) const
 {
     return tabData(index).toString();
@@ -583,8 +577,9 @@ QPixmap TabBar::createDragPixmapFromTab(int index, const QStyleOptionTab &option
 
     QString termIdentifer = identifier(index);
     TermWidgetPage *termPage = static_cast<MainWindow *>(this->window())->getTermPage(termIdentifer);
-    int width =  static_cast<int>(termPage->width() * ratio);
-    int height =  static_cast<int>(termPage->height() * ratio);
+    /******** fix bug 70389:连接高分屏，合并/分开窗口动画显示异常 ***************/
+    int width = termPage->width();
+    int height =  termPage->height();
     QImage screenshotImage(width, height, QImage::Format_ARGB32_Premultiplied);
     screenshotImage.setDevicePixelRatio(ratio);
     termPage->render(&screenshotImage, QPoint(), QRegion(0, 0, width, height));

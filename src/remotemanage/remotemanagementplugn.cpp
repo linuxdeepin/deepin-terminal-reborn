@@ -33,12 +33,6 @@ RemoteManagementPlugin::RemoteManagementPlugin(QObject *parent) : MainWindowPlug
     m_pluginName = "Remote Management";
 }
 
-/*******************************************************************************
- 1. @函数:    initPlugin
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理初始化插件
-*******************************************************************************/
 void RemoteManagementPlugin::initPlugin(MainWindow *mainWindow)
 {
     qDebug() << "RemoteManagementPlugin init Plugin.";
@@ -89,12 +83,6 @@ void RemoteManagementPlugin::initPlugin(MainWindow *mainWindow)
     });
 }
 
-/*******************************************************************************
- 1. @函数:    titlebarMenu
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理标题栏菜单
-*******************************************************************************/
 QAction *RemoteManagementPlugin::titlebarMenu(MainWindow *mainWindow)
 {
     QAction *remoteManagementAction(new QAction(tr("Remote management"), mainWindow));
@@ -105,12 +93,6 @@ QAction *RemoteManagementPlugin::titlebarMenu(MainWindow *mainWindow)
     return remoteManagementAction;
 }
 
-/*******************************************************************************
- 1. @函数:    getRemoteManagementTopPanel
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    获取远程管理顶部面板
-*******************************************************************************/
 RemoteManagementTopPanel *RemoteManagementPlugin::getRemoteManagementTopPanel()
 {
     if (nullptr == m_remoteManagementTopPanel) {
@@ -119,12 +101,6 @@ RemoteManagementTopPanel *RemoteManagementPlugin::getRemoteManagementTopPanel()
     return m_remoteManagementTopPanel;
 }
 
-/*******************************************************************************
- 1. @函数:    initRemoteManagementTopPanel
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    初始化远程管理顶部面板
-*******************************************************************************/
 void RemoteManagementPlugin::initRemoteManagementTopPanel()
 {
     qDebug() << __FUNCTION__;
@@ -136,12 +112,6 @@ void RemoteManagementPlugin::initRemoteManagementTopPanel()
             &RemoteManagementPlugin::doCennectServer, Qt::QueuedConnection);
 }
 
-/*******************************************************************************
- 1. @函数:    doCennectServer
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理做连接服务器
-*******************************************************************************/
 void RemoteManagementPlugin::doCennectServer(ServerConfig *curServer)
 {
     qDebug() << "RemoteManagementPlugin do connect server.";
@@ -201,12 +171,6 @@ void RemoteManagementPlugin::doCennectServer(ServerConfig *curServer)
     /********************* Modify by ut000610 daizhengwen End ************************/
 }
 
-/*******************************************************************************
- 1. @函数:    convertStringToAscii
- 2. @作者:    ut000438 王亮
- 3. @日期:    2021-03-03
- 4. @说明:    把字符串123转成形如313233的ASCII编码字符串
-*******************************************************************************/
 inline QString RemoteManagementPlugin::convertStringToAscii(const QString &strSrc)
 {
     QByteArray byte = strSrc.toLatin1();
@@ -214,12 +178,6 @@ inline QString RemoteManagementPlugin::convertStringToAscii(const QString &strSr
     return QString(byte.toHex());
 }
 
-/*******************************************************************************
- 1. @函数:    createShellFile
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-31
- 4. @说明:    创建连接远程的临时shell文件
-*******************************************************************************/
 QString RemoteManagementPlugin::createShellFile(ServerConfig *curServer)
 {
     qDebug() << "RemoteManagementPlugin create temporary shell file.";
@@ -276,12 +234,6 @@ QString RemoteManagementPlugin::createShellFile(ServerConfig *curServer)
     return QString(toFileStr + strArgs);
 }
 
-/*******************************************************************************
- 1. @函数:    setRemoteEncode
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    设置远程管理编码
-*******************************************************************************/
 void RemoteManagementPlugin::setRemoteEncode(QString encode)
 {
     TermWidget *term = m_mainWindow->currentPage()->currentTerminal();
@@ -296,12 +248,6 @@ void RemoteManagementPlugin::setRemoteEncode(QString encode)
     emit Service::instance()->checkEncode(encode);
 }
 
-/*******************************************************************************
- 1. @函数:    setBackspaceKey
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-31
- 4. @说明:    设置退格键的模式
-*******************************************************************************/
 void RemoteManagementPlugin::setBackspaceKey(TermWidget *term, QString backspaceKey)
 {
     if (backspaceKey == "control-h") {
@@ -318,12 +264,6 @@ void RemoteManagementPlugin::setBackspaceKey(TermWidget *term, QString backspace
     qDebug() << "backspace mode " << backspaceKey;
 }
 
-/*******************************************************************************
- 1. @函数:    setDeleteKey
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-31
- 4. @说明:    设置删除键的模式
-*******************************************************************************/
 void RemoteManagementPlugin::setDeleteKey(TermWidget *term, QString deleteKey)
 {
     if (deleteKey == "control-h") {

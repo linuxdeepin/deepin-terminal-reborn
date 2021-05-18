@@ -43,12 +43,36 @@ class EncodePanelPlugin : public MainWindowPluginInterface
 public:
     explicit EncodePanelPlugin(QObject *parent = nullptr);
 
+    /**
+     * @brief 初始化编码插件
+     * @author ut001121 zhangmeng
+     * @param mainWindow
+     */
     void initPlugin(MainWindow *mainWindow) override;
+    /**
+     * @brief 标题菜单
+     * @author ut001121 zhangmeng
+     * @param mainWindow
+     * @return
+     */
     QAction *titlebarMenu(MainWindow *mainWindow) override;
 
+    /**
+     * @brief 获取编码面板
+     * @author ut001121 zhangmeng
+     * @return
+     */
     EncodePanel *getEncodePanel();
+    /**
+     * @brief 初始化编码面板
+     * @author ut001121 zhangmeng
+     */
     void initEncodePanel();
-    // 设置当前term编码
+    /**
+     * @brief 设置当前终端的编码
+     * @author ut001121 zhangmeng
+     * @param term
+     */
     inline void setCurrentTermEncode(TermWidget *term);
 
 private slots:

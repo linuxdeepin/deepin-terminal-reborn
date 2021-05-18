@@ -54,12 +54,6 @@ RemoteManagementTopPanel::RemoteManagementTopPanel(QWidget *parent) : RightPanel
     m_remoteManagementPanel->hide();
 }
 
-/*******************************************************************************
- 1. @函数:    show
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理顶部面板显示
-*******************************************************************************/
 void RemoteManagementTopPanel::show()
 {
     this->showAnim();
@@ -86,25 +80,11 @@ void RemoteManagementTopPanel::show()
     qDebug() << "show remote panel! stack clear";
 }
 
-/*******************************************************************************
- 1. @函数:    setFocusInPanel
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-23
- 4. @说明:    键盘进入设置焦点
-*******************************************************************************/
 void RemoteManagementTopPanel::setFocusInPanel()
 {
     m_remoteManagementPanel->setFocusInPanel();
 }
 
-/*******************************************************************************
- 1. @函数:    showSearchPanel
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-04
- 4. @说明:    显示搜索界面
- 若当前界面为主界面 => 全局搜索
- 若当前界面为分组界面 => 组内搜索
-*******************************************************************************/
 void RemoteManagementTopPanel::showSearchPanel(const QString &strFilter)
 {
     qDebug() << "RemoteManagementTopPanel show search panel.";
@@ -157,12 +137,6 @@ void RemoteManagementTopPanel::showSearchPanel(const QString &strFilter)
     setPanelShowState(m_currentPanelType);
 }
 
-/*******************************************************************************
- 1. @函数:    showGroupPanel
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-04
- 4. @说明:    显示分组平面
-*******************************************************************************/
 void RemoteManagementTopPanel::showGroupPanel(const QString &strGroupName, bool isFocusOn)
 {
     qDebug() << "RemoteManagementTopPanel show group panel.";
@@ -228,12 +202,6 @@ void RemoteManagementTopPanel::showGroupPanel(const QString &strGroupName, bool 
     setPanelShowState(m_currentPanelType);
 }
 
-/*******************************************************************************
- 1. @函数:    showPrevPanel
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-04
- 4. @说明:    显示前一个界面
-*******************************************************************************/
 void RemoteManagementTopPanel::showPrevPanel()
 {
     qDebug() << "RemoteManagementTopPanel show previous panel.";
@@ -356,12 +324,6 @@ void RemoteManagementTopPanel::showPrevPanel()
     setPanelShowState(m_currentPanelType);
 }
 
-/*******************************************************************************
- 1. @函数:    setPanelShowState
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-04
- 4. @说明:    设置平面状态
-*******************************************************************************/
 void RemoteManagementTopPanel::setPanelShowState(ServerConfigManager::PanelType panelType)
 {
     // 设置平面状态
@@ -382,12 +344,6 @@ void RemoteManagementTopPanel::setPanelShowState(ServerConfigManager::PanelType 
     }
 }
 
-/*******************************************************************************
- 1. @函数:    panelLeftToRight
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理顶部面板从左到右动画
-*******************************************************************************/
 void RemoteManagementTopPanel::panelLeftToRight(QPropertyAnimation *animation, QPropertyAnimation *animation1)
 {
     animation->setDuration(animationDuration);
@@ -408,12 +364,6 @@ void RemoteManagementTopPanel::panelLeftToRight(QPropertyAnimation *animation, Q
     connect(group, &QParallelAnimationGroup::finished, group, &QParallelAnimationGroup::deleteLater);
 }
 
-/*******************************************************************************
- 1. @函数:    panelRightToLeft
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理顶部面板从右到左动画
-*******************************************************************************/
 void RemoteManagementTopPanel::panelRightToLeft(QPropertyAnimation *animation, QPropertyAnimation *animation1)
 {
     animation->setDuration(animationDuration);

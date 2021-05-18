@@ -45,27 +45,77 @@ class RemoteManagementPlugin : public MainWindowPluginInterface
     Q_OBJECT
 public:
     explicit RemoteManagementPlugin(QObject *parent = nullptr);
+    /**
+     * @brief 远程管理初始化插件
+     * @author ut000610 daizhengwen
+     * @param mainWindow 主窗口
+     */
     void initPlugin(MainWindow *mainWindow) override;
+    /**
+     * @brief 远程管理标题栏菜单
+     * @author ut000610 daizhengwen
+     * @param mainWindow 主窗口
+     * @return
+     */
     QAction *titlebarMenu(MainWindow *mainWindow) override;
 
+    /**
+     * @brief 获取远程管理顶部面板
+     * @author ut000610 daizhengwen
+     * @return
+     */
     RemoteManagementTopPanel *getRemoteManagementTopPanel();
+    /**
+     * @brief 初始化远程管理顶部面板
+     * @author ut000610 daizhengwen
+     */
     void initRemoteManagementTopPanel();
+    /**
+     * @brief 创建连接远程的临时shell文件
+     * @author ut000610 戴正文
+     * @param curServer
+     * @return
+     */
     QString createShellFile(ServerConfig *curServer);
 
-    // 设置远程编码
+    /**
+     * @brief 设置远程管理编码
+     * @author ut000610 daizhengwen
+     * @param encode 编码
+     */
     void setRemoteEncode(QString encode);
-    // 设置退格模式
+    /**
+     * @brief 设置退格键的模式
+     * @author ut000610 戴正文
+     * @param term
+     * @param backspaceKey
+     */
     void setBackspaceKey(TermWidget *term, QString backspaceKey);
-    // 设置删除模式
+    /**
+     * @brief 设置删除键的模式
+     * @author ut000610 戴正文
+     * @param term
+     * @param deleteKey
+     */
     void setDeleteKey(TermWidget *term, QString deleteKey);
 signals:
     void doHide();
 
 public slots:
+    /**
+     * @brief 远程管理做连接服务器
+     * @author ut000610 daizhengwen
+     * @param curServer
+     */
     void doCennectServer(ServerConfig *curServer);
 
 private:
-    // 把字符串123转成形如313233的ASCII编码字符串
+    /**
+     * @brief 把字符串123转成形如313233的ASCII编码字符串
+     * @author ut000438 王亮
+     * @param strSrc 把字符串
+     * @return
+     */
     QString convertStringToAscii(const QString &strSrc);
 
     MainWindow *m_mainWindow = nullptr;

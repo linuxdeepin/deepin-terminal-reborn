@@ -43,6 +43,11 @@ public:
     explicit NewDspinBox(QWidget *parent = nullptr);
 
 protected:
+    /**
+     * @brief 重写wheelEvent函数，只有有焦点的情况，才进行字体大小变化
+     * @author ut001000 任飞翔
+     * @param event
+     */
     void wheelEvent(QWheelEvent *event) override;
 };
 

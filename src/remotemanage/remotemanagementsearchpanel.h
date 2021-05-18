@@ -45,13 +45,37 @@ class RemoteManagementSearchPanel : public CommonPanel
 public:
 
     explicit RemoteManagementSearchPanel(QWidget *parent = nullptr);
+    /**
+     * @brief 远程管理搜索面板按组和过滤器刷新数据
+     * @author ut000610 daizhengwen
+     * @param strGroup 组
+     * @param strFilter 过滤器
+     */
     void refreshDataByGroupAndFilter(const QString &strGroup, const QString &strFilter);
+    /**
+     * @brief 远程管理搜索面板按过滤器刷新数据
+     * @author ut000610 daizhengwen
+     * @param strFilter 过滤器
+     */
     void refreshDataByFilter(const QString &strFilter);
-    // 清除界面所有焦点
+    /**
+     * @brief 清除界面所有的焦点
+     * @author ut000610 戴正文
+     */
     void clearAllFocus();
-    // 设置焦点返回
+    /**
+     * @brief 设置焦点返回，从分组返回
+     * @author ut000610 戴正文
+     * @param strGroup 组
+     * @param isFocusOn
+     * @param prevIndex
+     */
     void setFocusBack(const QString &strGroup, bool isFocusOn, int prevIndex);
-    // 获取列表的index
+    /**
+     * @brief 获取列表当前的焦点
+     * @author ut000610 戴正文
+     * @return
+     */
     int getListIndex();
 
 signals:
@@ -63,18 +87,38 @@ signals:
     void rebackPrevPanel();
 
 public slots:
-    // 处理连接远程操作
+    /**
+     * @brief 远程项被点击，连接远程
+     * @author ut000610 戴正文
+     * @param key
+     */
     void onItemClicked(const QString &key);
-    // 处理焦点出列表的事件
+    /**
+     * @brief 焦点从列表中出的事件
+     * @author ut000610 戴正文
+     * @param type 类型
+     */
     void onFocusOutList(Qt::FocusReason type);
-    // 处理刷新列表信号
+    /**
+     * @brief 处理刷新列表信号
+     * @author ut000610 戴正文
+     */
     void onRefreshList();
 
     void handleThemeTypeChanged(DGuiApplicationHelper::ColorType themeType);
     void handleListViewFocusOut(Qt::FocusReason type);
 
 private:
+    /**
+     * @brief 远程管理搜索面板初始化UI界面
+     * @author ut000610 daizhengwen
+     */
     void initUI();
+    /**
+     * @brief 设置远程管理搜索的过滤器
+     * @author ut000610 daizhengwen
+     * @param filter 过滤器
+     */
     void setSearchFilter(const QString &filter);
 
 private:

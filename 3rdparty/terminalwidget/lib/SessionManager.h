@@ -83,10 +83,6 @@ public:
     void setTerminalResizing(int sessionId, bool bTerminalResizing);
     bool isTerminalResizing(int sessionId);
 
-    //用于存储当前shell提示符的路径深度(比如/home/test 路径深度为2)
-    void setTerminalPathDepth(int sessionId, int pathDepth);
-    int getTerminalPathDepth(int sessionId);
-
 signals:
     void sessionIdle(bool isIdle);
 

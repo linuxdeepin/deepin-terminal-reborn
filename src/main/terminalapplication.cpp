@@ -52,49 +52,26 @@ TerminalApplication::TerminalApplication(int &argc, char *argv[]) : DApplication
 
 TerminalApplication::~TerminalApplication()
 {
-    // app结束时，释放Service
-    if (nullptr != Service::instance()) {
-        delete Service::instance();
-    }
+    Service::releaseInstance();
 }
-/*******************************************************************************
- 1. @函数:    setStartTime
- 2. @作者:    ut000439 王培利
- 3. @日期:    2020-08-08
- 4. @说明:    把main初始的时间，设置为应用启动时间
-*******************************************************************************/
+
 void TerminalApplication::setStartTime(qint64 time)
 {
     m_AppStartTime = time;
 }
-/*******************************************************************************
- 1. @函数:    getStartTime
- 2. @作者:    ut000439 王培利
- 3. @日期:    2020-08-08
- 4. @说明:    只有主进程在创建mainwindow的时候会用到。
-*******************************************************************************/
+
 qint64 TerminalApplication::getStartTime()
 {
     return m_AppStartTime;
 }
-/*******************************************************************************
- 1. @函数:    handleQuitAction
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    重写了app.quit为当前窗口close.
-*******************************************************************************/
+
 void TerminalApplication::handleQuitAction()
 {
     qDebug() << "handleQuitAction";
     activeWindow()->close();
 }
 
-/*******************************************************************************
- 1. @函数:    notify
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    // 该部分代码，大都 用于调试，待整理
-*******************************************************************************/
+
 bool TerminalApplication::notify(QObject *object, QEvent *event)
 {
     // 针对DTK做的特殊处理,等DTK自己完成后,需要删除
@@ -249,12 +226,6 @@ bool TerminalApplication::notify(QObject *object, QEvent *event)
     return QApplication::notify(object, event);
 }
 
-/*******************************************************************************
- 1. @函数:    pressSpace
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-06
- 4. @说明:    模拟键盘space按压效果
-*******************************************************************************/
 void TerminalApplication::pressSpace(DPushButton *pushButton)
 {
     // 模拟空格键按下事件

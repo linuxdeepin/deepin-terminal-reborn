@@ -125,6 +125,12 @@ public:
     explicit TabBar(QWidget *parent = nullptr);
     ~TabBar();
 
+    /**
+     * @brief 获取识别码
+     * @author ut000610 daizhengwen
+     * @param index
+     * @return
+     */
     const QString identifier(int index) const;
 
     /**

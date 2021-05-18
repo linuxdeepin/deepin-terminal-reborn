@@ -62,13 +62,6 @@ void UI_WindowsManager_Test::TearDown()
 
 #ifdef UI_WINDOWSMANAGER_TEST
 
-//// 窗口数量增加
-//void terminalCountIncrease();
-//// 窗口数量减少
-//void terminalCountReduce();
-//// 获取当前窗口数量
-//int widgetCount() const;
-
 TEST_F(UI_WindowsManager_Test, runQuakeWindow)
 {
     WindowsManager *winManager = WindowsManager::instance();
@@ -179,7 +172,7 @@ TEST_F(UI_WindowsManager_Test, quakeWindowShowOrHide)
     WindowsManager::instance()->quakeWindowShowOrHide();
     // 相当于再次Alt+F2
     WindowsManager::instance()->runQuakeWindow(m_quakeTermProperty);
-    // 雷神影藏 => 又开始了新一轮的动画
+    // 雷神隐藏 => 又开始了新一轮的动画
     EXPECT_EQ(WindowsManager::instance()->getQuakeWindow()->isNotAnimation, false);
 
     // 关闭雷神窗口

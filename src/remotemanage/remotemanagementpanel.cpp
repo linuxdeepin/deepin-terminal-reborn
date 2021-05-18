@@ -30,12 +30,6 @@ RemoteManagementPanel::RemoteManagementPanel(QWidget *parent) : CommonPanel(pare
     initUI();
 }
 
-/*******************************************************************************
- 1. @函数:    refreshPanel
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    刷新远程管理面板
-*******************************************************************************/
 void RemoteManagementPanel::refreshPanel()
 {
     // 清空搜索框
@@ -46,12 +40,6 @@ void RemoteManagementPanel::refreshPanel()
     refreshSearchState();
 }
 
-/*******************************************************************************
- 1. @函数:    setFocusInPane
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-23
- 4. @说明:    将焦点设置进入panel，有搜索框焦点进搜索框，没搜索框，焦点进入列表，没列表，焦点进添加按钮
-*******************************************************************************/
 void RemoteManagementPanel::setFocusInPanel()
 {
     qDebug() << "RemoteManagementPanel focus in Panel.";
@@ -71,12 +59,6 @@ void RemoteManagementPanel::setFocusInPanel()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    setFocusBack
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-23
- 4. @说明:    从分组中返回
-*******************************************************************************/
 void RemoteManagementPanel::setFocusBack(const QString &strGroup)
 {
     qDebug() << "RemoteManagementPanel return from RemoteManageGroup";
@@ -104,12 +86,6 @@ void RemoteManagementPanel::setFocusBack(const QString &strGroup)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    clearListFocus
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-28
- 4. @说明:    清空列表的选中状态
-*******************************************************************************/
 void RemoteManagementPanel::clearListFocus()
 {
     m_pushButton->clearFocus();
@@ -118,24 +94,12 @@ void RemoteManagementPanel::clearListFocus()
     m_listWidget->clearIndex();
 }
 
-/*******************************************************************************
- 1. @函数:    getListIndex
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-05
- 4. @说明:    获取列表中当前焦点的位置
-*******************************************************************************/
 int RemoteManagementPanel::getListIndex()
 {
     qDebug() << __FUNCTION__ << "current index : " << m_listWidget->currentIndex();
     return m_listWidget->currentIndex();
 }
 
-/*******************************************************************************
- 1. @函数:    refreshSearchState
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    刷新远程管理搜索状态
-*******************************************************************************/
 void RemoteManagementPanel::refreshSearchState()
 {
     if (m_listWidget->count() >= 2) {
@@ -148,12 +112,6 @@ void RemoteManagementPanel::refreshSearchState()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    onItemClicked
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-21
- 4. @说明:    远程项被点击，连接远程管理
-*******************************************************************************/
 void RemoteManagementPanel::onItemClicked(const QString &key)
 {
     // 获取远程信息
@@ -165,12 +123,6 @@ void RemoteManagementPanel::onItemClicked(const QString &key)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    showCurSearchResult
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    显示远程管理当前搜索结果
-*******************************************************************************/
 void RemoteManagementPanel::showCurSearchResult()
 {
     QString strTxt = m_searchEdit->text();
@@ -180,12 +132,6 @@ void RemoteManagementPanel::showCurSearchResult()
     emit showSearchPanel(strTxt);
 }
 
-/*******************************************************************************
- 1. @函数:    showAddServerConfigDlg
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    显示远程管理添加服务器配置界面
-*******************************************************************************/
 void RemoteManagementPanel::showAddServerConfigDlg()
 {
     qDebug() << "RemoteManagementPanel show add server config dialog.";
@@ -213,12 +159,6 @@ void RemoteManagementPanel::showAddServerConfigDlg()
     dlg->show();
 }
 
-/*******************************************************************************
- 1. @函数:    initUI
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    初始化远程管理UI界面
-*******************************************************************************/
 void RemoteManagementPanel::initUI()
 {
     this->setBackgroundRole(QPalette::Base);

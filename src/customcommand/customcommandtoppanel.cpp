@@ -63,12 +63,6 @@ CustomCommandTopPanel::CustomCommandTopPanel(QWidget *parent)
     connect(Service::instance(), &Service::refreshCommandPanel, this, &CustomCommandTopPanel::slotsRefreshCommandPanel);
 }
 
-/*******************************************************************************
- 1. @函数:    showCustomCommandPanel
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    显示自定义命令面板的槽函数,从自定义搜索面板切换到自定义命令面板
-*******************************************************************************/
 void CustomCommandTopPanel::showCustomCommandPanel()
 {
     qDebug() << "showCustomCommandPanel" << endl;
@@ -111,12 +105,6 @@ void CustomCommandTopPanel::showCustomCommandPanel()
     group->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-/*******************************************************************************
- 1. @函数:    showCustomCommandSearchPanel
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    根据搜索条件显示搜索面板的槽函数
-*******************************************************************************/
 void CustomCommandTopPanel::showCustomCommandSearchPanel(const QString &strFilter)
 {
     qDebug() << "showCustomCommandSearchPanel" << endl;
@@ -148,13 +136,6 @@ void CustomCommandTopPanel::showCustomCommandSearchPanel(const QString &strFilte
     group->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-/*******************************************************************************
- 1. @函数:    show
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    显示自定义列表面板，隐藏搜索面板，
-             根据参数，控制自定义面板是否显示时是否带有焦点
-*******************************************************************************/
 void CustomCommandTopPanel::show(bool bSetFocus)
 {
     this->showAnim();
@@ -177,12 +158,6 @@ void CustomCommandTopPanel::show(bool bSetFocus)
 
 }
 
-/*******************************************************************************
- 1. @函数:    slotsRefreshCommandPanel
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    刷新自定义列表数据的槽函数
-*******************************************************************************/
 void CustomCommandTopPanel::slotsRefreshCommandPanel()
 {
     qDebug() <<  __FUNCTION__ << __LINE__;

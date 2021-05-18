@@ -64,22 +64,85 @@ public:
                                  QWidget *parent = nullptr);
     ~CustomCommandOptDlg()override;
 
+    /**
+     * @brief 增加内容布局
+     * @author sunchengxi
+     * @param content 内容布局
+     */
     void addContent(QWidget *content);
+    /**
+     * @brief 操作界面增加取消和确认按钮布局
+     * @author sunchengxi
+     */
     void addCancelConfirmButtons();
 
+    /**
+     * @brief 设置标题图标
+     * @author sunchengxi
+     * @param iconPixmap 标题图标
+     */
     void setIconPixmap(const QPixmap &iconPixmap);
+    /**
+     * @brief 设置取消按钮的内容文本
+     * @author sunchengxi
+     * @param strCancel 取消按钮的内容文本
+     */
     void setCancelBtnText(const QString &strCancel);
+    /**
+     * @brief 设置确认按钮的内容文本
+     * @author sunchengxi
+     * @param strConfirm 确认按钮的内容文本
+     */
     void setConfirmBtnText(const QString &strConfirm);
-    // 快捷键冲突弹窗
+    /**
+     * @brief 显示快捷键冲突弹窗
+     * @author ut000610 戴正文
+     * @param txt
+     */
     void showShortcutConflictMsgbox(QString txt);
+    /**
+     * @brief 关闭信号槽关联
+     * @author sunchengxi
+     */
     void closeRefreshDataConnection();
+    /**
+     * @brief 快捷键冲突判断
+     * @author sunchengxi
+     * @param sequence
+     * @return
+     */
     bool checkSequence(const QKeySequence &sequence);
+    /**
+     * @brief 设置模型索引
+     * @author sunchengxi
+     * @param mi
+     */
     void setModelIndex(QModelIndex mi);
 
+    /**
+     * @brief 获取返回结果
+     * @author sunchengxi
+     * @return
+     */
     QDialog::DialogCode getConfirmResult();
+    /**
+     * @brief 获取主布局
+     * @author sunchengxi
+     * @return
+     */
     QVBoxLayout *getMainLayout();
 
+    /**
+     * @brief 获取当前快捷键
+     * @author sunchengxi
+     * @return
+     */
     QAction *getCurCustomCmd();
+    /**
+     * @brief 判断是否是删除操作
+     * @author sunchengxi
+     * @return
+     */
     bool isDelCurCommand();
     CustomCommandData *m_currItemData = nullptr;    //当前自定义列表项数据指针
     QModelIndex modelIndex;                             //模型索引
@@ -87,22 +150,59 @@ public:
     unsigned int  m_iTabModifyTime = 0;                 //键盘操作进行修改的时间戳
 
 protected:
+    /**
+     * @brief 初始化操作界面的标题布局
+     * @author sunchengxi
+     */
     void initUITitle();
+    /**
+     * @brief 字体颜色跟随主题变化响应槽初始化
+     * @author sunchengxi
+     */
     void initTitleConnections();
     //此接口暂时注释保留不删除，2020.12.23
     //void setLogoVisable(bool visible = true);
+    /**
+     * @brief 设置自定义命令操作窗口的标题
+     * @author sunchengxi
+     * @param title 标题
+     */
     void setTitle(const QString &title);
+    /**
+     * @brief 获取自定义命令操作窗口的内容布局
+     * @author sunchengxi
+     * @return
+     */
     QLayout *getContentLayout();
 
     //Overrides
+    /**
+     * @brief 自定义命令操作关闭事件
+     * @author sunchengxi
+     * @param event 关闭事件
+     */
     void closeEvent(QCloseEvent *event) override;
 signals:
     void closed();
     void confirmBtnClicked();
 
 private slots:
+    /**
+     * @brief 自定义命令操作确认按钮响应槽
+     * @author sunchengxi
+     */
     void slotAddSaveButtonClicked();
+    /**
+     * @brief 删除按钮触发响应槽
+     * @author sunchengxi
+     */
     void slotDelCurCustomCommand();
+    /**
+     * @brief 刷新数据槽
+     * @author sunchengxi
+     * @param oldCmdName 旧的自定义命令的名称
+     * @param newCmdName 新的自定义命令的名称
+     */
     void slotRefreshData(QString oldCmdName, QString newCmdName);
 
     void slotNameLineEditingFinished();
@@ -120,7 +220,15 @@ private slots:
     void slotSetShortCutLineEditFocus();
 
 private:
+    /**
+     * @brief 初始化自定义命令操作窗口界面布局
+     * @author sunchengxi
+     */
     void initUI();
+    /**
+     * @brief 终端中选中内容，创建自定义命令，选中内容没有自动粘贴到命令输入框
+     * @author sunchengxi
+     */
     void initCommandFromClipBoardText();
 
     CustomCmdOptType m_type;

@@ -69,12 +69,6 @@ Settings::~Settings()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    init
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面初始化
-*******************************************************************************/
 // 统一初始化以后方可使用。
 void Settings::init()
 {
@@ -214,12 +208,6 @@ void Settings::init()
 
 }
 
-/*******************************************************************************
- 1. @函数:    color2str
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-12-01
- 4. @说明:    颜色转字符串
-*******************************************************************************/
 QStringList Settings::color2str(QColor color)
 {
     QStringList ret;
@@ -229,12 +217,6 @@ QStringList Settings::color2str(QColor color)
     return ret;
 }
 
-/*******************************************************************************
- 1. @函数:    loadDefaultsWhenReinstall
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    重新安装终端后在这里重置状态
-*******************************************************************************/
 //重新安装终端后在这里重置状态
 void Settings::loadDefaultsWhenReinstall()
 {
@@ -244,12 +226,6 @@ void Settings::loadDefaultsWhenReinstall()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    addShellOption
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-25
- 4. @说明:    添加加默认shell的配置项
-*******************************************************************************/
 void Settings::addShellOption()
 {
     g_shellConfigCombox->clear();
@@ -266,12 +242,6 @@ void Settings::addShellOption()
     g_shellConfigCombox->addItems(keysList);
 }
 
-/*******************************************************************************
- 1. @函数:    createTabTitleFormatWidget
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-02
- 4. @说明:    创建标签标题修改界面
-*******************************************************************************/
 QPair<QWidget *, QWidget *>  Settings::createTabTitleFormatWidget(QObject *opt, bool isRemote)
 {
     DTK_CORE_NAMESPACE::DSettingsOption *option = qobject_cast<DTK_CORE_NAMESPACE::DSettingsOption *>(opt);
@@ -301,12 +271,6 @@ QPair<QWidget *, QWidget *>  Settings::createTabTitleFormatWidget(QObject *opt, 
     return optionWidget;
 }
 
-/*******************************************************************************
- 1. @函数:    initConnection
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面初始化连接
-*******************************************************************************/
 void Settings::initConnection()
 {
     connect(settings, &Dtk::Core::DSettings::valueChanged, this, [ = ](const QString & key, const QVariant & value) {
@@ -370,78 +334,36 @@ void Settings::initConnection()
     });
 }
 
-/*******************************************************************************
- 1. @函数:    opacity
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取透明度的值
-*******************************************************************************/
 qreal Settings::opacity() const
 {
     return settings->option("basic.interface.opacity")->value().toInt() / 100.0;
 }
 
-/*******************************************************************************
- 1. @函数:    colorScheme
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取主题颜色
-*******************************************************************************/
 QString Settings::colorScheme() const
 {
     return settings->option("basic.interface.theme")->value().toString();
 }
 
-/*******************************************************************************
- 1. @函数:    encoding
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取编码
-*******************************************************************************/
 QString Settings::encoding() const
 {
     return m_EncodeName;
 }
 
-/*******************************************************************************
- 1. @函数:    fontName
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取字体名称
-*******************************************************************************/
 QString Settings::fontName()
 {
     return settings->option("basic.interface.font")->value().toString();
 }
 
-/*******************************************************************************
- 1. @函数:    fontSize
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取字体大小
-*******************************************************************************/
 int Settings::fontSize()
 {
     return settings->option("basic.interface.font_size")->value().toInt();
 }
 
-/*******************************************************************************
- 1. @函数:    PressingScroll
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取按键时是否是滚动
-*******************************************************************************/
 bool Settings::PressingScroll()
 {
     return settings->option("advanced.scroll.scroll_on_key")->value().toBool();
 }
 
-/*******************************************************************************
- 1. @函数:    OutputtingScroll
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取输出时是否是滚动
-*******************************************************************************/
 bool Settings::OutputtingScroll()
 {
     return settings->option("advanced.scroll.scroll_on_output")->value().toBool();
@@ -470,34 +392,16 @@ bool Settings::OutputtingScroll()
 //    }
 //}
 
-/*******************************************************************************
- 1. @函数:    tabTitleFormat
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-29
- 4. @说明:    标签标题
-*******************************************************************************/
 QString Settings::tabTitleFormat() const
 {
     return settings->option("basic.tab_title.tab_title_format")->value().toString();
 }
 
-/*******************************************************************************
- 1. @函数:    remoteTabTitleFormat
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-29
- 4. @说明:    远程标签标题
-*******************************************************************************/
 QString Settings::remoteTabTitleFormat() const
 {
     return settings->option("basic.tab_title.remote_tab_title_format")->value().toString();
 }
 
-/*******************************************************************************
- 1. @函数:    shellPath
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-27
- 4. @说明:    获取当前设置选中的shell路径
-*******************************************************************************/
 QString Settings::shellPath() const
 {
     QString strShellProgram = settings->option("advanced.shell.default_shell")->value().toString();
@@ -510,12 +414,6 @@ QString Settings::shellPath() const
     return strShellProgram;
 }
 
-/*******************************************************************************
- 1. @函数:    reloadShellOptions
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-30
- 4. @说明:    重新加载最新项，并设置当前项
-*******************************************************************************/
 void Settings::reloadShellOptions()
 {
     // 记录设置当前值
@@ -527,67 +425,31 @@ void Settings::reloadShellOptions()
     g_shellConfigCombox->setCurrentText(shellMap.key(strShellProgram));
 }
 
-/*******************************************************************************
- 1. @函数:    cursorShape
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取光标形状
-*******************************************************************************/
 int Settings::cursorShape() const
 {
     return settings->option("advanced.cursor.cursor_shape")->value().toInt();
 }
 
-/*******************************************************************************
- 1. @函数:    cursorBlink
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取光标闪烁属性
-*******************************************************************************/
 bool Settings::cursorBlink() const
 {
     return settings->option("advanced.cursor.cursor_blink")->value().toBool();
 }
 
-/*******************************************************************************
- 1. @函数:    backgroundBlur
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面获取背景模糊属性
-*******************************************************************************/
 bool Settings::backgroundBlur() const
 {
     return settings->option("advanced.window.blurred_background")->value().toBool();
 }
 
-/*******************************************************************************
- 1. @函数:    setColorScheme
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置界面设置主题颜色
-*******************************************************************************/
 void Settings::setColorScheme(const QString &name)
 {
     return settings->option("basic.interface.theme")->setValue(name);
 }
 
-/*******************************************************************************
- 1. @函数:    extendColorScheme
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-10-28
- 4. @说明:    获取内置主题
-*******************************************************************************/
 QString Settings::extendColorScheme() const
 {
     return settings->option("basic.interface.expand_theme")->value().toString();
 }
 
-/*******************************************************************************
- 1. @函数:    setExtendColorScheme
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-10-28
- 4. @说明:    设置内置主题
-*******************************************************************************/
 void Settings::setExtendColorScheme(const QString &name)
 {
     return settings->option("basic.interface.expand_theme")->setValue(name);
@@ -619,23 +481,11 @@ void Settings::setExtendColorScheme(const QString &name)
 //    settings->option(name)->setValue(value);
 //}
 
-/*******************************************************************************
- 1. @函数:   bool Settings::IsPasteSelection()
- 2. @作者:     n014361 王培利
- 3. @日期:     2020-01-10
- 4. @说明:   获取当前配置粘贴是否为选择内容
-*******************************************************************************/
 bool Settings::IsPasteSelection()
 {
     return settings->option("advanced.cursor.auto_copy_selection")->value().toBool();
 }
 
-/*******************************************************************************
- 1. @函数:    isShortcutConflict
- 2. @作者:    n014361 王培利
- 3. @日期:    2020-04-09
- 4. @说明:    与设置里的快捷键冲突检测
-*******************************************************************************/
 bool Settings::isShortcutConflict(const QString &Name, const QString &Key)
 {
     for (QString &tmpKey : settings->keys()) {
@@ -654,12 +504,6 @@ bool Settings::isShortcutConflict(const QString &Name, const QString &Key)
 }
 
 /******** Add by ut001000 renfeixiang 2020-06-15:增加 每次显示设置界面时，更新设置的等宽字体 Begin***************/
-/*******************************************************************************
- 1. @函数:    HandleWidthFont
- 2. @作者:    ut001000 任飞翔
- 3. @日期:    2020-08-11
- 4. @说明:    每次显示设置界面时，更新设置的等宽字体
-*******************************************************************************/
 void Settings::HandleWidthFont()
 {
     QStringList Whitelist;
@@ -695,14 +539,7 @@ void Settings::HandleWidthFont()
     }
 }
 
-/*
- ***************************************************************************************
- *函数:  enableControlFlow
- *作者:  朱科伟
- *日期:  2020年11月13日
- *描述:  是否禁用Ctrl+S和Ctrl+Q流控制
- ***************************************************************************************
- */
+
 bool Settings::enableControlFlow(void)
 {
     return !settings->option("advanced.shell.enable_ctrl_flow")->value().toBool();
@@ -722,12 +559,7 @@ bool Settings::enableControlFlow(void)
 //}
 
 /******** Modify by n014361 wangpeili 2020-01-04: 创建Combox控件        ***********×****/
-/*******************************************************************************
- 1. @函数:    createFontComBoBoxHandle
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    创建Combox控件
-*******************************************************************************/
+
 QPair<QWidget *, QWidget *> Settings::createFontComBoBoxHandle(QObject *obj)
 {
     auto option = qobject_cast<DTK_CORE_NAMESPACE::DSettingsOption *>(obj);
@@ -778,12 +610,7 @@ QPair<QWidget *, QWidget *> Settings::createFontComBoBoxHandle(QObject *obj)
 
     return optionWidget;
 }
-/*******************************************************************************
- 1. @函数:    createCustomSliderHandle
- 2. @作者:    n014361 王培利
- 3. @日期:    2020-03-14
- 4. @说明:    自定义slider控件样式
-*******************************************************************************/
+
 QPair<QWidget *, QWidget *> Settings::createCustomSliderHandle(QObject *obj)
 {
     auto option = qobject_cast<DTK_CORE_NAMESPACE::DSettingsOption *>(obj);
@@ -811,12 +638,6 @@ QPair<QWidget *, QWidget *> Settings::createCustomSliderHandle(QObject *obj)
     return optionWidget;
 }
 
-/*******************************************************************************
- 1. @函数:    createSpinButtonHandle
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    自定义SpinButton控件样式
-*******************************************************************************/
 QPair<QWidget *, QWidget *> Settings::createSpinButtonHandle(QObject *obj)
 {
     auto option = qobject_cast<DTK_CORE_NAMESPACE::DSettingsOption *>(obj);
@@ -839,12 +660,6 @@ QPair<QWidget *, QWidget *> Settings::createSpinButtonHandle(QObject *obj)
     return optionWidget;
 } /********************* Modify by n014361 wangpeili End ************************/
 
-/*******************************************************************************
- 1. @函数:    createShortcutEditOptionHandle
- 2. @作者:    ut000439 wangpeili
- 3. @日期:    2020-08-11
- 4. @说明:    自定义ShortcutEdit控件样式
-*******************************************************************************/
 QPair<QWidget *, QWidget *> Settings::createShortcutEditOptionHandle(/*DSettingsWidgetFactoryPrivate *p,*/ QObject *opt)
 {
     auto option = qobject_cast<DTK_CORE_NAMESPACE::DSettingsOption *>(opt);
@@ -912,34 +727,16 @@ QPair<QWidget *, QWidget *> Settings::createShortcutEditOptionHandle(/*DSettings
     return DSettingsWidgetFactory::createStandardItem(translateContext, option, rightWidget);
 }
 
-/*******************************************************************************
- 1. @函数:    createTabTitleFormatOptionHandle
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-29
- 4. @说明:    新增自定义修改标签格式的控件
-*******************************************************************************/
 QPair<QWidget *, QWidget *> Settings::createTabTitleFormatOptionHandle(QObject *opt)
 {
     return createTabTitleFormatWidget(opt, false);
 }
 
-/*******************************************************************************
- 1. @函数:    createRemoteTabTitleFormatOptionHandle
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-02
- 4. @说明:    创建远程的标签标题格式的控件
-*******************************************************************************/
 QPair<QWidget *, QWidget *> Settings::createRemoteTabTitleFormatOptionHandle(QObject *opt)
 {
     return createTabTitleFormatWidget(opt, true);
 }
 
-/*******************************************************************************
- 1. @函数:    createShellConfigComboxOptionHandle
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-30
- 4. @说明:    创建shell配置下拉列表
-*******************************************************************************/
 QPair<QWidget *, QWidget *> Settings::createShellConfigComboxOptionHandle(QObject *obj)
 {
     DSettingsOption *option = qobject_cast<DTK_CORE_NAMESPACE::DSettingsOption *>(obj);

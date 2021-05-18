@@ -71,13 +71,27 @@ class SwitchThemeMenu : public QMenu
     Q_OBJECT
 public:
     SwitchThemeMenu(const QString &title, QWidget *parent = nullptr);
-    //捕获鼠标离开主题项事件
+    /**
+     * @brief 捕获鼠标离开主题项事件
+     * @author ut000125 sunchengxi
+     */
     void leaveEvent(QEvent *) override;
-    //主题菜单栏隐藏时触发
+    /**
+     * @brief 主题菜单栏隐藏时触发
+     * @author ut000125 sunchengxi
+     */
     void hideEvent(QHideEvent *) override;
-    //捕获鼠标进入主题项事件
+    /**
+     * @brief 捕获鼠标进入主题项事件
+     * @author ut000125 sunchengxi
+     * @param event 鼠标进入主题项事件
+     */
     void enterEvent(QEvent *event) override;
-    //处理键盘主题项左键按下离开事件
+    /**
+     * @brief 处理键盘主题项左键按下离开事件
+     * @author ut000125 sunchengxi
+     * @param event 键盘主题项左键按下离开事件
+     */
     void keyPressEvent(QKeyEvent *event) override;
 
 signals:
@@ -109,62 +123,210 @@ public:
     explicit MainWindow(TermProperties properties, QWidget *parent = nullptr);
     ~MainWindow() override;
 
+    /**
+     * @brief 基类增加标签
+     * @author ut000439 wangpeili
+     * @param properties 标签页属性
+     * @param activeTab
+     */
     void addTab(TermProperties properties, bool activeTab = false);
+    /**
+     * @brief 拖拽成功后，将之前窗口的标签插入当前MainWindow窗口
+     * @author ut000438 王亮
+     * @param tabName 标签名称
+     * @param activeTab 活动标签
+     * @param isVirtualAdd 拖拽过程中存在一种标签预览模式，此时不需要真实添加
+     * @param page 终端工作区
+     * @param insertIndex 插入标签索引
+     */
     void addTabWithTermPage(const QString &tabName, bool activeTab, bool isVirtualAdd, TermWidgetPage *page, int insertIndex = -1);
+    /**
+     * @brief 判断是否超出最大允许控件数量，如果超出则不允许新建标签
+     * @author ut000438 王亮
+     * @return
+     */
     bool beginAddTab();
+    /**
+     * @brief 结束添加标签
+     * @author ut000438 王亮
+     * @param termPage 终端工作区
+     * @param activeTab 是否拖拽过程中
+     * @param index 索引
+     * @param startTime 开始时间
+     */
     void endAddTab(TermWidgetPage *termPage, bool activeTab, int index, qint64 startTime);
 
     /******** Modify by n014361 wangpeili 2020-01-07:  关闭其它标签页功能 ************/
     // 点击，右键，快捷键以及被调用．
+    /**
+     * @brief closeTab 关闭标签页
+     * @author n014361 王培利
+     * @param identifier 标签标识符
+     * @param hasConfirmed 是否提示
+     */
     void closeTab(const QString &identifier, bool hasConfirmed = false);
+    /**
+     * @brief 根据identifier获取对应的TermWidgetPage
+     * @author ut000438 王亮
+     * @param identifier 标识符
+     * @return
+     */
     TermWidgetPage *getTermPage(const QString &identifier);
+    /**
+     * @brief 根据identifier移除对应的TermPage
+     * @author ut000438 王亮
+     * @param identifier 标识符
+     * @param isDelete
+     */
     void removeTermWidgetPage(const QString &identifier, bool isDelete);
     // Tab右键或者快捷键
+    /**
+     * @brief 关闭其它窗口
+     * @author n014361 王培利
+     * @param identifier 标识符
+     * @param hasConfirmed 是否确认
+     */
     void closeOtherTab(const QString &identifier, bool hasConfirmed = false);
-    // 整体关闭事件
+    /**
+     * @brief 关闭所有标签页功能
+     * @author n014361 王培利
+     */
     void closeAllTab();
     /********************* Modify by n014361 wangpeili End ************************/
+    /**
+     * @brief showExitConfirmDialog 关闭窗口、终端时，显示确认提示框
+     * @author ut000439 王培利
+     * @param type 类型
+     * @param count 数量
+     * @param parent
+     */
     void showExitConfirmDialog(Utils::CloseType type, int count = 1, QWidget *parent = nullptr);
 
     /************************ Mod by sunchengxi 2020-04-30:分屏修改标题异常问题 Begin************************/
+    /**
+     * @brief 获取当前标签的标题
+     * @author ut000439 wangpeili
+     * @return
+     */
     QString getCurrTabTitle();
     /************************ Mod by sunchengxi 2020-04-30:分屏修改标题异常问题 End  ************************/
-    // 焦点是否在列表上
+    /**
+     * @brief 焦点是否在列表上
+     * @author ut000610 戴正文
+     * @return
+     */
     bool isFocusOnList();
 
-    // 上传指定的文件
+    /**
+     * @brief 远程连接执行上传文件：1) 支持远程时拖拽文件自动上传2) 支持上传指定的文件
+     * @author ut000610 戴正文
+     * @param strFileNames 文件名称
+     */
     void remoteUploadFile(QString strFileNames);
-
+    /**
+      * @brief 焦点切换到某个PAGE页
+      * @author ut000439 王培利
+      * @param identifier 标识符
+      */
     void focusPage(const QString &identifier);
+    /**
+     * @brief 基类聚焦到当前页面
+     * @author ut000439 wangpeili
+     */
     void focusCurrentPage();
+    /**
+     * @brief 基类获取当前页面
+     * @author ut000439 wangpeili
+     * @return
+     */
     TermWidgetPage *currentPage();
     void setCurrentPage(TermWidgetPage *page);
+    /**
+     * @brief 基类通过标识符获取页面
+     * @author ut000439 wangpeili
+     * @param identifier 标识符
+     * @return
+     */
     TermWidgetPage *getPageByIdentifier(const QString &identifier);
 
-    // 基类终端是否闲置响应函数(闲置即没有程序运行)
+    /**
+     * @brief 基类终端是否闲置响应函数(闲置即没有程序运行)
+     * @author ut000439 wangpeili
+     * @param tabIdentifier 标签标识符
+     * @param bIdle
+     */
     void onTermIsIdle(QString tabIdentifier, bool bIdle);
 
+    /**
+     * @brief sz命令之后，等待输入文件信息，并下载文件
+     * @author ut000439 王培利
+     */
     void executeDownloadFile();
 
+    /**
+     * @brief 基类按下Ctrl+@函数
+     * @author ut000439 wangpeili
+     */
     void pressCtrlAt();
+    /**
+     * @brief 基类按下Ctrl+U函数
+     * @author ut000439 wangpeili
+     */
     void pressCtrlU();
+    /**
+     * @brief 基类睡眠函数
+     * @author ut000439 wangpeili
+     * @param msec
+     */
     void sleep(int msec);
 
-    // 由mainwindow统一指令当前显示哪个插件
+    /**
+     * @brief 由mainwindow统一指令当前显示哪个插件
+     * @author n014361 王培利
+     * @param name 插件名称
+     */
     void showPlugin(const QString &name);
-    // 快速隐藏插件
+    /**
+     * @brief 快速隐藏所有插件，resize专用的。
+     * @author n014361 王培利
+     */
     void hidePlugin();
-    // 新建标签页
+    /**
+     * @brief 基类创建新工作区域
+     * @author ut000439 wangpeili
+     */
     void createNewTab();
-    // 由mainwindow统一获取当前选择的文本。
+    /**
+     * @brief 由mainwindow统一获取当前选择的文本。
+     * @author ut000439 wangpeili
+     * @return
+     */
     QString selectedText();
 
-    // 新建窗口时间(ms)
+    /**
+     * @brief 创建新窗口需要的时间
+     * @author ut000610 戴正文
+     * @return
+     */
     qint64 createNewMainWindowTime();
 
+    /**
+     * @brief 是否有正在执行的进程
+     * @author ut000439 wangpeili
+     * @return
+     */
     bool hasRunningProcesses();
+    /**
+     * @brief 基类判断是否是雷神窗口
+     * @author ut000439 wangpeili
+     * @return
+     */
     bool isQuakeMode();
-    // 用于标记当前tab是否为雷神窗口的tab
+    /**
+     * @brief 用于标记当前tab是否为雷神窗口的tab
+     * @author ut000438 王亮
+     * @param isQuakeWindowTab 当前tab是否为雷神窗口的tab
+     */
     void setIsQuakeWindowTab(bool isQuakeWindowTab);
 
     static constexpr const char *PLUGIN_TYPE_SEARCHBAR = "Search Bar";
@@ -240,6 +402,12 @@ public:
 
     // /etc/hostname 文件路径
     static constexpr const char *HOSTNAME_PATH                 = "/etc/hostname";
+
+    /**
+     * @brief 基类获取桌面索引
+     * @author ut000439 wangpeili
+     * @return
+     */
     int getDesktopIndex() const;
 
     //Add by ut001000 renfeixiang 2020-11-16 标记是否动画效果，true : 不动画 false : 动画
@@ -262,57 +430,166 @@ signals:
     void changeEncodeSig(const QString &name);
 
 public slots:
+    /**
+     * @brief 参数修改统一接口
+     * @author n014361 王培利
+     * @param keyName 参数名
+     */
     void onWindowSettingChanged(const QString &keyName);
+    /**
+     * @brief 基类快捷键设置变化响应函数
+     * @author ut000439 wangpeili
+     * @param keyName 快捷键名称
+     */
     void onShortcutSettingChanged(const QString &keyName);
+
+    /**
+     * @brief (远程）上传文件到服务器端
+     * @author ut000439 王培利
+     */
     void remoteUploadFile();
+    /**
+     * @brief 基类从远程服务下载文
+     * @author ut000610 daizhengwen
+     */
     void remoteDownloadFile();
-    // 处理雷神窗口自动隐藏功能以及window+D一起显示的问题
+    /**
+     * @brief 处理雷神窗口自动隐藏功能以及window+D一起显示的问题
+     * @author n014361 王培利
+     * @param state 状态
+     */
     void onApplicationStateChanged(Qt::ApplicationState state);
+    /**
+     * @brief 基类增加自定义命令响应函数
+     * @author ut000125 sunchengxi
+     * @param 新的自定义名命令
+     */
     void addCustomCommandSlot(QAction *newAction);
+    /**
+     * @brief 基类删除自定义命令响应函数
+     * @author ut000125 sunchengxi
+     * @param 自定义命令
+     */
     void removeCustomCommandSlot(QAction *newAction);
 
     /******** Add by ut001000 renfeixiang 2020-06-03:增加 Begin***************/
-    //处理关闭类型的参数
+    /**
+     * @brief 处理关闭类型的参数
+     * @author ut001000 任飞翔
+     * @param result
+     * @param type 关闭类型
+     */
     void OnHandleCloseType(int result, Utils::CloseType type);
     /******** Add by ut001000 renfeixiang 2020-06-03:增加 End***************/
 
-    //QAction触发对应的自定义命令槽函数
+    /**
+     * @brief  QAction触发对应的自定义命令槽函数
+     * @author ut000438 王亮
+     */
     void onCommandActionTriggered();
 
+    /**
+     * @brief 上传文件对话框关闭处理
+     * @author ut000438 王亮
+     * @param code
+     */
     void onUploadFileDialogFinished(int code);
 
 protected:
+    /**
+     * @brief 按键响应事件，是空函数
+     * @author ut000439 wangpeili
+     * @param event
+     */
     void keyPressEvent(QKeyEvent *event) override;
+    /**
+     * @brief 基类关闭事件
+     * @author ut000439 wangpeili
+     * @param event
+     */
     void closeEvent(QCloseEvent *event) override;
+    /**
+     * @brief 基类调整大小事件
+     * @author ut000439 wangpeili
+     * @param event
+     */
     void resizeEvent(QResizeEvent *event) override;
+    /**
+     * @brief 基类事件过滤器
+     * @author ut000439 wangpeili
+     * @param watched
+     * @param event
+     * @return
+     */
     bool eventFilter(QObject *watched, QEvent *event) override;
 
     //------------------------------------------------------------
 
-    //选中当前的内置主题项
+    /**
+     * @brief 选中当前的内置主题项
+     * @author ut000125 sunchengxi
+     * @param expandThemeStr 内置主题项
+     * @param action
+     */
     void checkExtendThemeItem(const QString &expandThemeStr, QAction *&action);
-    //选中当前的主题项
+    /**
+     * @brief 选中当前的主题项
+     * @author ut000125 sunchengxi
+     */
     void checkThemeItem();
-    //增加主题菜单
+    /**
+     * @brief 增加主题菜单
+     * @author ut000125 sunchengxi
+     */
     void addThemeMenuItems();
 public:
-    //选择主题项
+    /**
+     * @brief 选择主题项
+     * @author ut000125 sunchengxi
+     */
     void switchThemeAction(QAction *);
-    //选择内置主题项
+    /**
+     * @brief 选择内置主题项
+     * @author ut000125 sunchengxi
+     * @param action
+     * @param themeNameStr 主题项
+     */
     void switchThemeAction(QAction *&action, const QString &themeNameStr);
 
 
 protected slots:
+    /**
+     * @brief 基类终端标题变化响应函数
+     * @author ut000439 wangpeili
+     * @param title 标题
+     */
     void onTermTitleChanged(QString title);
+    /**
+     * @brief 基类创建新窗口响应函数
+     * @author ut000439 wangpeili
+     * @param 工作路径
+     */
     void onCreateNewWindow(QString workingDir);
 
-    //鼠标选择时主题切换触发的槽函数
+    /**
+     * @brief 鼠标选择时主题切换触发的槽函数
+     * @author ut000125 sunchengxi
+     */
     void themeActionTriggeredSlot(QAction *);
-    //鼠标悬浮主题项时切换触发的槽函数
+    /**
+     * @brief 鼠标悬浮主题项时切换触发的槽函数
+     * @author ut000125 sunchengxi
+     */
     void themeActionHoveredSlot(QAction *);
-    //设置选中的主题项的槽函数
+    /**
+     * @brief 设置选中的主题项的槽函数
+     * @author ut000125 sunchengxi
+     */
     void setThemeCheckItemSlot();
-    //主题菜单隐藏时设置主题槽函数
+    /**
+     * @brief 主题菜单隐藏时设置主题槽函数
+     * @author ut000125 sunchengxi
+     */
     void menuHideSetThemeSlot();
 
     void slotShowRenameTabDialog(QString Identifier);
@@ -365,46 +642,150 @@ protected slots:
     void slotCustomCommandActionTriggered();
 
 protected:
+    /**
+     * @brief 基类初始化UI界面
+     * @author ut000439 wangpeili
+     */
     void initUI();
+    /**
+     * @brief 基类初始化窗口
+     * @author ut000439 wangpeili
+     */
     void initWindow();
+    /**
+     * @brief 设置默认位置，最大化，全屏还原使用
+     * @author n014361 王培利
+     */
     void setDefaultLocation();
+    /**
+     * @brief 首个普通窗口，需要居中显示
+     * @author ut000439 王培利
+     */
     void singleFlagMove();
+    /**
+     * @brief 基类获取配置窗口状态
+     * @author ut000439 wangpeili
+     * @return
+     */
     QString getConfigWindowState();
+    /**
+     * @brief 获取半屏大小（高度-1,如果不-1,最大后无法正常还原）
+     * @author n014361 王培利
+     * @return
+     */
     QSize halfScreenSize();
-    // 加载插件
+    /**
+     * @brief 基类初始化插件
+     * @author ut000439 wangpeili
+     */
     void initPlugins();
+    /**
+     * @brief 基类初始化快捷键
+     * @author ut000439 wangpeili
+     */
     void initShortcuts();
+    /**
+     * @brief 基类初始化连接
+     * @author ut000439 wangpeili
+     */
     void initConnections();
-    // 初始化标签
+    /**
+     * @brief 基类初始化标签栏
+     * @author ut000439 wangpeili
+     */
     void initTabBar();
+    /**
+     * @brief 普通模式下，option button需要在全屏时切换控件
+     * @author n014361 王培利
+     */
     void initOptionButton();
+    /**
+     * @brief option menu初始化
+     * @author n014361 王培利
+     */
     void initOptionMenu();
-    //初始化文件检测
+    /**
+     * @brief 初始化文件检测
+     * @author ut000442 zhaogongqiang
+     */
     void initFileWatcher();
+
+    /**
+     * @brief 基类设置新终端页面
+     * @author ut000439 wangpeili
+     * @param termPage 终端页面
+     * @param activePage
+     */
     void setNewTermPage(TermWidgetPage *termPage, bool activePage = true);
 
+    /**
+     * @brief 基类获取窗口信息配置路径
+     * @author ut000439 wangpeili
+     * @return
+     */
     QString getWinInfoConfigPath();
     void handleTitleBarMenuFocusPolicy();
 
+    /**
+     * @brief  基类判断标签是否访问了
+     * @author ut000439 wangpeili
+     * @param tabIdentifier 标签识别码
+     * @return
+     */
     bool isTabVisited(const QString &tabIdentifier);
+    /**
+     * @brief 基类判断是否是标签更改颜色
+     * @author ut000439 wangpeili
+     * @param tabIdentifier 标签识别码
+     * @return
+     */
     bool isTabChangeColor(const QString &tabIdentifier);
+    /**
+     * @brief 更新标签页状态
+     * @author ut000439 wangpeili
+     */
     void updateTabStatus();
 
     // 终端退出保护
     bool closeConfirm();
 
-    // 显示快捷键功能
+    /**
+     * @brief 显示快捷键列表信息
+     * @author n014361 王培利
+     */
     void displayShortcuts();
-    // 创建Json组信息
+    /**
+     * @brief 创建Json组信息
+     * @author n014361 王培利
+     * @param keyCategory 类别
+     * @param jsonGroups Json组信息
+     */
     void createJsonGroup(const QString &keyCategory, QJsonArray &jsonGroups);
-    // 创建快捷键管理
+    /**
+     * @brief 创建内置快捷键管理
+     * @author n014361 王培利
+     * @param key 快捷键
+     * @param AutoRepeat 是否可以连续触发快捷键, 默认可以
+     * @return
+     */
     QShortcut *createNewShotcut(const QString &key, bool AutoRepeat = true);
     //--added by qinyaning(nyq) 2020.4.13 18:21 解决无法从服务器下载文件的问题//
+    /**
+     * @brief 基类按下Enter键函数
+     * @author ut000439 wangpeili
+     * @param text
+     */
     void pressEnterKey(const QString &text);
 
-    // mainwindow创建结束记录
+    /**
+     * @brief mainwindow创建结束记录
+     * @author ut000439 王培利
+     */
     void createWindowComplete();
-    // 首个终端创建成功结束
+    /**
+     * @brief 首个终端创建成功结束, 统计各个时间
+     * @author ut000439 王培利
+     */
     void firstTerminalComplete();
 
 
@@ -540,22 +921,47 @@ public:
     virtual void updateMinHeight() override {return;}
 
 protected:
-    // 初始化标题栏
+    /**
+     * @brief 普通终端窗口初始化标题栏
+     * @author ut001121 zhangmeng
+     */
     virtual void initTitleBar() override;
-    // 初始化窗口属性
+    /**
+     * @brief 初始化窗口属性,标准模式的窗口设置
+     * @author n014361 王培利
+     */
     virtual void initWindowAttribute() override;
-    // 保存窗口尺寸
+    /**
+     * @brief 普通窗口保存窗口大小
+     * @author ut001121 zhangmeng
+     */
     virtual void saveWindowSize() override;
-    // 切换全屏
+    /**
+     * @brief 普通窗口全屏切换
+     * @author ut001121 zhangmeng
+     * @param forceFullscreen
+     */
     virtual void switchFullscreen(bool forceFullscreen = false) override;
-    // 计算快捷预览显示坐标
+    /**
+     * @brief 普通窗口计算快捷预览显示坐标
+     * @author ut000439 wangpeili
+     * @return
+     */
     virtual QPoint calculateShortcutsPreviewPoint() override;
-    // 处理雷神窗口丢失焦点自动隐藏功能
+    /**
+     * @brief 普通窗口处理雷神窗口丢失焦点自动隐藏功能，普通窗口不用该函数
+     * @author ut001121 zhangmeng
+     */
     virtual void onAppFocusChangeForQuake() override;
     // 根据字体和字体大小设置最小高度
     virtual void setWindowMinHeightForFont() override {return;}
 
 protected:
+    /**
+     * @brief 普通窗口变化事件
+     * @author ut001121 zhangmeng
+     * @param event 窗口变化事件
+     */
     void changeEvent(QEvent *event) override;
 };
 
@@ -586,59 +992,138 @@ public:
     ~QuakeWindow() override;
 
     /******** Add by ut001000 renfeixiang 2020-08-07:用于雷神窗口增加和减少横向分屏时，对雷神窗口的自小高进行修改，bug#41436***************/
+    /**
+     * @brief 用于雷神窗口增加和减少横向分屏时，对雷神窗口的自小高进行修改，bug#41436
+     * @author ut001000 任飞翔
+     */
     virtual void updateMinHeight() override;
 
-    // 是否在记录的当前桌面显示
+    /**
+     * @brief 给出当前桌面雷神是否显示
+     * @author ut000610 戴正文
+     * @return
+     */
     bool isShowOnCurrentDesktop();
-    // 隐藏雷神终端
+    /**
+     * @brief 隐藏雷神终端
+     * @author ut000610 戴正文
+     */
     void hideQuakeWindow();
-    // 切换窗口拉伸属性
+    /**
+     * @brief 切换窗口拉伸属性
+     * @author ut001121 张猛
+     */
     void switchEnableResize();
-    // 是否开启窗口拉伸属性
+    /**
+     * @brief 是否开放窗口拉伸属性
+     * @author ut001121 张猛
+     * @param isEnable true 可以拉伸;false 不可以拉伸
+     */
     void switchEnableResize(bool isEnable);
 
     /******** Add by ut001000 renfeixiang 2020-11-16:增加 雷神窗口动画效果函数 Begin***************/
     //设置雷神动画效果是否正在执行
     void setAnimationFlag(bool flag) {isNotAnimation = flag;}
-    //从上而下的动画效果
+    /**
+     * @brief 雷神窗口从上而下的动画效果函数
+     * @author ut001000 任飞翔
+     */
     void topToBottomAnimation();
-    //从下而上的动画效果
+    /**
+     * @brief 雷神窗口从下而上的动画效果函数
+     * @author ut001000 任飞翔
+     */
     void bottomToTopAnimation();
     /******** Add by ut001000 renfeixiang 2020-11-16 End***************/
 
 public slots:
-    // 处理resize消息
+    /**
+     * @brief 处理resize信号,延迟一段时间处理,避免处理过快,界面显示有延迟
+     * @author ut000610 戴正文
+     */
     void onResizeWindow();
 
     void slotWorkAreaResized();
 
-    //雷神窗口从上而下的动画结束的处理
+    /**
+     * @brief 雷神窗口从上而下的动画结束的处理
+     * @author ut000438 王亮
+     */
     void onTopToBottomAnimationFinished();
 
-    //雷神窗口从下而上的动画结束的处理
+    /**
+     * @brief 雷神窗口从下而上的动画结束的处理
+     * @author ut000438 王亮
+     */
     void onBottomToTopAnimationFinished();
 
 protected:
-    // 初始化标题栏
+    /**
+     * @brief 雷神窗口初始化标题栏
+     * @author ut001121 zhangmeng
+     */
     virtual void initTitleBar() override;
-    // 初始化窗口属性
+    /**
+     * @brief 初始化窗口属性,雷神窗口的特殊设置
+     * @author n014361 王培利
+     */
     virtual void initWindowAttribute() override;
-    // 保存窗口尺寸
+    /**
+     * @brief 雷神窗口保存雷神窗口大小
+     * @author ut001121 zhangmeng
+     */
     virtual void saveWindowSize() override;
     // 切换全屏
+    /**
+     * @brief 全屏切换，雷神窗口不用
+     * @author ut001121 zhangmeng
+     * @param forceFullscreen
+     */
     virtual void switchFullscreen(bool forceFullscreen = false) override;
-    // 计算快捷预览显示坐标
+    /**
+     * @brief 雷神窗口计算快捷键预览位置
+     * @author ut001121 zhangmeng
+     * @return
+     */
     virtual QPoint calculateShortcutsPreviewPoint() override;
-    // 处理雷神窗口丢失焦点自动隐藏功能
+    /**
+     * @brief 处理雷神窗口丢失焦点自动隐藏功能
+     * @author ut001121 张猛
+     */
     virtual void onAppFocusChangeForQuake() override;
-    // 根据字体和字体大小设置最小高度
+    /**
+     * @brief 雷神窗口根据字体和字体大小设置最小高度
+     * @author ut001000 任飞翔
+     */
     virtual void setWindowMinHeightForFont() override;
 
 protected:
+    /**
+     * @brief 雷神窗口变化事件
+     * @author ut001121 zhangmeng
+     * @param event 雷神窗口变化事件
+     */
     void changeEvent(QEvent *event) override;
+    /**
+     * @brief 窗口显示事件
+     * @author ut001121 张猛
+     * @param event 窗口显示事件
+     */
     void showEvent(QShowEvent *event) override;
+    /**
+     * @brief 窗口事件
+     * @author ut001121 张猛
+     * @param event 窗口事件
+     * @return
+     */
     bool event(QEvent *event) override;
-    // 事件过滤器 => 处理雷神resize
+    /**
+     * @brief 事件过滤器,处理雷神相关的事件resize
+     * @author ut000610 戴正文
+     * @param watched
+     * @param event
+     * @return
+     */
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
@@ -654,9 +1139,17 @@ private:
     //Add by ut001000 renfeixiang 2020-11-16
     //获取配置文件中保存的雷神窗口高度
     int getQuakeHeight() {return m_winInfoConfig->value(CONFIG_QUAKE_WINDOW_HEIGHT).toInt();}
-    //动画效果使用的设置雷神窗口高度的函数
+    /**
+     * @brief 动画效果使用的设置雷神窗口高度的函数
+     * @author ut001000 任飞翔
+     * @param h 雷神窗口高度
+     */
     void setHeight(int h);
-    //计算雷神动画时间函数
+    /**
+     * @brief 计算雷神动画时间函数
+     * @author ut001000 任飞翔
+     * @return
+     */
     int getQuakeAnimationTime();
 };
 

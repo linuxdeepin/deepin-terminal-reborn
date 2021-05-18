@@ -52,23 +52,54 @@ class CustomCommandPanel : public CommonPanel
 public:
     explicit CustomCommandPanel(QWidget *parent = nullptr);
     ~CustomCommandPanel();
+    /**
+     * @brief 自定义命令页面刷新
+     * @author sunchengxi
+     */
     void refreshCmdPanel();
+    /**
+     * @brief 自定义命令面板搜索框显示布局控制
+     * @author sunchengxi
+     */
     void refreshCmdSearchState();
-    // 设置焦点进入平面
+    /**
+     * @brief 将焦点设置到平面：若有搜索框，焦点进搜索框；若没搜索框，焦点进列表；若没列表，焦点进添加按钮
+     * @author ut000610 戴正文
+     */
     void setFocusInPanel();
 signals:
     void handleCustomCurCommand(const QString &strCommand);
     void focusOut();
     void showSearchResult(const QString &strCommand);
 public slots:
+    /**
+     * @brief 处理显示搜索结果的槽函数
+     * @author sunchengxi
+     */
     void showCurSearchResult();
+    /**
+     * @brief 增加自定义命令操作的槽函数
+     * @author sunchengxi
+     */
     void showAddCustomCommandDlg();
-    // 处理点击执行自定义命令
+    /**
+     * @brief 处理点击执行自定义命令
+     * @author sunchengxi
+     * @param key 自定义命令
+     */
     void doCustomCommand(const QString &key);
-    // 处理焦点出事件
+    /**
+     * @brief 处理焦点出列表的事件
+     * @author ut000610 戴正文
+     * @param type
+     */
     void onFocusOut(Qt::FocusReason type);
 
 private:
+    /**
+     * @brief 自定义命令面板界面初始化
+     * @author sunchengxi
+     */
     void initUI();
 
 public://private:

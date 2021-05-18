@@ -33,12 +33,7 @@ SettingIO::SettingIO(QObject *parent) : QObject(parent)
 {
 
 }
-/*******************************************************************************
- 1. @函数:    readIniFunc
- 2. @作者:    ut001811 朱科伟
- 3. @日期:    2020-08-31
- 4. @说明: 读取自定义配置文件
-*******************************************************************************/
+
 bool SettingIO::readIniFunc(QIODevice &device, QSettings::SettingsMap &settingsMap)
 {
     QString currentSection;
@@ -135,12 +130,6 @@ bool SettingIO::readIniFunc(QIODevice &device, QSettings::SettingsMap &settingsM
     return true;
 }
 
-/*******************************************************************************
- 1. @函数:    writeIniFunc
- 2. @作者:    ut001811 朱科伟
- 3. @日期:    2020-08-31
- 4. @说明: 写入自定义配置文件
-*******************************************************************************/
 bool SettingIO::writeIniFunc(QIODevice &device, const QSettings::SettingsMap &settingsMap)
 {
 #ifdef Q_OS_WIN
@@ -210,12 +199,6 @@ bool SettingIO::writeIniFunc(QIODevice &device, const QSettings::SettingsMap &se
     return true;
 }
 
-/*******************************************************************************
- 1. @函数:    variantToString
- 2. @作者:    ut001811 朱科伟
- 3. @日期:    2020-08-31
- 4. @说明: variant 在转换成QString
-*******************************************************************************/
 QString SettingIO::variantToString(const QVariant &v)
 {
     QString result;
@@ -251,12 +234,6 @@ QString SettingIO::variantToString(const QVariant &v)
     return result;
 }
 
-/*******************************************************************************
- 1. @函数:    stringToVariant
- 2. @作者:    ut001811 朱科伟
- 3. @日期:    2020-08-31
- 4. @说明: 将QString转换为Variant
-*******************************************************************************/
 QVariant SettingIO::stringToVariant(const QString &s)
 {
     if (s.startsWith(QChar('@'))) {
@@ -276,12 +253,6 @@ QVariant SettingIO::stringToVariant(const QString &s)
     return QVariant(s);
 }
 
-/*******************************************************************************
- 1. @函数:    escapedString
- 2. @作者:    ut001811 朱科伟
- 3. @日期:    2020-08-31
- 4. @说明:   加入特殊字符\x
-*******************************************************************************/
 QByteArray SettingIO::escapedString(const QString &src)
 {
     bool needsQuotes = false;
@@ -345,12 +316,7 @@ QByteArray SettingIO::escapedString(const QString &src)
 
 
 const char hexDigits[] = "0123456789ABCDEF";
-/*******************************************************************************
- 1. @函数:    unescapedString
- 2. @作者:    ut001811 朱科伟
- 3. @日期:    2020-08-31
- 4. @说明:    去除特殊字符\x
-*******************************************************************************/
+
 QString SettingIO::unescapedString(const QString &src)
 {
     static const char escapeCodes[][2] = {
@@ -448,12 +414,7 @@ octEscape:
 end:
     return stringResult;
 }
-/*******************************************************************************
- 1. @函数:    canTransfer
- 2. @作者:    ut001811 朱科伟
- 3. @日期:    2020-08-31
- 4. @说明:   uincode是否需要被转换
-*******************************************************************************/
+
 QString SettingIO::canTransfer(const QString &str)
 {
     QString res;
@@ -476,12 +437,6 @@ QString SettingIO::canTransfer(const QString &str)
     return res;
 }
 
-/*******************************************************************************
- 1. @函数:    iniUnescapedKey
- 2. @作者:    ut001811 朱科伟
- 3. @日期:    2020-08-31
- 4. @说明:    去除unicode的标识信息 %U
-*******************************************************************************/
 bool SettingIO::iniUnescapedKey(const QByteArray &key, int from, int to, QString &result)
 {
     bool lowercaseOnly = true;
@@ -551,12 +506,6 @@ USettings::USettings(const QString &fileName, QObject *parent)
 //析构函数
 USettings::~USettings() {}
 
-/*******************************************************************************
- 1. @函数:    beginGroup
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-12-21
- 4. @说明:    Appends prefix to the current group.
-*******************************************************************************/
 void USettings::beginGroup(const QString &prefix)
 {
     QString tempPrefix = prefix;
@@ -564,23 +513,11 @@ void USettings::beginGroup(const QString &prefix)
     QSettings::beginGroup(tempPrefix);
 }
 
-/*******************************************************************************
- 1. @函数:    endGroup
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-12-21
- 4. @说明:    Resets the group to what it was before the corresponding beginGroup() call.
-*******************************************************************************/
 void USettings::endGroup()
 {
     QSettings::endGroup();
 }
 
-/*******************************************************************************
- 1. @函数:    setValue
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-12-21
- 4. @说明:    Sets the value of setting key to value. If the key already exists, the previous value is overwritten.
-*******************************************************************************/
 void USettings::setValue(const QString &key, const QVariant &value)
 {
     QString tempKey = key;
@@ -588,12 +525,6 @@ void USettings::setValue(const QString &key, const QVariant &value)
     QSettings::setValue(tempKey, value);
 }
 
-/*******************************************************************************
- 1. @函数:    value
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-12-21
- 4. @说明:    Returns the value for setting key. If the setting doesn't exist, returns defaultValue.
-*******************************************************************************/
 QVariant USettings::value(const QString &key, const QVariant &defaultValue) const
 {
     QString tempKey = key;
@@ -602,12 +533,6 @@ QVariant USettings::value(const QString &key, const QVariant &defaultValue) cons
     return value.toString().replace(SLASH_REPLACE_CHAR, '/');
 }
 
-/*******************************************************************************
- 1. @函数:    remove
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-12-21
- 4. @说明:    Removes the setting key and any sub-settings of key.
-*******************************************************************************/
 void USettings::remove(const QString &key)
 {
     QString tempKey = key;
@@ -615,12 +540,6 @@ void USettings::remove(const QString &key)
     QSettings::remove(tempKey);
 }
 
-/*******************************************************************************
- 1. @函数:    contains
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-12-21
- 4. @说明:    Returns true if there exists a setting called key; returns false otherwise.
-*******************************************************************************/
 bool USettings::contains(const QString &key) const
 {
     QString tempKey = key;
@@ -628,12 +547,6 @@ bool USettings::contains(const QString &key) const
     return QSettings::contains(tempKey);
 }
 
-/*******************************************************************************
- 1. @函数:    contains
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-12-21
- 4. @说明:    Returns a list of all key top-level groups that contain keys that can be read using the QSettings object.
-*******************************************************************************/
 QStringList USettings::childGroups()
 {
     QStringList childGroups = QSettings::childGroups();

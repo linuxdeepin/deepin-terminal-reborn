@@ -101,7 +101,7 @@ On the Terminal interface, select the file in the current directory and right-cl
  ![1|openfile](fig/openfile.png)
 
 
-### Adjust Encoding Methods 
+### Adjust Encoding Method 
 
 When there is a messy code or display error, you may switch the encoding to solve it.
 
@@ -117,7 +117,7 @@ When there is a messy code or display error, you may switch the encoding to solv
 Window serves as the foundation for your operations in Terminal. A window is created when you launch the terminal. You can create many tabs in one window and split one tab or window into multiple workspaces.
 
 
-### Create Windows 
+### Create Window 
 
 You can create a new window in the following ways:
 
@@ -136,10 +136,10 @@ You can create a new window in the following ways:
 
 3. If you want to restore to the normal display, please press **F11**.
 
-> ![notes](../common/notes.svg) Notes: You can also right-click to select **Fullscreen** or **Exit fullscreen** on the Terminal interface.
+> ![notes](../common/notes.svg)Notes: You can also right-click to select **Fullscreen** or **Exit fullscreen** on the Terminal interface.
 
 
-### Split Windows 
+### Split Window 
 
 1. Open Terminal in Launcher.
 2. On the Terminal interface, right-click to:
@@ -156,7 +156,7 @@ You can create a new window in the following ways:
 
 
 
-### Close Workspaces 
+### Close Workspace 
 
 You can close multiple split workspaces in the following steps:
 
@@ -173,7 +173,7 @@ You can close multiple split workspaces in the following steps:
 
 ## Tab Operations
 
-### Create Tabs 
+### Create Tab 
 
 You can create new tabs as follows:
 
@@ -183,7 +183,7 @@ You can create new tabs as follows:
 - Press **Ctrl** + **Shift** + **T** on the keyboard to create a new tab.
 
 
-### Switch/Adjust Tabs 
+### Switch/Adjust Tab 
 
 You can freely switch among multiple tabs via following methods:
 
@@ -194,7 +194,7 @@ You can freely switch among multiple tabs via following methods:
 - Drag one tab out of the current window to another window.
 
 
-### Rename Tabs 
+### Rename Tab 
 
 
 1. On the Terminal interface, right-click a tab and select **Rename title**.
@@ -209,7 +209,7 @@ You can freely switch among multiple tabs via following methods:
 
  ![1|rename](fig/rename.png)
 
-### Close Tabs 
+### Close Tab 
 
 You can close tab as follows:
 
@@ -220,11 +220,11 @@ You can close tab as follows:
 
 > ![tips](../common/tips.svg)Tips: When there is only one tab in the workspace, you can also right-click and select **Close workspace** to close the tab.
 
-## Remote Management
+## Remote Server Management
 
 You can open remote management panel to add remote servers via the main menu or right-click menu. Once a remote server is added into the management list, you can automatically login just by one click. 
 
-### Add Servers 
+### Add Server 
 
 1. On the Terminal interface, click ![icon_menu](../common/icon_menu.svg)> **Remote management**.
 2. Click **Add Server** and a pop-up box will display.
@@ -235,7 +235,7 @@ You can open remote management panel to add remote servers via the main menu or 
 
  ![1|addssh](fig/addsshall.png)
 
-### Edit Servers 
+### Edit Server 
 
 1. On the Remote Management interface, click ![edit_icon](../common/edit_icon.svg) on the server.
 2. Edit server information as needed.
@@ -256,7 +256,7 @@ When you set a group for a server, it will be added in the corresponding group a
  ![0|groupssh](fig/groupssh.png)
 
 
-### Search Servers 
+### Search Server 
 
 When there are multiple servers or groups, the search box will be displayed on the top, so you can quickly search all servers.
 
@@ -293,7 +293,7 @@ You can upload and download files after logging into a remote server.
 ![1|download](fig/download.png)
 
 
-### Delete Servers 
+### Delete Server 
 
 1. Enter **Edit Server** interface.
 2. Click **Advanced options**.
@@ -304,7 +304,7 @@ You can upload and download files after logging into a remote server.
 
 ## Main Menu
 
-In the Main Menu, you can [Create Windows](#Create Windows), customize commands,  perform [Remote Management](#Remote Management), switch themes, view help manual and get more information about Album.
+In the Main Menu, you can create [New Window](#Create Window), customize commands,  perform [Remote Management](#Remote Management), switch themes, view help manual and get more information about Album.
 
 ### Theme 
 
@@ -338,9 +338,6 @@ The window theme provides multiple themes.
 
 2. In the **Basic** options, you can:
 
-   - Set **Opacity** for the background.
-   >![notes](../common/notes.svg)Notes: if Window Effect is turned off in Control Center, **Opacity** scroll bar will be hidden.
-
    - Set the font type and size.
 
    - Click the "+" or "-" icon or scroll the mouse wheel in the Font Size edition box to adjust the font size.
@@ -364,15 +361,12 @@ The window theme provides multiple themes.
 
 2. In the **Advanced** options, you can:
 
-  - Set **Cursor style**.
+  - Set cursor style.
   - Enable or disable **Cursor blink**.
   - Enable or disable **Copy on select**.
   - Enable or disable **Scroll on keystroke**.
   - Enable or disable **Scroll on output**.
   - Set the window startup mode.
-  - Enable or disable **Blur background**.
-   >![notes](../common/notes.svg)Notes: If Window Effect is turned off in Control Center, **Blur background** option will be hidden.
-
   - Enable or disable **Hide quake window after lost focus**.
   - Select **Shell profile**.
 

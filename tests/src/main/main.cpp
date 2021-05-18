@@ -28,6 +28,10 @@
 #include <QTest>
 #include <QApplication>
 
+#if defined(CMAKE_SAFETYTEST_ARG_ON)
+#include <sanitizer/asan_interface.h>
+#endif
+
 QT_BEGIN_NAMESPACE
 QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS
 QT_END_NAMESPACE
@@ -42,6 +46,11 @@ int main(int argc, char *argv[])
 
     testing::InitGoogleTest(&argc, argv);
     int ret = RUN_ALL_TESTS();
+
+#if defined(CMAKE_SAFETYTEST_ARG_ON)
+    __sanitizer_set_report_path("asan.log");
+#endif
+
     qDebug() << ret;
 
 #ifdef ENABLE_UI_TEST

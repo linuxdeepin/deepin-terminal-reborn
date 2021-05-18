@@ -46,12 +46,6 @@ CustomCommandPanel::~CustomCommandPanel()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    showCurSearchResult
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    处理显示搜索结果的槽函数
-*******************************************************************************/
 void CustomCommandPanel::showCurSearchResult()
 {
     QString strTxt = m_searchEdit->text();
@@ -61,12 +55,6 @@ void CustomCommandPanel::showCurSearchResult()
     emit showSearchResult(strTxt);
 }
 
-/*******************************************************************************
- 1. @函数:    showAddCustomCommandDlg
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    增加自定义命令操作的槽函数
-*******************************************************************************/
 void CustomCommandPanel::showAddCustomCommandDlg()
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -123,12 +111,6 @@ void CustomCommandPanel::showAddCustomCommandDlg()
     m_pdlg->show();
 }
 
-/*******************************************************************************
- 1. @函数:    doCustomCommand
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    执行自定义命令
-*******************************************************************************/
 void CustomCommandPanel::doCustomCommand(const QString &key)
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -141,12 +123,6 @@ void CustomCommandPanel::doCustomCommand(const QString &key)
     emit handleCustomCurCommand(strCommand);
 }
 
-/*******************************************************************************
- 1. @函数:    onFocusOut
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-04
- 4. @说明:    处理焦点出列表的事件
-*******************************************************************************/
 void CustomCommandPanel::onFocusOut(Qt::FocusReason type)
 {
     if ((Qt::TabFocusReason == type) || (Qt::NoFocusReason == type)) {
@@ -164,12 +140,6 @@ void CustomCommandPanel::onFocusOut(Qt::FocusReason type)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    refreshCmdPanel
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    自定义命令面刷新
-*******************************************************************************/
 void CustomCommandPanel::refreshCmdPanel()
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -178,12 +148,6 @@ void CustomCommandPanel::refreshCmdPanel()
     refreshCmdSearchState();
 }
 
-/*******************************************************************************
- 1. @函数:    refreshCmdSearchState
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    自定义命令面板搜索框显示布局控制
-*******************************************************************************/
 void CustomCommandPanel::refreshCmdSearchState()
 {
     qDebug() << __FUNCTION__ << m_cmdListWidget->count() << endl;
@@ -197,15 +161,6 @@ void CustomCommandPanel::refreshCmdSearchState()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    setFocusInPanel
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-03
- 4. @说明:    将焦点设置到平面
- 若有搜索框，焦点进搜索框
- 若没搜索框，焦点进列表
- 若没列表，焦点进添加按钮
-*******************************************************************************/
 void CustomCommandPanel::setFocusInPanel()
 {
     qDebug() <<  __FUNCTION__ << __LINE__;
@@ -223,12 +178,6 @@ void CustomCommandPanel::setFocusInPanel()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    initUI
- 2. @作者:    sunchengxi
- 3. @日期:    2020-08-05
- 4. @说明:    自定义命令面板界面初始化
-*******************************************************************************/
 void CustomCommandPanel::initUI()
 {
     setBackgroundRole(QPalette::Base);

@@ -48,20 +48,43 @@ class CustomCommandSearchRstPanel : public CommonPanel
     Q_OBJECT
 public:
     explicit CustomCommandSearchRstPanel(QWidget *parent = nullptr);
+    /**
+     * @brief 根据 strFilter 刷新搜索面板自定义列表
+     * @author sunchengxi
+     * @param strFilter
+     */
     void refreshData(const QString &strFilter);
+    /**
+     * @brief 根据 m_strFilter 刷新搜索面板自定义列表
+     * @author sunchengxi
+     */
     void refreshData();
 signals:
     void handleCustomCurCommand(const QString &strCommand);
     void showCustomCommandPanel();
 
 public slots:
+    /**
+     * @brief 执行当前搜索面板自定义命令列表中itemData 中的自定义命令
+     * @author sunchengxi
+     * @param strKey 自定义命令
+     */
     void doCustomCommand(const QString &strKey);
     void handleThemeTypeChanged(DGuiApplicationHelper::ColorType themeType);
     void handleListViewFocusOut(Qt::FocusReason type);
     void handleIconButtonFocusOut(Qt::FocusReason type);
 
 private:
+    /**
+     * @brief 初始化自定义搜索面板界面
+     * @author sunchengxi
+     */
     void initUI();
+    /**
+     * @brief 设置搜索过滤条件及显示文本
+     * @author sunchengxi
+     * @param filter 搜索过滤条件
+     */
     void setSearchFilter(const QString &filter);
     void showPreviousPanel();
 

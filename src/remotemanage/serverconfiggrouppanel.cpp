@@ -38,12 +38,6 @@ ServerConfigGroupPanel::ServerConfigGroupPanel(QWidget *parent) : CommonPanel(pa
     initUI();
 }
 
-/*******************************************************************************
- 1. @函数:    initUI
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置组面板初始化UI界面
-*******************************************************************************/
 void ServerConfigGroupPanel::initUI()
 {
     this->setBackgroundRole(QPalette::Base);
@@ -146,12 +140,6 @@ inline void ServerConfigGroupPanel::onRefreshList()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    refreshData
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置组面板刷新数据
-*******************************************************************************/
 void ServerConfigGroupPanel::refreshData(const QString &groupName)
 {
     qDebug() << __FUNCTION__;
@@ -161,15 +149,6 @@ void ServerConfigGroupPanel::refreshData(const QString &groupName)
     refreshSearchState();
 }
 
-/*******************************************************************************
- 1. @函数:    setFocusBack
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-23
- 4. @说明:    设置焦点返回的位置
- position -1 搜索框
-其他 列表位置
- 返回键按键不是这边设置
-*******************************************************************************/
 void ServerConfigGroupPanel::setFocusBack()
 {
     qDebug() << __FUNCTION__;
@@ -192,12 +171,6 @@ void ServerConfigGroupPanel::setFocusBack()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    clearAllFocus
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-29
- 4. @说明:    清除所有焦点
-*******************************************************************************/
 void ServerConfigGroupPanel::clearAllFocus()
 {
     m_rebackButton->clearFocus();
@@ -205,24 +178,12 @@ void ServerConfigGroupPanel::clearAllFocus()
     m_listWidget->clearFocus();
 }
 
-/*******************************************************************************
- 1. @函数:    handleShowSearchResult
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置组面板处理显示搜索到的结果
-*******************************************************************************/
 void ServerConfigGroupPanel::handleShowSearchResult()
 {
     QString strFilter = m_searchEdit->text();
     emit showSearchPanel(strFilter);
 }
 
-/*******************************************************************************
- 1. @函数:    refreshSearchState
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    服务器配置组面板刷新搜索状态
-*******************************************************************************/
 void ServerConfigGroupPanel::refreshSearchState()
 {
     if (m_listWidget->count() >= 2) {
@@ -235,12 +196,6 @@ void ServerConfigGroupPanel::refreshSearchState()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    onItemClicked
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-22
- 4. @说明:    列表项被点击， 连接远程
-*******************************************************************************/
 void ServerConfigGroupPanel::onItemClicked(const QString &key)
 {
     // 获取远程信息

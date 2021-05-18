@@ -43,15 +43,39 @@ class WindowsManager : public QObject
     Q_OBJECT
 public:
     static WindowsManager *instance();
+    /**
+     * @brief 运行雷神窗口
+     * @author ut000439 wangpeili
+     * @param properties 属性
+     */
     void runQuakeWindow(TermProperties properties);
+    /**
+     * @brief 雷神窗口显示或者隐藏
+     * @author ut000439 wangpeili
+     */
     void quakeWindowShowOrHide();
+    /**
+     * @brief 创建普通窗口
+     * @author ut000439 wangpeili
+     * @param properties 属性
+     */
     void createNormalWindow(TermProperties properties);
 
-    // 窗口数量增加
+    /**
+     * @brief 终端界面计数增加
+     * @author ut000439 wangpeili
+     */
     void terminalCountIncrease();
-    // 窗口数量减少
+    /**
+     * @brief 终端界面计数减少
+     * @author ut000439 wangpeili
+     */
     void terminalCountReduce();
-    // 获取当前窗口数量
+    /**
+     * @brief 终端界面计数
+     * @author ut000439 wangpeili
+     * @return
+     */
     int widgetCount() const;
     // 获取雷神窗口
     MainWindow *getQuakeWindow()
@@ -67,12 +91,21 @@ public:
 signals:
 
 public slots:
+    /**
+     * @brief 主窗口关闭响应函数
+     * @author ut000439 wangpeili
+     */
     void onMainwindowClosed(MainWindow *);
 private:
     QList<MainWindow *> m_normalWindowList;
     QuakeWindow *m_quakeWindow = nullptr;
     TermWidgetPage *m_currentPage = nullptr;
 private:
+    /**
+     * @brief 窗口管理，空函数
+     * @author ut000439 wangpeili
+     * @param parent
+     */
     explicit WindowsManager(QObject *parent = nullptr);
     static WindowsManager *pManager;
     // 窗口数量

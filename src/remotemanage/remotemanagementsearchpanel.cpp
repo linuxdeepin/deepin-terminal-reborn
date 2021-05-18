@@ -37,12 +37,6 @@ RemoteManagementSearchPanel::RemoteManagementSearchPanel(QWidget *parent) : Comm
     initUI();
 }
 
-/*******************************************************************************
- 1. @函数:    initUI
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理搜索面板初始化UI界面
-*******************************************************************************/
 void RemoteManagementSearchPanel::initUI()
 {
     this->setBackgroundRole(QPalette::Base);
@@ -126,12 +120,6 @@ inline void RemoteManagementSearchPanel::handleThemeTypeChanged(DGuiApplicationH
     m_label->setPalette(palette);
 }
 
-/*******************************************************************************
- 1. @函数:    refreshDataByGroupAndFilter
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理搜索面板按组和过滤器刷新数据
-*******************************************************************************/
 void RemoteManagementSearchPanel::refreshDataByGroupAndFilter(const QString &strGroup, const QString &strFilter)
 {
     setSearchFilter(strFilter);
@@ -142,12 +130,6 @@ void RemoteManagementSearchPanel::refreshDataByGroupAndFilter(const QString &str
     ServerConfigManager::instance()->refreshServerList(ServerConfigManager::PanelType_Search, m_listWidget, strFilter, strGroup);
 }
 
-/*******************************************************************************
- 1. @函数:    refreshDataByFilter
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    远程管理搜索面板按过滤器刷新数据
-*******************************************************************************/
 void RemoteManagementSearchPanel::refreshDataByFilter(const QString &strFilter)
 {
     setSearchFilter(strFilter);
@@ -157,12 +139,6 @@ void RemoteManagementSearchPanel::refreshDataByFilter(const QString &strFilter)
     ServerConfigManager::instance()->refreshServerList(ServerConfigManager::PanelType_Search, m_listWidget, strFilter);
 }
 
-/*******************************************************************************
- 1. @函数:    onItemClicked
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-22
- 4. @说明:    远程项被点击，连接远程
-*******************************************************************************/
 void RemoteManagementSearchPanel::onItemClicked(const QString &key)
 {
     // 获取远程信息
@@ -174,12 +150,6 @@ void RemoteManagementSearchPanel::onItemClicked(const QString &key)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    onFocusOutList
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-04
- 4. @说明:    焦点从列表中出的事件
-*******************************************************************************/
 void RemoteManagementSearchPanel::onFocusOutList(Qt::FocusReason type)
 {
     // 焦点切出，没值的时候
@@ -191,12 +161,6 @@ void RemoteManagementSearchPanel::onFocusOutList(Qt::FocusReason type)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    onRefrushList
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-04
- 4. @说明:    处理刷新列表信号
-*******************************************************************************/
 void RemoteManagementSearchPanel::onRefreshList()
 {
     // 判断是否显示
@@ -212,12 +176,6 @@ void RemoteManagementSearchPanel::onRefreshList()
 }
 
 
-/*******************************************************************************
- 1. @函数:    clearAllFocus
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-07-29
- 4. @说明:    清除界面所有的焦点
-*******************************************************************************/
 void RemoteManagementSearchPanel::clearAllFocus()
 {
     m_rebackButton->clearFocus();
@@ -225,12 +183,6 @@ void RemoteManagementSearchPanel::clearAllFocus()
     m_label->clearFocus();
 }
 
-/*******************************************************************************
- 1. @函数:    setFocusBack
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-04
- 4. @说明:    设置焦点返回，从分组返回
-*******************************************************************************/
 void RemoteManagementSearchPanel::setFocusBack(const QString &strGroup, bool isFocusOn, int prevIndex)
 {
     qDebug() << "RemoteManagementSearchPanel return from RemoteManagementGroup.";
@@ -258,24 +210,12 @@ void RemoteManagementSearchPanel::setFocusBack(const QString &strGroup, bool isF
     }
 }
 
-/*******************************************************************************
- 1. @函数:    getListIndex
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-05
- 4. @说明:    获取列表当前的焦点
-*******************************************************************************/
 int RemoteManagementSearchPanel::getListIndex()
 {
     qDebug() << __FUNCTION__ << "current index : " << m_listWidget->currentIndex();
     return m_listWidget->currentIndex();
 }
 
-/*******************************************************************************
- 1. @函数:    setSearchFilter
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    设置远程管理搜索的过滤器
-*******************************************************************************/
 void RemoteManagementSearchPanel::setSearchFilter(const QString &filter)
 {
     m_strFilter = filter;

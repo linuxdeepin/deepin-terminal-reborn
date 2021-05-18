@@ -50,7 +50,7 @@
 
 DWIDGET_USE_NAMESPACE
 using namespace Konsole;
-TermWidget::TermWidget(TermProperties properties, QWidget *parent) : QTermWidget(0, parent), m_properties(properties)
+TermWidget::TermWidget(const TermProperties &properties, QWidget *parent) : QTermWidget(0, parent), m_properties(properties)
 {
     Utils::set_Object_Name(this);
     // 窗口数量加1
@@ -174,12 +174,6 @@ TermWidget::TermWidget(TermProperties properties, QWidget *parent) : QTermWidget
     connect(this, &QTermWidget::uninstallTerminal, parentPage, &TermWidgetPage::uninstallTerminal);
 }
 
-/*******************************************************************************
- 1. @函数:    initConnections
- 2. @作者:    ut000438 王亮
- 3. @日期:    2021-03-16
- 4. @说明:    初始化信号槽连接
-*******************************************************************************/
 void TermWidget::initConnections()
 {
     // 输出滚动，会在每个输出判断是否设置了滚动，即时设置
@@ -372,24 +366,12 @@ TermWidget::~TermWidget()
     WindowsManager::instance()->terminalCountReduce();
 }
 
-/*******************************************************************************
- 1. @函数:    parentPage
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    获取父页面
-*******************************************************************************/
 TermWidgetPage *TermWidget::parentPage()
 {
     //qDebug() << "parentPage" << parentWidget();
     return  m_page;
 }
 
-/*******************************************************************************
- 1. @函数:    onTitleArgsChange
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-12-02
- 4. @说明:    标签标题参数变化
-*******************************************************************************/
 void TermWidget::onTitleArgsChange(QString key, QString value)
 {
     // tab获取参数
@@ -421,12 +403,6 @@ void TermWidget::onTitleArgsChange(QString key, QString value)
     emit termTitleChanged(getTabTitle());
 }
 
-/*******************************************************************************
- 1. @函数:    onHostnameChanged
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-12-02
- 4. @说明:    主机名变化
-*******************************************************************************/
 void TermWidget::onHostnameChanged()
 {
     // 主机名变化
@@ -472,12 +448,6 @@ inline void TermWidget::onOpenFileInFileManager()
 }
 
 /*** 修复 bug 28162 鼠标左右键一起按终端会退出 ***/
-/*******************************************************************************
- 1. @函数:    addMenuActions
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    添加菜单操作
-*******************************************************************************/
 void TermWidget::addMenuActions(const QPoint &pos)
 {
     bool isRemoting = isConnectRemote();
@@ -702,12 +672,6 @@ inline void TermWidget::openUrl(QString strUrl)
     QDesktopServices::openUrl(QUrl(strUrl));
 }
 
-/*******************************************************************************
- 1. @函数:    getFormatFileName
- 2. @作者:    ut000438 王亮
- 3. @日期:    2021-01-30
- 4. @说明:    根据选择的文件名字符串得到合法的文件名，去除文件名开头/结尾的''或""
-*******************************************************************************/
 inline QString TermWidget::getFormatFileName(QString selectedText)
 {
     QString fileName = selectedText.trimmed();
@@ -721,12 +685,6 @@ inline QString TermWidget::getFormatFileName(QString selectedText)
     return fileName;
 }
 
-/*******************************************************************************
- 1. @函数:    getFilePath
- 2. @作者:    ut000438 王亮
- 3. @日期:    2021-02-02
- 4. @说明:    根据文件名拼接得到文件路径
-*******************************************************************************/
 inline QString TermWidget::getFilePath(QString fileName)
 {
     //如果fileName本身已经是一个文件路径
@@ -737,12 +695,6 @@ inline QString TermWidget::getFilePath(QString fileName)
     return workingDirectory() + "/" + fileName;
 }
 
-/*******************************************************************************
- 1. @函数:    onOpenFile
- 2. @作者:    ut000438 王亮
- 3. @日期:    2021-02-01
- 4. @说明:    根据文件路径打开文件
-*******************************************************************************/
 inline void TermWidget::onOpenFile()
 {
     QString fileName = getFormatFileName(selectedText());
@@ -751,34 +703,16 @@ inline void TermWidget::onOpenFile()
     QDesktopServices::openUrl(fileUrl);
 }
 
-/*******************************************************************************
- 1. @函数:    RemoteEncode
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    获取远程管理的编码
-*******************************************************************************/
 QString TermWidget::RemoteEncode() const
 {
     return m_remoteEncode;
 }
 
-/*******************************************************************************
- 1. @函数:    setRemoteEncode
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    设置远程管理的编码
-*******************************************************************************/
 void TermWidget::setRemoteEncode(const QString &RemoteEncode)
 {
     m_remoteEncode = RemoteEncode;
 }
 
-/*******************************************************************************
- 1. @函数:    setBackspaceMode
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-06-02
- 4. @说明:    根据设置的模式改变退格模式
-*******************************************************************************/
 void TermWidget::setBackspaceMode(const EraseMode &backspaceMode)
 {
     char ch;
@@ -813,12 +747,6 @@ void TermWidget::setBackspaceMode(const EraseMode &backspaceMode)
     QTermWidget::setBackspaceMode(&ch, length);
 }
 
-/*******************************************************************************
- 1. @函数:    setDeleteMode
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-06-02
- 4. @说明:    根据设置的模式改变删除模式
-*******************************************************************************/
 void TermWidget::setDeleteMode(const EraseMode &deleteMode)
 {
     char ch;
@@ -846,12 +774,7 @@ void TermWidget::setDeleteMode(const EraseMode &deleteMode)
     }
     QTermWidget::setDeleteMode(&ch, length);
 }
-/*******************************************************************************
- 1. @函数:    getTermLayer
- 2. @作者:    ut000439 王培利
- 3. @日期:    2020-06-06
- 4. @说明:    获取当前terminal距离page的层次．用于限定分屏．
-*******************************************************************************/
+
 int TermWidget::getTermLayer()
 {
     int layer = 1;
@@ -864,12 +787,6 @@ int TermWidget::getTermLayer()
     return  layer;
 }
 
-/*******************************************************************************
- 1. @函数:    setTabFormat
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-28
- 4. @说明:    设置标签标题格式（全局设置）
-*******************************************************************************/
 void TermWidget::setTabFormat(const QString &tabFormat)
 {
     // 非全局设置优先级更高
@@ -880,12 +797,6 @@ void TermWidget::setTabFormat(const QString &tabFormat)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    setRemoteTabFormat
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-28
- 4. @说明:    设置远程标签标题格式(全局设置)
-*******************************************************************************/
 void TermWidget::setRemoteTabFormat(const QString &remoteTabFormat)
 {
     // 非全局设置优先级更高
@@ -896,12 +807,6 @@ void TermWidget::setRemoteTabFormat(const QString &remoteTabFormat)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    renameTabFormat
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-28
- 4. @说明:    重命名标签标题/远程标签标题格式
-*******************************************************************************/
 void TermWidget::renameTabFormat(const QString &tabFormat, const QString &remoteTabFormat)
 {
     // 重命名优先级高
@@ -911,12 +816,6 @@ void TermWidget::renameTabFormat(const QString &tabFormat, const QString &remote
     emit termTitleChanged(getTabTitle());
 }
 
-/*******************************************************************************
- 1. @函数:    getTabTitle
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-28
- 4. @说明:    返回标签对应的标题
-*******************************************************************************/
 QString TermWidget::getTabTitle()
 {
     QString strTabName;
@@ -936,12 +835,6 @@ QString TermWidget::getTabTitle()
     return strTabName;
 }
 
-/*******************************************************************************
- 1. @函数:    getTabTitle
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-28
- 4. @说明:    根据格式和对应参数获取标题
-*******************************************************************************/
 QString TermWidget::getTabTitle(QMap<QString, QString> format, QString TabFormat)
 {
     // 遍历参数列表
@@ -955,12 +848,6 @@ QString TermWidget::getTabTitle(QMap<QString, QString> format, QString TabFormat
     return TabFormat;
 }
 
-/*******************************************************************************
- 1. @函数:    switchThemeOnSplitScreen
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-11-09
- 4. @说明:    分屏时切换到当前选中主题方案
-*******************************************************************************/
 void TermWidget::switchThemeOnSplitScreen()
 {
     QString  expandThemeStr = "";
@@ -970,12 +857,6 @@ void TermWidget::switchThemeOnSplitScreen()
     }
 }
 
-/*******************************************************************************
- 1. @函数:    initTabTitle
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-29
- 4. @说明:    初始化标签标题
-*******************************************************************************/
 void TermWidget::initTabTitle()
 {
     static ushort sessionNumber = 0;
@@ -995,12 +876,6 @@ void TermWidget::initTabTitle()
     connect(Settings::instance(), &Settings::remoteTabFormatChanged, this, &TermWidget::setRemoteTabFormat);
 }
 
-/*******************************************************************************
- 1. @函数:    initTabTitleArgs
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-28
- 4. @说明:    初始化参数列表
-*******************************************************************************/
 void TermWidget::initTabTitleArgs()
 {
     QStringList strTabArgs = TAB_ARGS.split(" ");
@@ -1016,34 +891,16 @@ void TermWidget::initTabTitleArgs()
     qDebug() << "Tab args init! tab title count : " << m_tabArgs.count() << " remote title count : " << m_remoteTabArgs.count();
 }
 
-/*******************************************************************************
- 1. @函数:    getTabTitleFormat
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-02
- 4. @说明:    获取标签标题格式
-*******************************************************************************/
 QString TermWidget::getTabTitleFormat()
 {
     return m_tabFormat.currentTabFormat;
 }
 
-/*******************************************************************************
- 1. @函数:    getRemoteTabTitleFormat
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-02
- 4. @说明:    获取远程标签标题格式
-*******************************************************************************/
 QString TermWidget::getRemoteTabTitleFormat()
 {
     return m_tabFormat.remoteTabFormat;
 }
 
-/*******************************************************************************
- 1. @函数:    getCurrentTabTitleFormat
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-06
- 4. @说明:    获取当前term显示的标签标题
-*******************************************************************************/
 QString TermWidget::getCurrentTabTitleFormat()
 {
     // 连接远程
@@ -1055,56 +912,26 @@ QString TermWidget::getCurrentTabTitleFormat()
     return m_tabFormat.currentTabFormat;
 }
 
-/*******************************************************************************
- 1. @函数:    encode
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    获取编码
-*******************************************************************************/
 QString TermWidget::encode() const
 {
     return m_encode;
 }
 
-/*******************************************************************************
- 1. @函数:    setEncode
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    设置编码
-*******************************************************************************/
 void TermWidget::setEncode(const QString &encode)
 {
     m_encode = encode;
 }
 
-/*******************************************************************************
- 1. @函数:    isConnectRemote
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    是否连接远程管理
-*******************************************************************************/
 bool TermWidget::isConnectRemote() const
 {
     return m_isConnectRemote;
 }
 
-/*******************************************************************************
- 1. @函数:    setIsConnectRemote
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    设置连接远程管理
-*******************************************************************************/
 void TermWidget::setIsConnectRemote(bool isConnectRemote)
 {
     m_isConnectRemote = isConnectRemote;
 }
 
-/*******************************************************************************
- 1. @函数:    modifyRemoteTabTitle
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-10-29
- 4. @说明:    连接远程后修改当前标签标题
-*******************************************************************************/
 void TermWidget::modifyRemoteTabTitle(ServerConfig remoteConfig)
 {
     // 远程主机名
@@ -1118,34 +945,16 @@ void TermWidget::modifyRemoteTabTitle(ServerConfig remoteConfig)
     emit termTitleChanged(getTabTitle());
 }
 
-/*******************************************************************************
- 1. @函数:    enterSzCommand
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    是否进行下载
-*******************************************************************************/
 bool TermWidget::enterSzCommand() const
 {
     return m_enterSzCommand;
 }
 
-/*******************************************************************************
- 1. @函数:    setEnterSzCommand
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    设置进行下载
-*******************************************************************************/
 void TermWidget::setEnterSzCommand(bool enterSzCommand)
 {
     m_enterSzCommand = enterSzCommand;
 }
 
-/*******************************************************************************
- 1. @函数:    customContextMenuCall
- 2. @作者:    ut000125 sunchengxi
- 3. @日期:    2020-08-11
- 4. @说明:    自定义上下文菜单调用
-*******************************************************************************/
 inline void TermWidget::customContextMenuCall(const QPoint &pos)
 {
     /***add by ut001121 zhangmeng 20200514 右键获取焦点, 修复BUG#26003***/
@@ -1167,12 +976,6 @@ inline void TermWidget::customContextMenuCall(const QPoint &pos)
     m_menu->exec(mapToGlobal(pos));
 }
 
-/*******************************************************************************
- 1. @函数:    isInRemoteServer
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    是否在远程服务器中
-*******************************************************************************/
 bool TermWidget::isInRemoteServer()
 {
     int pid = getForegroundProcessId();
@@ -1192,12 +995,6 @@ bool TermWidget::isInRemoteServer()
     return false;
 }
 
-/*******************************************************************************
- 1. @函数:    setTermOpacity
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-11
- 4. @说明:    设置不透明度
-*******************************************************************************/
 void TermWidget::setTermOpacity(qreal opacity)
 {
     //这里再次判断一遍，因为刚启动时，还是需要判断一次当前是否开启了窗口特效
@@ -1213,12 +1010,6 @@ void TermWidget::setTermOpacity(qreal opacity)
     /********************* Modify by n014361 wangpeili End ************************/
 }
 
-/*******************************************************************************
- 1. @函数:   void TermWidgetWrapper::setTerminalFont(const QString &fontName)
- 2. @作者:     n014361 王培利
- 3. @日期:     2020-01-10
- 4. @说明:     设置字体
-*******************************************************************************/
 void TermWidget::setTermFont(const QString &fontName)
 {
     QFont font = getTerminalFont();
@@ -1226,12 +1017,6 @@ void TermWidget::setTermFont(const QString &fontName)
     setTerminalFont(font);
 }
 
-/*******************************************************************************
- 1. @函数:   void TermWidgetWrapper::setTerminalFontSize(const int fontSize)
- 2. @作者:     n014361 王培利
- 3. @日期:     2020-01-10
- 4. @说明:     设置字体大小
-*******************************************************************************/
 void TermWidget::setTermFontSize(const int fontSize)
 {
     QFont font = getTerminalFont();
@@ -1241,46 +1026,22 @@ void TermWidget::setTermFontSize(const int fontSize)
 }
 
 
-/*******************************************************************************
- 1. @函数:   void TermWidgetWrapper::skipToNextCommand()
- 2. @作者:     n014361 王培利
- 3. @日期:     2020-01-10
- 4. @说明:    跳转到下一个命令（这个功能没找到库的接口，现在是暂时是以虚拟键形式实现）
-*******************************************************************************/
 void TermWidget::skipToNextCommand()
 {
     qDebug() << "skipToNextCommand";
 }
 
-/*******************************************************************************
- 1. @函数:  void TermWidgetWrapper::skipToPreCommand()
- 2. @作者:     n014361 王培利
- 3. @日期:     2020-01-10
- 4. @说明:   跳转到前一个命令（这个功能没找到库的接口，现在是暂时是以虚拟键形式实现）
-*******************************************************************************/
 void TermWidget::skipToPreCommand()
 {
     qDebug() << "skipToPreCommand";
 }
 
-/*******************************************************************************
- 1. @函数:  void TermWidgetWrapper::setCursorShape(int shape)
- 2. @作者:     n014361 王培利
- 3. @日期:     2020-01-10
- 4. @说明:     设置光标形状
-*******************************************************************************/
 void TermWidget::setCursorShape(int shape)
 {
     Konsole::Emulation::KeyboardCursorShape cursorShape = Konsole::Emulation::KeyboardCursorShape(shape);
     setKeyboardCursorShape(cursorShape);
 }
 
-/*******************************************************************************
- 1. @函数:    setPressingScroll
- 2. @作者:    ut001121 zhangmeng
- 3. @日期:    2020-08-11
- 4. @说明:    设置按键时是否滚动
-*******************************************************************************/
 void TermWidget::setPressingScroll(bool enable)
 {
     if (enable) {
@@ -1290,12 +1051,6 @@ void TermWidget::setPressingScroll(bool enable)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    selectEncode
- 2. @作者:    ut000610 daizhengwen
- 3. @日期:    2020-08-12
- 4. @说明:    选择编码
-*******************************************************************************/
 void TermWidget::selectEncode(QString encode)
 {
     // 直接设置终端
@@ -1312,12 +1067,6 @@ void TermWidget::selectEncode(QString encode)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    onSettingValueChanged
- 2. @作者:    n014361 王培利
- 3. @日期:    2020-02-20
- 4. @说明:    Terminal的各项设置生效
-*******************************************************************************/
 void TermWidget::onSettingValueChanged(const QString &keyName)
 {
     qDebug() << "onSettingValueChanged:" << keyName;
@@ -1384,13 +1133,6 @@ void TermWidget::onSettingValueChanged(const QString &keyName)
     qDebug() << "settingValue[" << keyName << "] changed is not effective";
 }
 
-/*******************************************************************************
- 1. @函数:    onDropInUrls
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-09-03
- 4. @说明:    处理拖拽进来的文件名
- 1) 正常模式下: 目前只显示,暂不处理
-*******************************************************************************/
 void TermWidget::onDropInUrls(const char *urls)
 {
     QString strUrls = QString::fromLocal8Bit(urls);
@@ -1408,17 +1150,6 @@ void TermWidget::onDropInUrls(const char *urls)
 }
 
 
-/*******************************************************************************
- 1. @函数:    onTouchPadSignal
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-08-19
- 4. @说明:    处理触控板事件
- 1) 参数 name      : 触控板事件类型(手势或者触摸类型) pinch 捏 tap 敲 swipe 右键单击 单键
- 2) 参数 direction : 手势方向 触控板上 up 触控板下 down 左 left 右 right 无 none 向内 in 向外 out
-                    触控屏上 top 触摸屏下 bot
- 3) 参数 fingers   : 手指数量 (1,2,3,4,5)
- 注意libinput接收到触摸板事件后将接收到的数据通过Event广播出去
-*******************************************************************************/
 inline void TermWidget::onTouchPadSignal(QString name, QString direction, int fingers)
 {
     qDebug() << __FUNCTION__;
@@ -1437,14 +1168,6 @@ inline void TermWidget::onTouchPadSignal(QString name, QString direction, int fi
     }
 }
 
-/*******************************************************************************
- 1. @函数:    onShellMessage
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-30
- 4. @说明:    conment
-第一个参数: currentShell当前使用的shell,
-第二个参数：isSuccess 启用shell是否成功 true 替换了shell false 替换shell但启动失败
-*******************************************************************************/
 void TermWidget::onShellMessage(QString currentShell, bool isSuccess)
 {
     if (isSuccess) {
@@ -1459,14 +1182,6 @@ void TermWidget::onShellMessage(QString currentShell, bool isSuccess)
     }
 }
 
-/*******************************************************************************
- 1. @函数:    wheelEvent
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-09-08
- 4. @说明:    支持Ctrl + 滚轮上下事件
- Ctrl+滚轮上 放大
- Ctrl+滚轮下 缩小
-*******************************************************************************/
 void TermWidget::wheelEvent(QWheelEvent *event)
 {
     // 当前窗口被激活,且有焦点
@@ -1486,12 +1201,6 @@ void TermWidget::wheelEvent(QWheelEvent *event)
     QTermWidget::wheelEvent(event);
 }
 
-/*******************************************************************************
- 1. @函数:    eventFilter
- 2. @作者:    ut003135 changze
- 3. @日期:    2021-03-23
- 4. @说明:    终端宽度缩小时，相关弹窗也同步变化
-*******************************************************************************/
 bool TermWidget::eventFilter(QObject *o, QEvent *e)
 {
     if (m_messageTextMap.contains(o) && e->type() == QEvent::Resize) {
@@ -1504,19 +1213,10 @@ bool TermWidget::eventFilter(QObject *o, QEvent *e)
     return QTermWidget::eventFilter(o, e);
 }
 
-/*
- ***************************************************************************************
- *函数:  showFlowMessage
- *作者:  朱科伟
- *日期:  2020年11月17日
- *描述: 显示 Ctrl+S和Ctrl+Q流控制 文案提示
- ***************************************************************************************
- */
 void TermWidget::showFlowMessage(bool show)
 {
     if (nullptr == m_flowMessage) {
         m_flowMessage = new DFloatingMessage(DFloatingMessage::ResidentType, this);
-        assert(m_flowMessage);
         QList<QLabel *> lst = m_flowMessage->findChildren<QLabel *>();
         for (auto label : lst) {
             label->setWordWrap(false);
@@ -1524,27 +1224,11 @@ void TermWidget::showFlowMessage(bool show)
         m_flowMessage->setIcon(QIcon(":icons/deepin/builtin/warning.svg"));
         QString strText = QObject::tr("Output has been suspended by pressing Ctrl+S. Pressing Ctrl+Q to resume.");
         installEventMessageText(m_flowMessage, strText);
-        if (show) {
-            DMessageManager::instance()->sendMessage(this, m_flowMessage);
-        }
+        DMessageManager::instance()->sendMessage(this, m_flowMessage);
     }
-    assert(m_flowMessage);
-
-    if (show) {
-        m_flowMessage->show();
-    } else {
-        if (!m_flowMessage->isHidden()) {
-            m_flowMessage->hide();
-        }
-    }
+    m_flowMessage->setVisible(show);
 }
 
-/*******************************************************************************
- 1. @函数:    showShellMessage
- 2. @作者:    ut000610 戴正文
- 3. @日期:    2020-11-27
- 4. @说明:    shell启动失败时的悬浮提示框
-*******************************************************************************/
 void TermWidget::showShellMessage(QString strWarnings)
 {
     // 初始化悬浮框
@@ -1562,12 +1246,6 @@ void TermWidget::showShellMessage(QString strWarnings)
     DMessageManager::instance()->sendMessage(this, shellWarningsMessage);
 }
 
-/*******************************************************************************
- 1. @函数:    installEventMessageText
- 2. @作者:    ut003135 changze
- 3. @日期:    2021-03-23
- 4. @说明:    通过事件过滤器，更新DFloatingMessage的text
-*******************************************************************************/
 void TermWidget::installEventMessageText(DFloatingMessage *widget, const QString &text)
 {
     widget->setMessage("the sentence for searching MessageLabel of DFloatingMessage");
