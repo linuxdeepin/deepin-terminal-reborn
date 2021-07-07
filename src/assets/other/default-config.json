@@ -12,6 +12,7 @@
                             "key": "opacity",
                             "name": "Opacity",
                             "type": "slider",
+                            "hide": false,
                             "max": 100,
                             "min": 20,
                             "default": 100
@@ -279,6 +280,7 @@
                             "key": "blurred_background",
                             "text": "Blur background",
                             "type": "checkbox",
+                            "hide": false,
                             "default": "false"
                         },
                         {

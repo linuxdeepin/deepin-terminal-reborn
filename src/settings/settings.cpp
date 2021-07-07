@@ -32,6 +32,7 @@
 #include <DSlider>
 #include <DApplicationHelper>
 #include <DKeySequenceEdit>
+#include <DSysInfo>
 
 #include <QApplication>
 #include <QStandardPaths>
@@ -80,7 +81,51 @@ void Settings::init()
     m_backend->setObjectName("SettingsQSettingBackend");//Add by ut001000 renfeixiang 2020-08-13
 
     // 默认配置
-    settings = DSettings::fromJsonFile(":/other/default-config.json");
+    {
+        auto objArrayFind = [](QMap<QString, QVariant> *obj, const QString &objKey, const QString &arrKey, const QString &arrValue)->QMap<QString, QVariant> *{
+            if(!obj)
+                return nullptr;
+            QVariant *var = &(*obj)[objKey];
+            QVariantList *array = (QVariantList *)var;
+            for(int index = 0; index < array->count(); index ++){
+                var = &(*array)[index];
+                obj = (QMap<QString, QVariant> *)var;
+                if(arrValue == (*obj)[arrKey].toString()) {
+                    return obj;
+                }
+            }
+            return nullptr;
+        };
+
+        QFile file(":/other/default-config.json");
+        if(!file.open(QFile::ReadOnly)) {
+            qInfo() << "can not open default-config.json";
+        }
+
+        QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+        QVariant json = doc.toVariant();
+        if(DSysInfo::uosType() == DSysInfo::UosServer) {
+            QVariant *var = &json;
+            QMap<QString, QVariant> *obj = nullptr;
+
+            obj = (QMap<QString, QVariant> *)var;
+            obj = objArrayFind(obj, "groups", "key", "basic");
+            obj = objArrayFind(obj, "groups", "key", "interface");
+            obj = objArrayFind(obj, "options", "key", "opacity");
+            if(obj)
+                (*obj)["hide"]=true;
+
+
+            obj = (QMap<QString, QVariant> *)var;
+            obj = objArrayFind(obj, "groups", "key", "advanced");
+            obj = objArrayFind(obj, "groups", "key", "window");
+            obj = objArrayFind(obj, "options", "key", "blurred_background");
+            if(obj)
+                (*obj)["hide"]=true;
+        }
+
+        settings = DSettings::fromJson(QJsonDocument::fromVariant(json).toJson());
+    }
 
     // 加载自定义配置
     settings->setBackend(m_backend);
